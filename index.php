@@ -41,24 +41,42 @@
     </div>
     </nav>
     <div style="margin-top:70px">
-        <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Categories</span>
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#">About</a>
-            <a href="#">Services</a>
-            <a href="#">Clients</a>
-            <a href="#">Contact</a>
+        <tr><span style="font-size:30px;cursor:pointer" class="mx-5" onclick="openNavBrand()">Brand</span><span style="font-size:30px;cursor:pointer" onclick="openNavCategories()">Categories</span></tr>
+
+        <!-- merk -->
+        <div id="mySidenavBrand" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNavBrand()">&times;</a>
+            <a href="#" onclick="closeNavBrand()">Nike</a>
+            <a href="#" onclick="closeNavBrand()">Adidas</a>
+            <a href="#" onclick="closeNavBrand()">Puma</a>
+        </div>
+
+        <!-- kategori -->
+        <div id="mySidenavCategories" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNavCategories()">&times;</a>
+            <a href="#" onclick="closeNavCategories()">Shoes</a>
+            <a href="#" onclick="closeNavCategories()">Balls</a>
+            <a href="#" onclick="closeNavCategories()">Bags</a>
+            <a href="#" onclick="closeNavCategories()">Gloves</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <script>
-        function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
+        function openNavBrand() {
+            document.getElementById("mySidenavBrand").style.width = "150px";
         }
 
-        function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
+        function closeNavBrand() {
+            document.getElementById("mySidenavBrand").style.width = "0";
+        }
+
+        function openNavCategories() {
+            document.getElementById("mySidenavCategories").style.width = "150px";
+        }
+
+        function closeNavCategories() {
+            document.getElementById("mySidenavCategories").style.width = "0";
         }
     </script>
   </body>
