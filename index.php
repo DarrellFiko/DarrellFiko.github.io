@@ -60,8 +60,8 @@
     if(isset($_POST["Balls"])){
         $_SESSION["categories"] = "Balls";
     }
-    if(isset($_POST["Bags"])){
-        $_SESSION["categories"] = "Bags";
+    if(isset($_POST["Jersey"])){
+        $_SESSION["categories"] = "Jersey";
     }
     if(isset($_POST["Gloves"])){
         $_SESSION["categories"] = "Gloves";
@@ -226,7 +226,7 @@
                     <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
                     <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
                     <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
-                    <li><button type="submit" name="Bags" onclick="closeNav()" class="btn btn-link">Bags</button></li>
+                    <li><button type="submit" name="Jersey" onclick="closeNav()" class="btn btn-link">Jersey</button></li>
                     <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
                     <li><button type="submit" name="Guards" onclick="closeNav()" class="btn btn-link">Shin Guards</button></li>
                 </ul>
