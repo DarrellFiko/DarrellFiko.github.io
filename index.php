@@ -1,5 +1,6 @@
 <?php
     require_once("connection.php");
+
     if(!isset($_SESSION["brand"])){
         $_SESSION["brand"] = "";
     }
@@ -8,6 +9,30 @@
     }
     if(!isset($_SESSION["input"])){
         $_SESSION["input"] = "";
+    }
+    if(!isset($_SESSION["page"])){
+        $_SESSION["pageSekarang"] = 1;
+        $_SESSION["paging"] = [];
+        $pageBaru = [
+            "page" => 1
+        ];
+        array_push($_SESSION["paging"],$pageBaru);
+        $pageBaru = [
+            "page" => 2
+        ];
+        array_push($_SESSION["paging"],$pageBaru);
+        $pageBaru = [
+            "page" => 3
+        ];
+        array_push($_SESSION["paging"],$pageBaru);
+        $pageBaru = [
+            "page" => 4
+        ];
+        array_push($_SESSION["paging"],$pageBaru);
+        $pageBaru = [
+            "page" => 5
+        ];
+        array_push($_SESSION["paging"],$pageBaru);
     }
 
     // AMBIL MERK ATAU BRAND
@@ -41,13 +66,68 @@
     if(isset($_POST["Gloves"])){
         $_SESSION["categories"] = "Gloves";
     }
+    if(isset($_POST["Guards"])){
+        $_SESSION["categories"] = "Guards";
+    }
 
+    //SEARCH
     if(isset($_POST["search"])){
         $_SESSION["input"] = $_POST["input"];
-        // alert($_SESSION["input"]);
-        // alert($_SESSION["brand"]);
-        // alert($_SESSION["categories"]);
     }
+
+    $maks = 1000000;
+    //PAGING
+    // if(isset($_POST["page0"])){
+    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
+    //     if($_SESSION["paging"][0]["page"]>2){
+    //         $_SESSION["paging"][0]["page"]-=2;
+    //         $_SESSION["paging"][1]["page"]-=2;
+    //         $_SESSION["paging"][2]["page"]-=2;
+    //         $_SESSION["paging"][3]["page"]-=2;
+    //         $_SESSION["paging"][4]["page"]-=2;
+    //     }
+    //     alert($_SESSION["pageSekarang"]);
+    // }
+    // if(isset($_POST["page1"])){
+    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
+    //     if($_SESSION["paging"][0]["page"]>1){
+    //         $_SESSION["paging"][0]["page"]--;
+    //         $_SESSION["paging"][1]["page"]--;
+    //         $_SESSION["paging"][2]["page"]--;
+    //         $_SESSION["paging"][3]["page"]--;
+    //         $_SESSION["paging"][4]["page"]--;
+    //     }
+    //     alert($_SESSION["pageSekarang"]);
+    // }
+    // if(isset($_POST["page2"])){
+    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
+    //     alert($_SESSION["pageSekarang"]);
+    // }
+    // if(isset($_POST["page3"])){
+    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
+    //     if($_SESSION["paging"][4]["page"]<$maks){
+    //         $_SESSION["paging"][0]["page"]++;
+    //         $_SESSION["paging"][1]["page"]++;
+    //         $_SESSION["paging"][2]["page"]++;
+    //         $_SESSION["paging"][3]["page"]++;
+    //         $_SESSION["paging"][4]["page"]++;
+    //     }
+    //     alert($_SESSION["pageSekarang"]);
+    // }
+    // if(isset($_POST["page4"])){
+    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
+    //     if($_SESSION["paging"][4]["page"]<$maks+1){
+    //         $_SESSION["paging"][0]["page"]+=2;
+    //         $_SESSION["paging"][1]["page"]+=2;
+    //         $_SESSION["paging"][2]["page"]+=2;
+    //         $_SESSION["paging"][3]["page"]+=2;
+    //         $_SESSION["paging"][4]["page"]+=2;
+    //     }
+    // }
+    // if(isset($_POST["plus"])){
+    //     $_SESSION["paging"][4]["page"] = $_SESSION["paging"][4]["page"]+;
+    //     alert($_SESSION["paging"][4]["page"]);
+    // }
 ?>
 
 <!doctype html>
@@ -128,22 +208,46 @@
                     <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
                     <li><button type="submit" name="Bags" onclick="closeNav()" class="btn btn-link">Bags</button></li>
                     <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
+                    <li><button type="submit" name="Guards" onclick="closeNav()" class="btn btn-link">Shin Guards</button></li>
                 </ul>
             </div>
         </form>
     </div>
 
     <!-- CARD -->
-    <div class="container text-center bg-warning">
+    <div class="container text-center mt-4">
         <div class="row d-flex justify-content-center">
-            <div class="col-12">
-                <!-- carousel -->
-
+            <!-- carousel -->
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
+            <div class="col-1"></div>
+            <!-- tutup carousel -->
             <?php
             for ($i = 0; $i < 30; $i++) {
             ?>
-                <div class="col-5 col-md-4 col-lg-3 mx-3 my-3">
+                <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center">
                     <div class="img-fluid">
                     <div class="card" style="width: 15rem;">
                         <img src="..." class="card-img-top" alt="...">
@@ -159,6 +263,30 @@
             }
             ?>
         </div>
+        <div class="row">
+            <!-- PAGING -->
+            <!-- <form action="" method="post">
+            <div class="col-12 d-flex justify-content-center">
+            <ul class="pagination">
+                <li class="page-item">
+                <button type="submit" class="btn btn-outline-dark" name="pageSekarangMin1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </button>
+                </li>
+                <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-dark"><?=$_SESSION["paging"][0]["page"]?></button></li>
+                <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-dark"><?=$_SESSION["paging"][1]["page"]?></button></li>
+                <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?=$_SESSION["paging"][2]["page"]?></button></li>
+                <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?=$_SESSION["paging"][3]["page"]?></button></li>
+                <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-dark"><?=$_SESSION["paging"][4]["page"]?></button></li>
+                <li class="page-item"><button type="submit" name="plus" class="btn btn-outline-dark"><?=$_SESSION["paging"][4]["page"]?></button></li>
+                <button type="submit" class="btn btn-outline-dark" name="pageSekarang+1" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </button>
+                </li>
+            </ul>
+            </div>
+            </form> -->
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -166,7 +294,7 @@
     <!-- script buat open scroll yang dikiri -->
     <script>
         function openNav() {
-            document.getElementById("mySidenav").style.width = "200px";
+            document.getElementById("mySidenav").style.width = "250px";
         }
 
         function closeNav() {
