@@ -1,5 +1,53 @@
 <?php
+    require_once("connection.php");
+    if(!isset($_SESSION["brand"])){
+        $_SESSION["brand"] = "";
+    }
+    if(!isset($_SESSION["categories"])){
+        $_SESSION["categories"] = "";
+    }
+    if(!isset($_SESSION["input"])){
+        $_SESSION["input"] = "";
+    }
 
+    // AMBIL MERK ATAU BRAND
+    if(isset($_POST["allBrands"])){
+        $_SESSION["brand"] = "";
+    }
+    if(isset($_POST["Nike"])){
+        $_SESSION["brand"] = "Nike";
+        //echo "<script>alert('$brand')</script>";
+    }
+    if(isset($_POST["Adidas"])){
+        $_SESSION["brand"] = "Adidas";
+    }
+    if(isset($_POST["Puma"])){
+        $_SESSION["brand"] = "Puma";
+    }
+
+    // AMBIL KATEGORI
+    if(isset($_POST["allCategories"])){
+        $_SESSION["categories"] = "";
+    }
+    if(isset($_POST["Shoes"])){
+        $_SESSION["categories"] = "Shoes";
+    }
+    if(isset($_POST["Balls"])){
+        $_SESSION["categories"] = "Balls";
+    }
+    if(isset($_POST["Bags"])){
+        $_SESSION["categories"] = "Bags";
+    }
+    if(isset($_POST["Gloves"])){
+        $_SESSION["categories"] = "Gloves";
+    }
+
+    if(isset($_POST["search"])){
+        $_SESSION["input"] = $_POST["input"];
+        // alert($_SESSION["input"]);
+        // alert($_SESSION["brand"]);
+        // alert($_SESSION["categories"]);
+    }
 ?>
 
 <!doctype html>
@@ -27,9 +75,9 @@
                     </div>
                 </div>
                 <div class="col-7 col-lg-8 py-3">
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    <form class="d-flex" role="search" method="POST">
+                        <input class="form-control me-2" type="Search" placeholder="Search" aria-label="Search" name="input">
+                        <button class="btn btn-outline-light" type="submit" name="search">Search</button>
                     </form>
                 </div>
                 <div class="col-3 col-lg-2 d-flex justify-content-end py-3">
@@ -47,80 +95,69 @@
     <!-- SCROLL -->
     <div style="margin-top:70px">
         <!-- Div kiri buat scroll -->
-        <div class="scrollKiri d-flex align-items-center justify-content-center">
+        <div class="d-flex align-items-center justify-content-center">
             <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2" onclick="openNav()">
-                <h2><img src="asset/arrow_kanan.png" alt="" width="30" height="30"></h2>
+                <h2><img src="asset/arrow_kanan.png" alt="" width="25" height="25"></h2>
             </button>
         </div>
 
         <!-- kategori -->
-        <div id="mySidenav" class="sidenav">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <h2 class="text-white">
-                Brand
-            </h2>
-            <a href="#" onclick="closeNav()">Nike</a>
-            <a href="#" onclick="closeNav()">Adidas</a>
-            <a href="#" class="mb-5" onclick="closeNav()">Puma</a>
+        <form action="" method="post">
+            <div id="mySidenav" class="sidenav">
 
-            <h2 class="text-white">
-                Categories
-            </h2>
-            <a href="#" onclick="closeNav()">Shoes</a>
-            <a href="#" onclick="closeNav()">Balls</a>
-            <a href="#" onclick="closeNav()">Bags</a>
-            <a href="#" onclick="closeNav()">Gloves</a>
-        </div>
-    </div>
+                <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
+                
+                <h2 class="text-white">
+                    Brand
+                </h2>
+                <ul class="text-light">
+                    <input type="hidden" name="sent" value="<?=$_SESSION["brand"]?>">
+                    <li><button type="submit" name="allBrands" onclick="closeNav()" class="btn btn-link">All</button></li>
+                    <li><button type="submit" onclick="closeNav()" class="btn btn-link" name="Nike">Nike</button></li>
+                    <li><button type="submit" name="Adidas" onclick="closeNav()" class="btn btn-link">Adidas</button></li>
+                    <li><button type="submit" name="Puma" onclick="closeNav()" class="btn btn-link">Puma</button></li>
+                </ul>
 
-    <!-- carousel
-    <div class="container mx-5 mx-5 d-flex justify-content-center">
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-        <img src="asset/test_background.jpg" class="d-block w-300" alt="...">
-        </div>
-        <div class="carousel-item">
-        <img src="..." class="d-block w-300" alt="...">
-        </div>
-        <div class="carousel-item">
-        <img src="..." class="d-block w-300" alt="...">
-        </div>
+                <h2 class="text-white">
+                    Categories
+                </h2>
+                <ul class="text-light">
+                    <input type="hidden" name="sent" value="<?=$_SESSION["categories"]?>">
+                    <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
+                    <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
+                    <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
+                    <li><button type="submit" name="Bags" onclick="closeNav()" class="btn btn-link">Bags</button></li>
+                    <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
+                </ul>
+            </div>
+        </form>
     </div>
-    <button class="carousel-control-prev bg-warning" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next bg-warning" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-    </div>
-    </div> -->
 
     <!-- CARD -->
-    <div class="text-center">
-        <div class="row">
-            <div class="col-2 bg-info"></div>
-            <div class="col-10 bg-danger">
-                <div class="row d-flex justify-content-end">a</div>
-                <?php
-                for ($i = 0; $i < 30; $i++) {
-                ?>
-                    <div class="col-5 col-md-4 col-lg-3">
-                        <div class="card" style="width: 15rem;">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
+    <div class="container text-center bg-warning">
+        <div class="row d-flex justify-content-center">
+            <div class="col-12">
+                <!-- carousel -->
+
+            </div>
+            <?php
+            for ($i = 0; $i < 30; $i++) {
+            ?>
+                <div class="col-5 col-md-4 col-lg-3 mx-3 my-3">
+                    <div class="img-fluid">
+                    <div class="card" style="width: 15rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                     </div>
-                <?php
-                }
-                ?>
-            </div>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
         </div>
     </div>
 
@@ -134,8 +171,16 @@
 
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
+            $(document).ready(function () {
+                createCookie("kategori", "Shoes");
+            });
+        }
+
+        function createCookie(name, value) {
+            document.cookie = escape(name) + "=" + escape(value)+"; path=/";
         }
     </script>
+    
 </body>
 
 </html>
