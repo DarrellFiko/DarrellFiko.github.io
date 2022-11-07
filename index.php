@@ -10,7 +10,7 @@
     if(!isset($_SESSION["input"])){
         $_SESSION["input"] = "";
     }
-    if(!isset($_SESSION["page"])){
+    if(!isset($_SESSION["paging"])){
         $_SESSION["pageSekarang"] = 1;
         $_SESSION["paging"] = [];
         $pageBaru = [
@@ -75,59 +75,79 @@
         $_SESSION["input"] = $_POST["input"];
     }
 
-    $maks = 1000000;
+    
     //PAGING
-    // if(isset($_POST["page0"])){
-    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
-    //     if($_SESSION["paging"][0]["page"]>2){
-    //         $_SESSION["paging"][0]["page"]-=2;
-    //         $_SESSION["paging"][1]["page"]-=2;
-    //         $_SESSION["paging"][2]["page"]-=2;
-    //         $_SESSION["paging"][3]["page"]-=2;
-    //         $_SESSION["paging"][4]["page"]-=2;
-    //     }
-    //     alert($_SESSION["pageSekarang"]);
-    // }
-    // if(isset($_POST["page1"])){
-    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
-    //     if($_SESSION["paging"][0]["page"]>1){
-    //         $_SESSION["paging"][0]["page"]--;
-    //         $_SESSION["paging"][1]["page"]--;
-    //         $_SESSION["paging"][2]["page"]--;
-    //         $_SESSION["paging"][3]["page"]--;
-    //         $_SESSION["paging"][4]["page"]--;
-    //     }
-    //     alert($_SESSION["pageSekarang"]);
-    // }
-    // if(isset($_POST["page2"])){
-    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
-    //     alert($_SESSION["pageSekarang"]);
-    // }
-    // if(isset($_POST["page3"])){
-    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
-    //     if($_SESSION["paging"][4]["page"]<$maks){
-    //         $_SESSION["paging"][0]["page"]++;
-    //         $_SESSION["paging"][1]["page"]++;
-    //         $_SESSION["paging"][2]["page"]++;
-    //         $_SESSION["paging"][3]["page"]++;
-    //         $_SESSION["paging"][4]["page"]++;
-    //     }
-    //     alert($_SESSION["pageSekarang"]);
-    // }
-    // if(isset($_POST["page4"])){
-    //     $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
-    //     if($_SESSION["paging"][4]["page"]<$maks+1){
-    //         $_SESSION["paging"][0]["page"]+=2;
-    //         $_SESSION["paging"][1]["page"]+=2;
-    //         $_SESSION["paging"][2]["page"]+=2;
-    //         $_SESSION["paging"][3]["page"]+=2;
-    //         $_SESSION["paging"][4]["page"]+=2;
-    //     }
-    // }
-    // if(isset($_POST["plus"])){
-    //     $_SESSION["paging"][4]["page"] = $_SESSION["paging"][4]["page"]+;
-    //     alert($_SESSION["paging"][4]["page"]);
-    // }
+    $maks = 1000000;
+    if(isset($_POST["page0"])){
+        $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
+        if($_SESSION["paging"][0]["page"]>2){
+            $_SESSION["paging"][0]["page"]-=2;
+            $_SESSION["paging"][1]["page"]-=2;
+            $_SESSION["paging"][2]["page"]-=2;
+            $_SESSION["paging"][3]["page"]-=2;
+            $_SESSION["paging"][4]["page"]-=2;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["page1"])){
+        $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
+        if($_SESSION["paging"][0]["page"]>1){
+            $_SESSION["paging"][0]["page"]--;
+            $_SESSION["paging"][1]["page"]--;
+            $_SESSION["paging"][2]["page"]--;
+            $_SESSION["paging"][3]["page"]--;
+            $_SESSION["paging"][4]["page"]--;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["page2"])){
+        $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["page3"])){
+        $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
+        if($_SESSION["paging"][4]["page"]<$maks){
+            $_SESSION["paging"][0]["page"]++;
+            $_SESSION["paging"][1]["page"]++;
+            $_SESSION["paging"][2]["page"]++;
+            $_SESSION["paging"][3]["page"]++;
+            $_SESSION["paging"][4]["page"]++;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["page4"])){
+        $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
+        if($_SESSION["paging"][4]["page"]<$maks+1){
+            $_SESSION["paging"][0]["page"]+=2;
+            $_SESSION["paging"][1]["page"]+=2;
+            $_SESSION["paging"][2]["page"]+=2;
+            $_SESSION["paging"][3]["page"]+=2;
+            $_SESSION["paging"][4]["page"]+=2;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["pageSekarangMin1"])){
+        if($_SESSION["paging"][0]["page"]>1 && $_SESSION["pageSekarang"]!=1){
+            $_SESSION["pageSekarang"]--;
+            $_SESSION["paging"][0]["page"]--;
+            $_SESSION["paging"][1]["page"]--;
+            $_SESSION["paging"][2]["page"]--;
+            $_SESSION["paging"][3]["page"]--;
+            $_SESSION["paging"][4]["page"]--;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
+    if(isset($_POST["pageSekarangPlus1"])){
+        if($_SESSION["paging"][0]["page"]<$maks && $_SESSION["pageSekarang"]!=$maks){
+            $_SESSION["pageSekarang"]++;
+            $_SESSION["paging"][0]["page"]++;
+            $_SESSION["paging"][1]["page"]++;
+            $_SESSION["paging"][2]["page"]++;
+            $_SESSION["paging"][3]["page"]++;
+            $_SESSION["paging"][4]["page"]++;
+        }
+        alert($_SESSION["pageSekarang"]);
+    }
 ?>
 
 <!doctype html>
@@ -214,6 +234,7 @@
         </form>
     </div>
 
+
     <!-- CARD -->
     <div class="container text-center mt-4">
         <div class="row d-flex justify-content-center">
@@ -263,9 +284,10 @@
             }
             ?>
         </div>
+        
+        <!-- PAGING -->
         <div class="row">
-            <!-- PAGING -->
-            <!-- <form action="" method="post">
+            <form action="" method="post">
             <div class="col-12 d-flex justify-content-center">
             <ul class="pagination">
                 <li class="page-item">
@@ -278,14 +300,13 @@
                 <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?=$_SESSION["paging"][2]["page"]?></button></li>
                 <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?=$_SESSION["paging"][3]["page"]?></button></li>
                 <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-dark"><?=$_SESSION["paging"][4]["page"]?></button></li>
-                <li class="page-item"><button type="submit" name="plus" class="btn btn-outline-dark"><?=$_SESSION["paging"][4]["page"]?></button></li>
-                <button type="submit" class="btn btn-outline-dark" name="pageSekarang+1" aria-label="Next">
+                <button type="submit" class="btn btn-outline-dark" name="pageSekarangPlus1" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </button>
                 </li>
             </ul>
             </div>
-            </form> -->
+            </form>
         </div>
     </div>
 
@@ -299,16 +320,7 @@
 
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
-            $(document).ready(function () {
-                createCookie("kategori", "Shoes");
-            });
-        }
-
-        function createCookie(name, value) {
-            document.cookie = escape(name) + "=" + escape(value)+"; path=/";
         }
     </script>
-    
 </body>
-
 </html>
