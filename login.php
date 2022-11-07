@@ -1,41 +1,43 @@
 <?php
-require("functions.php");
+// require("functions.php");
 
-if (isset($_POST["login"])) {
+// if (isset($_POST["login"])) {
 
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+//     $username = $_POST["username"];
+//     $password = $_POST["password"];
 
-    $users = query("SELECT * FROM users");
+//     $users = query("SELECT * FROM users");
 
-    $exist = false;
-    if ($username == "admin" && $password == "nimda") {
-        $safe = false;
-        header("Location: adminHome.php");
-    } else if ($username == "" || $password == "") {
-        $safe = false;
-        alert("Semua Field Harus Terisi!");
-    } else {
-        foreach ($users as $user) {
-            if ($username == $user["username"] || $username == $user["email"]) {
-                $exist = true;
-                if ($password == $user["password"]) {
-                    if ($username == $user["email"]) {
-                        $username = $user["username"];
-                    }
-                    header("Location: user.php?username=$username");
-                } else {
-                    alert("Wrong Password!");
-                }
-            }
-        }
+//     $exist = false;
+//     if ($username == "admin" && $password == "nimda") {
+//         $safe = false;
+//         header("Location: adminHome.php");
+//     } else if ($username == "" || $password == "") {
+//         $safe = false;
+//         alert("Semua Field Harus Terisi!");
+//     } else {
+//         foreach ($users as $user) {
+//             if ($username == $user["username"] || $username == $user["email"]) {
+//                 $exist = true;
+//                 if ($password == $user["password"]) {
+//                     if ($username == $user["email"]) {
+//                         $username = $user["username"];
+//                     }
+//                     header("Location: user.php?username=$username");
+//                 } else {
+//                     alert("Wrong Password!");
+//                 }
+//             }
+//         }
+//     }
+
+//     if ($exist == false && $username != "" && $password != "") {
+//         alert("User Tidak Terdaftar!");
+//     }
+// }
+    if (isset($_POST["back"])) {
+        header("Location: index.php");
     }
-
-    if ($exist == false && $username != "" && $password != "") {
-        alert("User Tidak Terdaftar!");
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,9 +59,9 @@ if (isset($_POST["login"])) {
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                     <div class="card bg-dark text-white" style="border-radius: 1rem;">
                         <div class="card-body p-5 text-center">
-                            <form action="" method="post" class="mb-md-5 mt-md-4 pb-5">
+                            <form action="" method="post" class="mb-3 mt-3 pb-5">
                                 <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-                                <p class="text-white-50 mb-5">Please enter your login and password!</p>
+                                <p class="text-white-50 mb-5">Please enter your username and password!</p>
 
                                 <div class="form-outline form-white mb-4">
                                     <input type="text" name="username" class="form-control form-control-lg" placeholder="Username/Email" />
@@ -68,12 +70,14 @@ if (isset($_POST["login"])) {
                                 <div class="form-outline form-white mb-4">
                                     <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" />
                                 </div>
-
-                                <button class="btn btn-outline-light btn-lg px-5" type="submit" name="login">Login</button>
+                                <div class="row">
+                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5 me-3" type="submit" name="login">Login</button></div>
+                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5 ms-3" type="submit" name="back">Back</button></div>
+                                </div>
                             </form>
 
                             <div>
-                                <p class="mb-0">Don't have an account? <a href="register.php" class="text-white-50 fw-bold">Sign Up</a>
+                                <p class="mb-0">Don't have an account? <a href="register.php" class="fw-bold">Sign Up</a>
                             </div>
                         </div>
                     </div>

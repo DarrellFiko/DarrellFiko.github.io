@@ -1,49 +1,51 @@
 <?php
-require("functions.php");
+// require("functions.php");
 
-if (isset($_POST["register"])) {
-    $safe = true;
+// if (isset($_POST["register"])) {
+//     $safe = true;
 
-    $username = $_POST["username"];
-    $name = $_POST["name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirmPassword = $_POST["confirmPassword"];
+//     $username = $_POST["username"];
+//     $name = $_POST["name"];
+//     $email = $_POST["email"];
+//     $password = $_POST["password"];
+//     $confirmPassword = $_POST["confirmPassword"];
 
-    if ($username == "" || $name == "" || $email == "" || $password == "" || $confirmPassword == "") {
-        $safe = false;
-        alert("Semua Field Harus Terisi!");
-    } else if ($username == 'admin') {
-        $safe = false;
-        alert("Admin Can\'t be Used!");
-    } else if ($password != $confirmPassword) {
-        $safe = false;
-        alert("Password Not Match!");
+//     if ($username == "" || $name == "" || $email == "" || $password == "" || $confirmPassword == "") {
+//         $safe = false;
+//         alert("Semua Field Harus Terisi!");
+//     } else if ($username == 'admin') {
+//         $safe = false;
+//         alert("Admin Can\'t be Used!");
+//     } else if ($password != $confirmPassword) {
+//         $safe = false;
+//         alert("Password Not Match!");
+//     }
+
+//     $users = query("SELECT * FROM users");
+
+//     foreach ($users as $user) {
+//         if ($username == $user["username"]) {
+//             $safe = false;
+//             alert("Username Sudah Terdaftar!");
+//         }
+//         if ($email == $user["email"]) {
+//             $safe = false;
+//             alert("Email Sudah Terdaftar!");
+//         }
+//     }
+
+//     if ($safe) {
+//         if (insertUser($_POST) > 0) {
+//             alert("Berhasil Register!");
+//             echo "<script> document.location.href = 'login.php'; </script>";
+//         } else {
+//             alert("Gagal Register!");
+//         }
+//     }
+// }
+    if (isset($_POST["back"])) {
+        header("Location: index.php");
     }
-
-    $users = query("SELECT * FROM users");
-
-    foreach ($users as $user) {
-        if ($username == $user["username"]) {
-            $safe = false;
-            alert("Username Sudah Terdaftar!");
-        }
-        if ($email == $user["email"]) {
-            $safe = false;
-            alert("Email Sudah Terdaftar!");
-        }
-    }
-
-    if ($safe) {
-        if (insertUser($_POST) > 0) {
-            alert("Berhasil Register!");
-            echo "<script> document.location.href = 'login.php'; </script>";
-        } else {
-            alert("Gagal Register!");
-        }
-    }
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,6 +61,7 @@ if (isset($_POST["register"])) {
 </head>
 
 <body>
+    <form action="" method="post">
     <div class="min-vh-100 gradient-custom">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -89,12 +92,14 @@ if (isset($_POST["register"])) {
                                 <div class="form-outline form-white mb-4">
                                     <input type="password" name="confirmPassword" class="form-control form-control-lg" placeholder="Confirm Password" />
                                 </div>
-
-                                <button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button>
+                                <div class="row">
+                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button></div>
+                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5" type="submit" name="back">Back</button></div>
+                                </div>
                             </form>
 
                             <div>
-                                <p class="mb-0">Already have an account? <a href="login.php" class="text-white-50 fw-bold">Login</a>
+                                <p class="mb-0 mt-5">Already have an account? <a href="login.php" class="fw-bold">Login</a>
                             </div>
                         </div>
                     </div>
@@ -102,6 +107,7 @@ if (isset($_POST["register"])) {
             </div>
         </div>
     </div>
+    </form>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
