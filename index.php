@@ -40,14 +40,14 @@
         $_SESSION["brand"] = "";
     }
     if(isset($_POST["Nike"])){
-        $_SESSION["brand"] = "Nike";
+        $_SESSION["brand"] = "nike";
         //echo "<script>alert('$brand')</script>";
     }
     if(isset($_POST["Adidas"])){
-        $_SESSION["brand"] = "Adidas";
+        $_SESSION["brand"] = "adidas";
     }
     if(isset($_POST["Puma"])){
-        $_SESSION["brand"] = "Puma";
+        $_SESSION["brand"] = "puma";
     }
 
     // AMBIL KATEGORI
@@ -55,19 +55,19 @@
         $_SESSION["categories"] = "";
     }
     if(isset($_POST["Shoes"])){
-        $_SESSION["categories"] = "Shoes";
+        $_SESSION["categories"] = "shoes";
     }
     if(isset($_POST["Balls"])){
-        $_SESSION["categories"] = "Balls";
+        $_SESSION["categories"] = "balls";
     }
     if(isset($_POST["Jersey"])){
-        $_SESSION["categories"] = "Jersey";
+        $_SESSION["categories"] = "jerseys";
     }
     if(isset($_POST["Gloves"])){
-        $_SESSION["categories"] = "Gloves";
+        $_SESSION["categories"] = "gloves";
     }
     if(isset($_POST["Guards"])){
-        $_SESSION["categories"] = "Guards";
+        $_SESSION["categories"] = "shinGuards";
     }
 
     //SEARCH
@@ -77,7 +77,8 @@
 
     
     //PAGING
-    $maks = 1000000;
+    //GANTI MAKS PAGE ARRAY
+    $maks = 3;
     if(isset($_POST["page0"])){
         $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
         if($_SESSION["paging"][0]["page"]>2){
@@ -117,7 +118,7 @@
     }
     if(isset($_POST["page4"])){
         $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
-        if($_SESSION["paging"][4]["page"]<$maks+1){
+        if($_SESSION["paging"][4]["page"]<$maks-1){
             $_SESSION["paging"][0]["page"]+=2;
             $_SESSION["paging"][1]["page"]+=2;
             $_SESSION["paging"][2]["page"]+=2;
@@ -154,6 +155,10 @@
         $_SESSION["email"] = $_POST["email"];
         $_SESSION["name"] = $_POST["name"];
         header("Location: Mailer/Mailer/emailku.php");
+    }
+
+    if(isset($_POST["detail"])){
+        alert("test");
     }
 ?>
 
@@ -273,21 +278,30 @@
             <div class="col-1"></div>
             <!-- tutup carousel -->
             <?php
+            $temp = 0;
+            // GANTI MAKS ARRAY
             for ($i = 0; $i < 30; $i++) {
+            $temp++;
+            if(($temp/30)>$_SESSION["pageSekarang"]-1 && ($temp/30)<=$_SESSION["pageSekarang"]){
             ?>
                 <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center">
-                    <div class="img-fluid">
-                    <div class="card" style="width: 15rem;">
-                        <img src="..." class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <form action="" method="post">
+                    <button class="bg-transparent border border-0" name="detail">
+                        <div class="img-fluid">
+                            <div class="card" style="width: 15rem;">
+                                <img src="asset/temp.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?=$temp?></h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                    </button>
+                </form>
                 </div>
             <?php
+            }
             }
             ?>
         </div>
