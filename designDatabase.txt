@@ -1,0 +1,10 @@
+Product
+- ID
+- Name
+- Brand
+- Category
+- Stock
+- Price
+- Image
+- Status
+- LinkDetail
