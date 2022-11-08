@@ -1,165 +1,239 @@
 <?php
-    require_once("connection.php");
+require_once("connection.php");
+require("functions.php");
 
-    if(!isset($_SESSION["brand"])){
-        $_SESSION["brand"] = "";
-    }
-    if(!isset($_SESSION["categories"])){
-        $_SESSION["categories"] = "";
-    }
-    if(!isset($_SESSION["input"])){
-        $_SESSION["input"] = "";
-    }
-    if(!isset($_SESSION["paging"])){
-        $_SESSION["pageSekarang"] = 1;
-        $_SESSION["paging"] = [];
-        $pageBaru = [
-            "page" => 1
-        ];
-        array_push($_SESSION["paging"],$pageBaru);
-        $pageBaru = [
-            "page" => 2
-        ];
-        array_push($_SESSION["paging"],$pageBaru);
-        $pageBaru = [
-            "page" => 3
-        ];
-        array_push($_SESSION["paging"],$pageBaru);
-        $pageBaru = [
-            "page" => 4
-        ];
-        array_push($_SESSION["paging"],$pageBaru);
-        $pageBaru = [
-            "page" => 5
-        ];
-        array_push($_SESSION["paging"],$pageBaru);
-    }
+//
+if (!isset($_SESSION["productCount"])) {
+    $_SESSION["productCount"] = 0;
+}
+if (!isset($_SESSION["listProduk"])) {
+    alert("baru");
+    $_SESSION["listProduk"] = [];
+    $_SESSION["listProduk"] = query("SELECT * FROM product");
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+}
+// alert($tempCount);
 
-    // AMBIL MERK ATAU BRAND
-    if(isset($_POST["allBrands"])){
-        $_SESSION["brand"] = "";
-    }
-    if(isset($_POST["Nike"])){
-        $_SESSION["brand"] = "nike";
-        //echo "<script>alert('$brand')</script>";
-    }
-    if(isset($_POST["Adidas"])){
-        $_SESSION["brand"] = "adidas";
-    }
-    if(isset($_POST["Puma"])){
-        $_SESSION["brand"] = "puma";
-    }
+if (!isset($_SESSION["brand"])) {
+    $_SESSION["brand"] = "";
+}
+if (!isset($_SESSION["category"])) {
+    $_SESSION["category"] = "";
+}
+if (!isset($_SESSION["input"])) {
+    $_SESSION["input"] = "";
+}
+if (!isset($_SESSION["paging"])) {
+    resetPaging();
+}
 
-    // AMBIL KATEGORI
-    if(isset($_POST["allCategories"])){
-        $_SESSION["categories"] = "";
+// AMBIL MERK ATAU BRAND
+if (isset($_POST["allBrands"])) {
+    $_SESSION["brand"] = "";
+    if ($_SESSION["category"] != "") {
+        $tempCategory = $_SESSION["category"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = '$tempCategory'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product");
     }
-    if(isset($_POST["Shoes"])){
-        $_SESSION["categories"] = "shoes";
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Nike"])) {
+    $_SESSION["brand"] = "nike";
+    if ($_SESSION["category"] != "") {
+        $tempCategory = $_SESSION["category"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike' AND category = '$tempCategory'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike'");
     }
-    if(isset($_POST["Balls"])){
-        $_SESSION["categories"] = "balls";
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Adidas"])) {
+    $_SESSION["brand"] = "adidas";
+    if ($_SESSION["category"] != "") {
+        $tempCategory = $_SESSION["category"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas' AND category = '$tempCategory'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas'");
     }
-    if(isset($_POST["Jersey"])){
-        $_SESSION["categories"] = "jerseys";
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Puma"])) {
+    $_SESSION["brand"] = "puma";
+    if ($_SESSION["category"] != "") {
+        $tempCategory = $_SESSION["category"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma' AND category = '$tempCategory'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma'");
     }
-    if(isset($_POST["Gloves"])){
-        $_SESSION["categories"] = "gloves";
-    }
-    if(isset($_POST["Guards"])){
-        $_SESSION["categories"] = "shinGuards";
-    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
 
-    //SEARCH
-    if(isset($_POST["search"])){
-        $_SESSION["input"] = $_POST["input"];
+// AMBIL KATEGORI
+if (isset($_POST["allCategories"])) {
+    $_SESSION["category"] = "";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product");
     }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Shoes"])) {
+    $_SESSION["category"] = "shoes";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shoes'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shoes'");
+    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Balls"])) {
+    $_SESSION["category"] = "balls";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'balls'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'balls'");
+    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Jersey"])) {
+    $_SESSION["category"] = "jerseys";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'jerseys'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'jerseys'");
+    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Gloves"])) {
+    $_SESSION["category"] = "gloves";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'gloves'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'gloves'");
+    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
+if (isset($_POST["Guards"])) {
+    $_SESSION["category"] = "shinGuards";
+    if ($_SESSION["brand"] != "") {
+        $tempBrand = $_SESSION["brand"];
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shinGuards'");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shinGuards'");
+    }
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
 
-    
-    //PAGING
-    //GANTI MAKS PAGE ARRAY
-    $maks = 3;
-    if(isset($_POST["page0"])){
-        $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
-        if($_SESSION["paging"][0]["page"]>2){
-            $_SESSION["paging"][0]["page"]-=2;
-            $_SESSION["paging"][1]["page"]-=2;
-            $_SESSION["paging"][2]["page"]-=2;
-            $_SESSION["paging"][3]["page"]-=2;
-            $_SESSION["paging"][4]["page"]-=2;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["page1"])){
-        $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
-        if($_SESSION["paging"][0]["page"]>1){
-            $_SESSION["paging"][0]["page"]--;
-            $_SESSION["paging"][1]["page"]--;
-            $_SESSION["paging"][2]["page"]--;
-            $_SESSION["paging"][3]["page"]--;
-            $_SESSION["paging"][4]["page"]--;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["page2"])){
-        $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["page3"])){
-        $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
-        if($_SESSION["paging"][4]["page"]<$maks){
-            $_SESSION["paging"][0]["page"]++;
-            $_SESSION["paging"][1]["page"]++;
-            $_SESSION["paging"][2]["page"]++;
-            $_SESSION["paging"][3]["page"]++;
-            $_SESSION["paging"][4]["page"]++;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["page4"])){
-        $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
-        if($_SESSION["paging"][4]["page"]<$maks-1){
-            $_SESSION["paging"][0]["page"]+=2;
-            $_SESSION["paging"][1]["page"]+=2;
-            $_SESSION["paging"][2]["page"]+=2;
-            $_SESSION["paging"][3]["page"]+=2;
-            $_SESSION["paging"][4]["page"]+=2;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["pageSekarangMin1"])){
-        if($_SESSION["paging"][0]["page"]>1 && $_SESSION["pageSekarang"]!=1){
-            $_SESSION["pageSekarang"]--;
-            $_SESSION["paging"][0]["page"]--;
-            $_SESSION["paging"][1]["page"]--;
-            $_SESSION["paging"][2]["page"]--;
-            $_SESSION["paging"][3]["page"]--;
-            $_SESSION["paging"][4]["page"]--;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
-    if(isset($_POST["pageSekarangPlus1"])){
-        if($_SESSION["paging"][0]["page"]<$maks && $_SESSION["pageSekarang"]!=$maks){
-            $_SESSION["pageSekarang"]++;
-            $_SESSION["paging"][0]["page"]++;
-            $_SESSION["paging"][1]["page"]++;
-            $_SESSION["paging"][2]["page"]++;
-            $_SESSION["paging"][3]["page"]++;
-            $_SESSION["paging"][4]["page"]++;
-        }
-        alert($_SESSION["pageSekarang"]);
-    }
+//SEARCH
+if (isset($_POST["search"])) {
+    $_SESSION["input"] = $_POST["input"];
+    $_SESSION["listProduk"] = query("SELECT * FROM product WHERE name LiKE '%" . $_SESSION["input"] . "%' OR brand LiKE '%" . $_SESSION["input"] . "%' OR category LiKE '%" . $_SESSION["input"] . "%'");
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    resetPaging();
+}
 
-    if(isset($_POST["submit"])){
-        $_SESSION["message"] = $_POST["textarea"];
-        $_SESSION["email"] = $_POST["email"];
-        $_SESSION["name"] = $_POST["name"];
-        header("Location: Mailer/Mailer/emailku.php");
-    }
 
-    if(isset($_POST["detail"])){
-        alert("test");
+//PAGING
+//GANTI MAKS PAGE ARRAY
+$maks = ($_SESSION["productCount"] / 30) + 1;
+if (isset($_POST["page0"])) {
+    $_SESSION["pageSekarang"] = $_SESSION["paging"][0]["page"];
+    if ($_SESSION["paging"][0]["page"] > 2) {
+        $_SESSION["paging"][0]["page"] -= 2;
+        $_SESSION["paging"][1]["page"] -= 2;
+        $_SESSION["paging"][2]["page"] -= 2;
+        $_SESSION["paging"][3]["page"] -= 2;
+        $_SESSION["paging"][4]["page"] -= 2;
     }
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page1"])) {
+    $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
+    if ($_SESSION["paging"][0]["page"] > 1) {
+        $_SESSION["paging"][0]["page"]--;
+        $_SESSION["paging"][1]["page"]--;
+        $_SESSION["paging"][2]["page"]--;
+        $_SESSION["paging"][3]["page"]--;
+        $_SESSION["paging"][4]["page"]--;
+    }
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page2"])) {
+    $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page3"])) {
+    $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
+    if ($_SESSION["paging"][4]["page"] < $maks) {
+        $_SESSION["paging"][0]["page"]++;
+        $_SESSION["paging"][1]["page"]++;
+        $_SESSION["paging"][2]["page"]++;
+        $_SESSION["paging"][3]["page"]++;
+        $_SESSION["paging"][4]["page"]++;
+    }
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page4"])) {
+    $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
+    if ($_SESSION["paging"][4]["page"] < $maks - 1) {
+        $_SESSION["paging"][0]["page"] += 2;
+        $_SESSION["paging"][1]["page"] += 2;
+        $_SESSION["paging"][2]["page"] += 2;
+        $_SESSION["paging"][3]["page"] += 2;
+        $_SESSION["paging"][4]["page"] += 2;
+    }
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["pageSekarangMin1"])) {
+    if ($_SESSION["paging"][0]["page"] > 1 && $_SESSION["pageSekarang"] != 1) {
+        $_SESSION["pageSekarang"]--;
+        $_SESSION["paging"][0]["page"]--;
+        $_SESSION["paging"][1]["page"]--;
+        $_SESSION["paging"][2]["page"]--;
+        $_SESSION["paging"][3]["page"]--;
+        $_SESSION["paging"][4]["page"]--;
+    }
+    alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["pageSekarangPlus1"])) {
+    if ($_SESSION["paging"][0]["page"] < $maks - 1 && $_SESSION["pageSekarang"] != $maks - 1) {
+        $_SESSION["pageSekarang"]++;
+        $_SESSION["paging"][0]["page"]++;
+        $_SESSION["paging"][1]["page"]++;
+        $_SESSION["paging"][2]["page"]++;
+        $_SESSION["paging"][3]["page"]++;
+        $_SESSION["paging"][4]["page"]++;
+    }
+    alert($_SESSION["pageSekarang"]);
+}
+
+if (isset($_POST["submit"])) {
+    $_SESSION["message"] = $_POST["textarea"];
+    $_SESSION["email"] = $_POST["email"];
+    $_SESSION["name"] = $_POST["name"];
+    header("Location: Mailer/Mailer/emailku.php");
+}
+
+if (isset($_POST["detail"])) {
+    alert("test");
+}
 ?>
 
 <!doctype html>
@@ -218,12 +292,12 @@
             <div id="mySidenav" class="sidenav">
 
                 <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
-                
+
                 <h2 class="text-white">
                     Brand
                 </h2>
                 <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?=$_SESSION["brand"]?>">
+                    <input type="hidden" name="sent" value="<?= $_SESSION["brand"] ?>">
                     <li><button type="submit" name="allBrands" onclick="closeNav()" class="btn btn-link">All</button></li>
                     <li><button type="submit" onclick="closeNav()" class="btn btn-link" name="Nike">Nike</button></li>
                     <li><button type="submit" name="Adidas" onclick="closeNav()" class="btn btn-link">Adidas</button></li>
@@ -234,7 +308,7 @@
                     Categories
                 </h2>
                 <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?=$_SESSION["categories"]?>">
+                    <input type="hidden" name="sent" value="<?= $_SESSION["category"] ?>">
                     <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
                     <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
                     <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
@@ -256,13 +330,13 @@
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
-                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
                         </div>
                         <div class="carousel-item">
-                        <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -280,85 +354,113 @@
             <?php
             $temp = 0;
             // GANTI MAKS ARRAY
-            for ($i = 0; $i < 30; $i++) {
-            $temp++;
-            if(($temp/30)>$_SESSION["pageSekarang"]-1 && ($temp/30)<=$_SESSION["pageSekarang"]){
+            foreach ($_SESSION["listProduk"] as $product) {
+                $id = $product["id"];
+                $name = $product["name"];
+                $brand = $product["brand"];
+                $category = $product["category"];
+                $stock = $product["stock"];
+                $price = $product["price"];
+                $image = $product["image"];
+                $status = $product["status"];
+                $linkDetail = $product["link_detail"];
+
+                $temp++;
+                if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
             ?>
-                <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center">
-                    <form action="" method="post">
-                    <button class="bg-transparent border border-0" name="detail">
-                        <div class="img-fluid">
-                            <div class="card" style="width: 15rem;">
-                                <img src="asset/temp.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h5 class="card-title"><?=$temp?></h5>
-                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center ">
+                        <form action="" method="post">
+                            <button class="bg-transparent border border-0 " name="detail">
+                                <div class="img-fluid">
+                                    <div class="card btn btn-outline-dark" style="width: 15rem; height: 25rem;">
+                                        <img src="<?= $image ?>" class="card-img-top img-size" alt="...">
+                                        <div class="card-body ">
+                                            <h5 class="card-title mb-2"><?= $name ?></h5>
+                                            <p class="card-text">$ <?= $price ?></p>
+                                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </button>
-                </form>
-                </div>
+                            </button>
+                        </form>
+                    </div>
             <?php
-            }
+                }
             }
             ?>
         </div>
-        
+
         <!-- PAGING -->
         <div class="row">
             <form action="" method="post">
-            <div class="col-12 d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item">
-                <button type="submit" class="btn btn-outline-dark" name="pageSekarangMin1" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </button>
-                </li>
-                <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-dark"><?=$_SESSION["paging"][0]["page"]?></button></li>
-                <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-dark"><?=$_SESSION["paging"][1]["page"]?></button></li>
-                <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?=$_SESSION["paging"][2]["page"]?></button></li>
-                <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?=$_SESSION["paging"][3]["page"]?></button></li>
-                <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-dark"><?=$_SESSION["paging"][4]["page"]?></button></li>
-                <button type="submit" class="btn btn-outline-dark" name="pageSekarangPlus1" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </button>
-                </li>
-            </ul>
-            </div>
+                <div class="col-12 d-flex justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <button type="submit" class="btn btn-outline-dark" name="pageSekarangMin1" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </li>
+                        <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-dark"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                        <?php
+                        if (($_SESSION["productCount"] / 30) > 1) {
+                        ?>
+                            <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-dark"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                        <?php
+                        }
+                        if (($_SESSION["productCount"] / 30) > 2) {
+                        ?>
+                            <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                        <?php
+                        }
+                        if (($_SESSION["productCount"] / 30) > 3) {
+                        ?>
+                            <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                        <?php
+                        }
+                        if (($_SESSION["productCount"] / 30) > 4) {
+                        ?>
+                            <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                        <?php
+                        }
+                        ?>
+                        <button type="submit" class="btn btn-outline-dark" name="pageSekarangPlus1" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </button>
+                        </li>
+                    </ul>
+                </div>
             </form>
         </div>
-        
+
         <!-- MAILER -->
         <form action="" method="post">
-        <div class="row my-5 d-flex justify-content-center">
-            <div class="col-10 px-5 pt-5 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
-                <h3 class="text-light">Contact Us</h3>
-            </div>
-            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                <div class="form-floating mb-3 w-100">
-                    <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                    <label for="floatingInput">Name</label>
+            <div class="row my-5 d-flex justify-content-center">
+                <div class="col-10 px-5 pt-5 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
+                    <h3 class="text-light">Contact Us</h3>
+                </div>
+                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                    <div class="form-floating mb-3 w-100">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                        <label for="floatingInput">Name</label>
+                    </div>
+                </div>
+                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                    <div class="form-floating mb-3 w-100">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                        <label for="floatingInput">Email address</label>
+                    </div>
+                </div>
+                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                    <div class="form-floating mb-3 w-100">
+                        <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                        <label for="floatingInput">Message</label>
+                    </div>
+                </div>
+                <div class="col-10 pt-3 pb-5 px-5 bg-dark d-flex justify-content-start rounded-bottom">
+                    <button type="submit" class="btn btn-outline-light me-3" name="submit">Submit</button>
+                    <button type="submit" class="btn btn-outline-light" name="clear">Clear</button>
                 </div>
             </div>
-            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                <div class="form-floating mb-3 w-100">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                    <label for="floatingInput">Email address</label>
-                </div>
-            </div>
-            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                <div class="form-floating mb-3 w-100">
-                    <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                    <label for="floatingInput">Message</label>
-                </div>
-            </div>
-            <div class="col-10 pt-3 pb-5 px-5 bg-dark d-flex justify-content-start rounded-bottom">
-                <button type="submit" class="btn btn-outline-light me-3" name="submit">Submit</button>
-                <button type="submit" class="btn btn-outline-light" name="clear">Clear</button>
-            </div>
-        </div>
         </form>
     </div>
 
@@ -375,4 +477,5 @@
         }
     </script>
 </body>
+
 </html>
