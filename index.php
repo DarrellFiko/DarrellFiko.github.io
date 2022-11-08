@@ -148,6 +148,13 @@
         }
         alert($_SESSION["pageSekarang"]);
     }
+
+    if(isset($_POST["submit"])){
+        $_SESSION["message"] = $_POST["textarea"];
+        $_SESSION["email"] = $_POST["email"];
+        $_SESSION["name"] = $_POST["name"];
+        header("Location: Mailer/Mailer/emailku.php");
+    }
 ?>
 
 <!doctype html>
@@ -237,8 +244,8 @@
 
     <!-- CARD -->
     <div class="container text-center mt-4">
+        <!-- carousel -->
         <div class="row d-flex justify-content-center">
-            <!-- carousel -->
             <div class="col-1"></div>
             <div class="col-10">
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -308,6 +315,37 @@
             </div>
             </form>
         </div>
+        
+        <!-- MAILER -->
+        <form action="" method="post">
+        <div class="row my-5 d-flex justify-content-center">
+            <div class="col-10 px-5 pt-5 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
+                <h3 class="text-light">Contact Us</h3>
+            </div>
+            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                <div class="form-floating mb-3 w-100">
+                    <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                    <label for="floatingInput">Name</label>
+                </div>
+            </div>
+            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                <div class="form-floating mb-3 w-100">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                    <label for="floatingInput">Email address</label>
+                </div>
+            </div>
+            <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                <div class="form-floating mb-3 w-100">
+                    <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                    <label for="floatingInput">Message</label>
+                </div>
+            </div>
+            <div class="col-10 pt-3 pb-5 px-5 bg-dark d-flex justify-content-start rounded-bottom">
+                <button type="submit" class="btn btn-outline-light me-3" name="submit">Submit</button>
+                <button type="submit" class="btn btn-outline-light" name="clear">Clear</button>
+            </div>
+        </div>
+        </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
