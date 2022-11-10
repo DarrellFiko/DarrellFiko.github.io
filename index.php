@@ -461,8 +461,8 @@ if (isset($_POST["detail"])) {
         </div>
 
         <!-- MAILER -->
-        <div class="container bg-dark glass" style="margin-top: 5vh">
-            <form action="" method="post">
+        <div id="mailer" class="container bg-dark glass" style="margin-top: 5vh">
+            <form action="#mailer" method="post">
                 <div class="row my-5 d-flex justify-content-center">
                     <div class="col-10 px-5 pt-2 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
                         <h3 class="text-light">Contact Us</h3>
