@@ -380,7 +380,7 @@ if (isset($_POST["detail"])) {
 
     <div class="container-fluid bgGradient">
         <div class="" style="margin-left: 60px;">
-            <div class=" d-flex justify-content-center">
+            <div class="d-flex justify-content-center">
                 <!-- carousel -->
                 <div class="col-1"></div>
                 <div class="col-10 my-5">
@@ -438,123 +438,127 @@ if (isset($_POST["detail"])) {
         <!-- untuk paging -->
         <div id="collections" class="pt-5"></div>
 
-        <!-- CARD -->
-        <div class="container text-center mt-4 pb-5">
-            <div class="row d-flex justify-content-center glass pt-4">
-                <div class="col-12">
-                    <h1>New Collections</h1>
-                </div>
-                <div class="col-12 text-dark">
-                    <hr style="font-weight: bold; color: black;">
-                </div>
-                <?php
-                $temp = 0;
-                // GANTI MAKS ARRAY
-                foreach ($_SESSION["listProduk"] as $product) {
-                    $id = $product["id"];
-                    $name = $product["name"];
-                    $brand = $product["brand"];
-                    $category = $product["category"];
-                    $stock = $product["stock"];
-                    $price = $product["price"];
-                    $image = $product["image"];
-                    $status = $product["status"];
-                    $linkDetail = $product["link_detail"];
+        <div class="" style="margin-left: 60px;">
+            <div class="d-flex justify-content-center">
+                <!-- CARD -->
+                <div class="container text-center mt-4 pb-5">
+                    <div class="row d-flex justify-content-center glass pt-4">
+                        <div class="col-12">
+                            <h1>New Collections</h1>
+                        </div>
+                        <div class="col-12 text-dark">
+                            <hr style="font-weight: bold; color: black;">
+                        </div>
+                        <?php
+                        $temp = 0;
+                        // GANTI MAKS ARRAY
+                        foreach ($_SESSION["listProduk"] as $product) {
+                            $id = $product["id"];
+                            $name = $product["name"];
+                            $brand = $product["brand"];
+                            $category = $product["category"];
+                            $stock = $product["stock"];
+                            $price = $product["price"];
+                            $image = $product["image"];
+                            $status = $product["status"];
+                            $linkDetail = $product["link_detail"];
 
-                    $temp++;
-                    if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
-                ?>
-                        <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center ">
-                            <form action="" method="post">
-                                <button class="bg-transparent border border-0" name="detail">
-                                    <div class="img-fluid">
-                                        <div class="card btn btn-outline-dark shadow border-0" style="width: 15rem; height: 25rem;">
-                                            <img src="<?= $image ?>" class="card-img-top border-0 img-size" alt="...">
-                                            <div class="card-body ">
-                                                <h5 class="card-title mb-2"><?= $name ?></h5>
-                                                <p class="card-text">$ <?= $price ?></p>
-                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                            $temp++;
+                            if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
+                        ?>
+                                <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
+                                    <form action="" method="post">
+                                        <button class="bg-transparent border border-0" name="detail">
+                                            <div class="img-fluid">
+                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
+                                                    <img src="<?= $image ?>" class="card-img-top border-0 img-size" alt="...">
+                                                    <div class="card-body ">
+                                                        <h6 class="card-title mb-2"><?= $name ?></h6>
+                                                        <p class="card-text">$ <?= $price ?></p>
+                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </button>
+                                        </button>
+                                    </form>
+                                </div>
+                        <?php
+                            }
+                        }
+                        ?>
+                        <!-- PAGING -->
+                        <div class="row py-4">
+                            <form action="" method="post">
+                                <div class="col-12 d-flex justify-content-center">
+                                    <ul class="pagination">
+                                        <li class="page-item">
+                                            <button type="submit" class="btn btn-outline-light" name="pageSekarangMin1" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </button>
+                                        </li>
+                                        <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-light"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                                        <?php
+                                        if (($_SESSION["productCount"] / 30) > 1) {
+                                        ?>
+                                            <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-light"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                                        <?php
+                                        }
+                                        if (($_SESSION["productCount"] / 30) > 2) {
+                                        ?>
+                                            <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-light"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                                        <?php
+                                        }
+                                        if (($_SESSION["productCount"] / 30) > 3) {
+                                        ?>
+                                            <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-light"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                                        <?php
+                                        }
+                                        if (($_SESSION["productCount"] / 30) > 4) {
+                                        ?>
+                                            <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-light"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                        <?php
+                                        }
+                                        ?>
+                                        <button type="submit" class="btn btn-outline-light" name="pageSekarangPlus1" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </form>
                         </div>
-                <?php
-                    }
-                }
-                ?>
-                <!-- PAGING -->
-                <div class="row py-4">
-                    <form action="" method="post">
-                        <div class="col-12 d-flex justify-content-center">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <button type="submit" class="btn btn-outline-light" name="pageSekarangMin1" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </button>
-                                </li>
-                                <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-light"><?= $_SESSION["paging"][0]["page"] ?></button></li>
-                                <?php
-                                if (($_SESSION["productCount"] / 30) > 1) {
-                                ?>
-                                    <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-light"><?= $_SESSION["paging"][1]["page"] ?></button></li>
-                                <?php
-                                }
-                                if (($_SESSION["productCount"] / 30) > 2) {
-                                ?>
-                                    <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-light"><?= $_SESSION["paging"][2]["page"] ?></button></li>
-                                <?php
-                                }
-                                if (($_SESSION["productCount"] / 30) > 3) {
-                                ?>
-                                    <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-light"><?= $_SESSION["paging"][3]["page"] ?></button></li>
-                                <?php
-                                }
-                                if (($_SESSION["productCount"] / 30) > 4) {
-                                ?>
-                                    <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-light"><?= $_SESSION["paging"][4]["page"] ?></button></li>
-                                <?php
-                                }
-                                ?>
-                                <button type="submit" class="btn btn-outline-light" name="pageSekarangPlus1" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
 
 
-            <!-- MAILER -->
-            <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                <div class="row my-5 d-flex justify-content-center">
-                    <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                        <h1 class="text-light">Contact Us</h1>
-                    </div>
-                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                        <div class="form-floating mb-3 w-100">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                            <label for="floatingInput">Name</label>
+                    <!-- MAILER -->
+                    <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                        <div class="row my-5 d-flex justify-content-center">
+                            <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
+                                <h1 class="text-light">Contact Us</h1>
+                            </div>
+                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                <div class="form-floating mb-3 w-100">
+                                    <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                                    <label for="floatingInput">Name</label>
+                                </div>
+                            </div>
+                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                <div class="form-floating mb-3 w-100">
+                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                    <label for="floatingInput">Email address</label>
+                                </div>
+                            </div>
+                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                <div class="form-floating mb-3 w-100">
+                                    <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                    <label for="floatingInput">Message</label>
+                                </div>
+                            </div>
+                            <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
+                                <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
+                                <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                        <div class="form-floating mb-3 w-100">
-                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                            <label for="floatingInput">Email address</label>
-                        </div>
-                    </div>
-                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                        <div class="form-floating mb-3 w-100">
-                            <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                            <label for="floatingInput">Message</label>
-                        </div>
-                    </div>
-                    <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                        <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                        <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
                     </div>
                 </div>
             </div>
