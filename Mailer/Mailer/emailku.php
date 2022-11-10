@@ -1,5 +1,4 @@
 <?php
-    require_once("../../connection.php");
     
     require("OAuthTokenProvider.php");
     require("Exception.php");
@@ -12,10 +11,11 @@
     // Namespace
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
+    $nama = $_REQUEST["nama"];
+    $email = $_REQUEST["email"];
+    $teks = $_REQUEST["teks"];
     // Create Object
     $mail = new PHPMailer();
-
     $mail -> isSMTP();
     $mail -> Host = 'smtp.gmail.com';
     $mail -> Port = 587;
@@ -35,12 +35,12 @@
     $mail -> Password = 'vgdokaiunloxjlaf';
     
     // Set Recipent
-    $mail -> SetFrom($_SESSION["email"], $_SESSION["name"]);
+    $mail -> SetFrom($email, $nama);
     $mail -> addAddress('soccersportstation@gmail.com','Store');
     
 
     $mail -> Subject = 'Spam';
-    $mail -> Body = $_SESSION["message"];
+    $mail -> Body = $teks;
     $mail -> WordWrap = 50;
 
     if ($mail -> send()) {
@@ -48,5 +48,3 @@
     } else {
         echo "Email Tidak Terkirim!";
     }
-    header("Location: ../../index.php");
-?>
