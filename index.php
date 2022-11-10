@@ -387,13 +387,37 @@ if (isset($_POST["detail"])) {
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner shadow">
                             <div class="carousel-item active">
-                                <img src="asset/temp.jpg" class="d-block w-100 rounded-4" alt="...">
+                                <img src="asset/sepatu1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="asset/temp.jpg" class="d-block w-100 rounded-4" alt="...">
+                                <img src="asset/sepatu2.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
                             <div class="carousel-item">
-                                <img src="asset/temp.jpg" class="d-block w-100 rounded-4" alt="...">
+                                <img src="asset/sepatu3.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/ball1.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/gloves1.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/gloves2.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/gloves3.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/jersey1.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/brand1.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/brand2.jpg" class="d-block w-100 rounded-4" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/brand3.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
