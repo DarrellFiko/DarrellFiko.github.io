@@ -209,18 +209,18 @@ if (isset($_POST["pageSekarangMin1"])) {
         $_SESSION["paging"][2]["page"]--;
         $_SESSION["paging"][3]["page"]--;
         $_SESSION["paging"][4]["page"]--;
-    }else if($_SESSION["pageSekarang"] > 1){
+    } else if ($_SESSION["pageSekarang"] > 1) {
         $_SESSION["pageSekarang"]--;
     }
     alert($_SESSION["pageSekarang"]);
 }
 if (isset($_POST["pageSekarangPlus1"])) {
-    if($maks<=4){
+    if ($maks <= 4) {
         // NGEBUGGGGGGGGGGGGGG
-        if ($_SESSION["paging"][$maks-2]["page"] <= $maks && $_SESSION["pageSekarang"] < $maks-1) {
+        if ($_SESSION["paging"][$maks - 2]["page"] <= $maks && $_SESSION["pageSekarang"] < $maks - 1) {
             $_SESSION["pageSekarang"]++;
         }
-            // }else{
+        // }else{
         //     alert("masok2");
         //     $_SESSION["pageSekarang"]++;
         //     $_SESSION["paging"][0]["page"]++;
@@ -229,7 +229,7 @@ if (isset($_POST["pageSekarangPlus1"])) {
         //     $_SESSION["paging"][3]["page"]++;
         //     $_SESSION["paging"][4]["page"]++;
         // }
-    }else{
+    } else {
         if ($_SESSION["paging"][4]["page"] < $maks - 1 && $_SESSION["pageSekarang"] != $maks) {
             $_SESSION["pageSekarang"]++;
             $_SESSION["paging"][0]["page"]++;
@@ -296,191 +296,194 @@ if (isset($_POST["detail"])) {
         </div>
     </nav>
 
-    <!-- SCROLL -->
-    <div style="margin-top:70px">
-        <!-- Div kiri buat scroll -->
-        <div class="d-flex align-items-center justify-content-center">
-            <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2" onclick="openNav()">
-                <h2><img src="asset/arrow_kanan.png" alt="" width="25" height="25"></h2>
-            </button>
-        </div>
-
-        <!-- kategori -->
-        <form action="" method="post">
-            <div id="mySidenav" class="sidenav">
-
-                <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
-
-                <h2 class="text-white">
-                    Brand
-                </h2>
-                <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?= $_SESSION["brand"] ?>">
-                    <li><button type="submit" name="allBrands" onclick="closeNav()" class="btn btn-link">All</button></li>
-                    <li><button type="submit" onclick="closeNav()" class="btn btn-link" name="Nike">Nike</button></li>
-                    <li><button type="submit" name="Adidas" onclick="closeNav()" class="btn btn-link">Adidas</button></li>
-                    <li><button type="submit" name="Puma" onclick="closeNav()" class="btn btn-link">Puma</button></li>
-                </ul>
-
-                <h2 class="text-white">
-                    Categories
-                </h2>
-                <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?= $_SESSION["category"] ?>">
-                    <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
-                    <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
-                    <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
-                    <li><button type="submit" name="Jersey" onclick="closeNav()" class="btn btn-link">Jersey</button></li>
-                    <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
-                    <li><button type="submit" name="Guards" onclick="closeNav()" class="btn btn-link">Shin Guards</button></li>
-                </ul>
+    <div class="container-fluid bg-light">
+        <!-- SCROLL -->
+        <div style="margin-top:70px">
+            <!-- Div kiri buat scroll -->
+            <div class="d-flex align-items-center justify-content-center">
+                <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2" onclick="openNav()">
+                    <h2><img src="asset/arrow_kanan.png" alt="" width="25" height="25"></h2>
+                </button>
             </div>
-        </form>
-    </div>
 
-
-    <!-- CARD -->
-    <div class="container text-center mt-4">
-        <!-- carousel -->
-        <div class="row d-flex justify-content-center">
-            <div class="col-1"></div>
-            <div class="col-10">
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="asset/temp.jpg" class="d-block w-100" alt="...">
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-            <div class="col-1"></div>
-            <!-- tutup carousel -->
-            <?php
-            $temp = 0;
-            // GANTI MAKS ARRAY
-            foreach ($_SESSION["listProduk"] as $product) {
-                $id = $product["id"];
-                $name = $product["name"];
-                $brand = $product["brand"];
-                $category = $product["category"];
-                $stock = $product["stock"];
-                $price = $product["price"];
-                $image = $product["image"];
-                $status = $product["status"];
-                $linkDetail = $product["link_detail"];
-
-                $temp++;
-                if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
-            ?>
-                    <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center ">
-                        <form action="" method="post">
-                            <button class="bg-transparent border border-0 " name="detail">
-                                <div class="img-fluid">
-                                    <div class="card btn btn-outline-dark" style="width: 15rem; height: 25rem;">
-                                        <img src="<?= $image ?>" class="card-img-top img-size" alt="...">
-                                        <div class="card-body ">
-                                            <h5 class="card-title mb-2"><?= $name ?></h5>
-                                            <p class="card-text">$ <?= $price ?></p>
-                                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </button>
-                        </form>
-                    </div>
-            <?php
-                }
-            }
-            ?>
-        </div>
-
-        <!-- PAGING -->
-        <div class="row">
+            <!-- kategori -->
             <form action="" method="post">
-                <div class="col-12 d-flex justify-content-center">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <button type="submit" class="btn btn-outline-dark" name="pageSekarangMin1" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </button>
-                        </li>
-                        <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-dark"><?= $_SESSION["paging"][0]["page"] ?></button></li>
-                        <?php
-                        if (($_SESSION["productCount"] / 30) > 1) {
-                        ?>
-                            <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-dark"><?= $_SESSION["paging"][1]["page"] ?></button></li>
-                        <?php
-                        }
-                        if (($_SESSION["productCount"] / 30) > 2) {
-                        ?>
-                            <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?= $_SESSION["paging"][2]["page"] ?></button></li>
-                        <?php
-                        }
-                        if (($_SESSION["productCount"] / 30) > 3) {
-                        ?>
-                            <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?= $_SESSION["paging"][3]["page"] ?></button></li>
-                        <?php
-                        }
-                        if (($_SESSION["productCount"] / 30) > 4) {
-                        ?>
-                            <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-dark"><?= $_SESSION["paging"][4]["page"] ?></button></li>
-                        <?php
-                        }
-                        ?>
-                        <button type="submit" class="btn btn-outline-dark" name="pageSekarangPlus1" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </button>
-                        </li>
+                <div id="mySidenav" class="sidenav">
+
+                    <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
+
+                    <h2 class="text-white">
+                        Brand
+                    </h2>
+                    <ul class="text-light">
+                        <input type="hidden" name="sent" value="<?= $_SESSION["brand"] ?>">
+                        <li><button type="submit" name="allBrands" onclick="closeNav()" class="btn btn-link">All</button></li>
+                        <li><button type="submit" onclick="closeNav()" class="btn btn-link" name="Nike">Nike</button></li>
+                        <li><button type="submit" name="Adidas" onclick="closeNav()" class="btn btn-link">Adidas</button></li>
+                        <li><button type="submit" name="Puma" onclick="closeNav()" class="btn btn-link">Puma</button></li>
+                    </ul>
+
+                    <h2 class="text-white">
+                        Categories
+                    </h2>
+                    <ul class="text-light">
+                        <input type="hidden" name="sent" value="<?= $_SESSION["category"] ?>">
+                        <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
+                        <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
+                        <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
+                        <li><button type="submit" name="Jersey" onclick="closeNav()" class="btn btn-link">Jersey</button></li>
+                        <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
+                        <li><button type="submit" name="Guards" onclick="closeNav()" class="btn btn-link">Shin Guards</button></li>
                     </ul>
                 </div>
             </form>
         </div>
 
-        <!-- MAILER -->
-        <form action="" method="post">
-            <div class="row my-5 d-flex justify-content-center">
-                <div class="col-10 px-5 pt-5 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
-                    <h3 class="text-light">Contact Us</h3>
-                </div>
-                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                    <div class="form-floating mb-3 w-100">
-                        <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                        <label for="floatingInput">Name</label>
+
+        <!-- CARD -->
+        <div class="container text-center mt-4">
+            <!-- carousel -->
+            <div class="row d-flex justify-content-center">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="asset/temp.jpg" class="d-block w-100" alt="...">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
-                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                    <div class="form-floating mb-3 w-100">
-                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                        <label for="floatingInput">Email address</label>
-                    </div>
-                </div>
-                <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
-                    <div class="form-floating mb-3 w-100">
-                        <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                        <label for="floatingInput">Message</label>
-                    </div>
-                </div>
-                <div class="col-10 pt-3 pb-5 px-5 bg-dark d-flex justify-content-start rounded-bottom">
-                    <button type="submit" class="btn btn-outline-light me-3" name="submit">Submit</button>
-                    <button type="submit" class="btn btn-outline-light" name="clear">Clear</button>
-                </div>
+                <div class="col-1"></div>
+                <!-- tutup carousel -->
+                <?php
+                $temp = 0;
+                // GANTI MAKS ARRAY
+                foreach ($_SESSION["listProduk"] as $product) {
+                    $id = $product["id"];
+                    $name = $product["name"];
+                    $brand = $product["brand"];
+                    $category = $product["category"];
+                    $stock = $product["stock"];
+                    $price = $product["price"];
+                    $image = $product["image"];
+                    $status = $product["status"];
+                    $linkDetail = $product["link_detail"];
+
+                    $temp++;
+                    if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
+                ?>
+                        <div class="col-5 col-md-4 col-lg-3 mx-3 my-3 d-flex justify-content-center ">
+                            <form action="" method="post">
+                                <button class="bg-transparent border border-0 " name="detail">
+                                    <div class="img-fluid">
+                                        <div class="card btn btn-outline-dark" style="width: 15rem; height: 25rem;">
+                                            <img src="<?= $image ?>" class="card-img-top img-size" alt="...">
+                                            <div class="card-body ">
+                                                <h5 class="card-title mb-2"><?= $name ?></h5>
+                                                <p class="card-text">$ <?= $price ?></p>
+                                                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </form>
+                        </div>
+                <?php
+                    }
+                }
+                ?>
             </div>
-        </form>
+
+            <!-- PAGING -->
+            <div class="row">
+                <form action="" method="post">
+                    <div class="col-12 d-flex justify-content-center">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <button type="submit" class="btn btn-outline-dark" name="pageSekarangMin1" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </button>
+                            </li>
+                            <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-dark"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                            <?php
+                            if (($_SESSION["productCount"] / 30) > 1) {
+                            ?>
+                                <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-dark"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                            <?php
+                            }
+                            if (($_SESSION["productCount"] / 30) > 2) {
+                            ?>
+                                <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-dark"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                            <?php
+                            }
+                            if (($_SESSION["productCount"] / 30) > 3) {
+                            ?>
+                                <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-dark"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                            <?php
+                            }
+                            if (($_SESSION["productCount"] / 30) > 4) {
+                            ?>
+                                <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-dark"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                            <?php
+                            }
+                            ?>
+                            <button type="submit" class="btn btn-outline-dark" name="pageSekarangPlus1" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <!-- MAILER -->
+            <form action="" method="post">
+                <div class="row my-5 d-flex justify-content-center">
+                    <div class="col-10 px-5 pt-5 pb-2 d-flex bg-dark d-flex justify-content-start rounded-top">
+                        <h3 class="text-light">Contact Us</h3>
+                    </div>
+                    <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                        <div class="form-floating mb-3 w-100">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                            <label for="floatingInput">Name</label>
+                        </div>
+                    </div>
+                    <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                        <div class="form-floating mb-3 w-100">
+                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                    </div>
+                    <div class="col-10 px-5 d-flex bg-dark d-flex justify-content-start">
+                        <div class="form-floating mb-3 w-100">
+                            <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                            <label for="floatingInput">Message</label>
+                        </div>
+                    </div>
+                    <div class="col-10 pt-3 pb-5 px-5 bg-dark d-flex justify-content-start rounded-bottom">
+                        <button type="submit" class="btn btn-outline-light me-3" name="submit">Submit</button>
+                        <button type="submit" class="btn btn-outline-light" name="clear">Clear</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 

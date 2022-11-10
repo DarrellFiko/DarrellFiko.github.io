@@ -83,4 +83,13 @@
 	height: 238px;
 }
 
+/* .blur {
+	box-shadow: 0 4px 30px #0000001a;
+	filter: blur(20px);
+	-webkit-filter: blur(20px);
+} */
 
+.noBlur {
+	-webkit-filter: blur(0);
+	filter: blur(0);
+}
