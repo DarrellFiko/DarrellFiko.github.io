@@ -314,7 +314,7 @@ if (isset($_POST["detail"])) {
                     <a class="navbar-brand" href="#">
                         <img src="asset/logo_toko.png" alt="Logo" width="50" height="50" class="d-inline-block">
                     </a>
-                    <div class="navbar-brand d-lg-inline d-none fs-5">
+                    <div class="navbar-brand d-xl-inline d-none fs-5">
                         Sport Station
                     </div>
                 </div>
