@@ -205,7 +205,7 @@ if (isset($_POST["page2"])) {
 }
 if (isset($_POST["page3"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
-    if ($_SESSION["paging"][4]["page"] < $maks) {
+    if ($_SESSION["paging"][4]["page"] < $maks-1) {
         $_SESSION["paging"][0]["page"]++;
         $_SESSION["paging"][1]["page"]++;
         $_SESSION["paging"][2]["page"]++;
@@ -218,6 +218,12 @@ if (isset($_POST["page3"])) {
 if (isset($_POST["page4"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
     if ($_SESSION["paging"][4]["page"] < $maks - 1) {
+        $_SESSION["paging"][0]["page"] += 1;
+        $_SESSION["paging"][1]["page"] += 1;
+        $_SESSION["paging"][2]["page"] += 1;
+        $_SESSION["paging"][3]["page"] += 1;
+        $_SESSION["paging"][4]["page"] += 1;
+    }else if ($_SESSION["paging"][4]["page"] < $maks - 2) {
         $_SESSION["paging"][0]["page"] += 2;
         $_SESSION["paging"][1]["page"] += 2;
         $_SESSION["paging"][2]["page"] += 2;
