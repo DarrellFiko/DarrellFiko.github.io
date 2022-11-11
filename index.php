@@ -380,8 +380,8 @@ if (isset($_POST["detail"])) {
 
     <div class="container-fluid bgGradient">
         <div class="" style="margin-left: 60px;">
+            <!-- carousel -->
             <div class="d-flex justify-content-center">
-                <!-- carousel -->
                 <div class="col-1"></div>
                 <div class="col-10 my-5">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -440,8 +440,8 @@ if (isset($_POST["detail"])) {
 
         <div class="" style="margin-left: 60px;">
             <div class="d-flex justify-content-center">
-                <!-- CARD -->
                 <div class="container text-center mt-4 pb-5">
+                    <!-- CARD -->
                     <div class="row d-flex justify-content-center glass pt-4">
                         <div class="col-12">
                             <h1>New Collections</h1>
