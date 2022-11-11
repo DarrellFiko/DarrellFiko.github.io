@@ -2,7 +2,46 @@
 require_once("connection.php");
 require("functions.php");
 
-//
+// ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
+if (!isset($_SESSION["cbBrand"])) {
+    $_SESSION["cbBrand"] = [];
+    $pageBaru = [
+        "brand" => "Nike"
+    ];
+    array_push($_SESSION["cbBrand"], $pageBaru);
+    $pageBaru = [
+        "brand" => "Adidas"
+    ];
+    array_push($_SESSION["cbBrand"], $pageBaru);
+    $pageBaru = [
+        "brand" => "Puma"
+    ];
+    array_push($_SESSION["cbBrand"], $pageBaru);
+}
+if (!isset($_SESSION["cbCategories"])) {
+    $_SESSION["cbCategories"] = [];
+    $pageBaru = [
+        "categories" => "Shoes"
+    ];
+    array_push($_SESSION["cbCategories"], $pageBaru);
+    $pageBaru = [
+        "categories" => "Balls"
+    ];
+    array_push($_SESSION["cbCategories"], $pageBaru);
+    $pageBaru = [
+        "categories" => "Jersey"
+    ];
+    array_push($_SESSION["cbCategories"], $pageBaru);
+    $pageBaru = [
+        "categories" => "Gloves"
+    ];
+    array_push($_SESSION["cbCategories"], $pageBaru);
+    $pageBaru = [
+        "categories" => "Shin Guards"
+    ];
+    array_push($_SESSION["cbCategories"], $pageBaru);
+}
+
 if (!isset($_SESSION["productCount"])) {
     $_SESSION["productCount"] = 0;
 }
@@ -217,18 +256,18 @@ if (isset($_POST["page3"])) {
 }
 if (isset($_POST["page4"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
-    if ($_SESSION["paging"][4]["page"] < $maks - 1) {
-        $_SESSION["paging"][0]["page"] += 1;
-        $_SESSION["paging"][1]["page"] += 1;
-        $_SESSION["paging"][2]["page"] += 1;
-        $_SESSION["paging"][3]["page"] += 1;
-        $_SESSION["paging"][4]["page"] += 1;
-    }else if ($_SESSION["paging"][4]["page"] < $maks - 2) {
+    if ($_SESSION["paging"][4]["page"] < $maks - 2) {
         $_SESSION["paging"][0]["page"] += 2;
         $_SESSION["paging"][1]["page"] += 2;
         $_SESSION["paging"][2]["page"] += 2;
         $_SESSION["paging"][3]["page"] += 2;
         $_SESSION["paging"][4]["page"] += 2;
+    }else if ($_SESSION["paging"][4]["page"] < $maks - 1) {
+        $_SESSION["paging"][0]["page"] += 1;
+        $_SESSION["paging"][1]["page"] += 1;
+        $_SESSION["paging"][2]["page"] += 1;
+        $_SESSION["paging"][3]["page"] += 1;
+        $_SESSION["paging"][4]["page"] += 1;
     }
     // alert($_SESSION["pageSekarang"]);
     header("Location: #collections");
@@ -260,12 +299,30 @@ if (isset($_POST["pageSekarangPlus1"])) {
             $_SESSION["paging"][2]["page"]++;
             $_SESSION["paging"][3]["page"]++;
             $_SESSION["paging"][4]["page"]++;
+        }else if($_SESSION["pageSekarang"] < $maks-1){
+            $_SESSION["pageSekarang"]++;
         }
     }
     // alert($_SESSION["pageSekarang"]);
     header("Location: #collections");
 }
-
+if(isset($_POST["pagePertama"])){
+    $_SESSION["pageSekarang"] = 1;
+    $_SESSION["paging"][0]["page"] = 1;
+    $_SESSION["paging"][1]["page"] = 2;
+    $_SESSION["paging"][2]["page"] = 3;
+    $_SESSION["paging"][3]["page"] = 4;
+    $_SESSION["paging"][4]["page"] = 5;
+}
+if(isset($_POST["pageTerakhir"])){
+    $maks = (int)$maks;
+    $_SESSION["pageSekarang"] = $maks;
+    $_SESSION["paging"][0]["page"] = $maks-4;
+    $_SESSION["paging"][1]["page"] = $maks-3;
+    $_SESSION["paging"][2]["page"] = $maks-2;
+    $_SESSION["paging"][3]["page"] = $maks-1;
+    $_SESSION["paging"][4]["page"] = $maks;
+}
 // if (isset($_POST["submit"])) {
 //     $_SESSION["message"] = $_POST["textarea"];
 //     $_SESSION["email"] = $_POST["email"];
@@ -360,26 +417,32 @@ if (isset($_POST["detail"])) {
                 <h2 class="text-white">
                     Brand
                 </h2>
-                <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?= $_SESSION["brand"] ?>">
-                    <li><button type="submit" name="allBrands" onclick="closeNav()" class="btn btn-link">All</button></li>
-                    <li><button type="submit" onclick="closeNav()" class="btn btn-link" name="Nike">Nike</button></li>
-                    <li><button type="submit" name="Adidas" onclick="closeNav()" class="btn btn-link">Adidas</button></li>
-                    <li><button type="submit" name="Puma" onclick="closeNav()" class="btn btn-link">Puma</button></li>
-                </ul>
+                <table class="text-light ms-5">
+                <?php
+                    foreach ($_SESSION["cbBrand"] as $key => $value) {
+                        ?>
+                        <tr class="text-light">
+                        <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?=$value["brand"]?></td>
+                        </tr>
+                        <?php
+                    }
+                ?>
+                </table>
 
-                <h2 class="text-white">
+                <h2 class="text-white mt-5">
                     Categories
                 </h2>
-                <ul class="text-light">
-                    <input type="hidden" name="sent" value="<?= $_SESSION["category"] ?>">
-                    <li><button type="submit" name="allCategories" onclick="closeNav()" class="btn btn-link">All</button></li>
-                    <li><button type="submit" name="Shoes" onclick="closeNav()" class="btn btn-link">Shoes</button></li>
-                    <li><button type="submit" name="Balls" onclick="closeNav()" class="btn btn-link">Balls</button></li>
-                    <li><button type="submit" name="Jersey" onclick="closeNav()" class="btn btn-link">Jersey</button></li>
-                    <li><button type="submit" name="Gloves" onclick="closeNav()" class="btn btn-link">Gloves</button></li>
-                    <li><button type="submit" name="Guards" onclick="closeNav()" class="btn btn-link">Shin Guards</button></li>
-                </ul>
+                <table class="text-light ms-5 mb-5">
+                <?php
+                    foreach ($_SESSION["cbCategories"] as $key => $value) {
+                        ?>
+                        <tr class="text-light">
+                        <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?=$value["categories"]?></td>
+                        </tr>
+                        <?php
+                    }
+                ?>
+                </table>
             </div>
         </form>
     </div>
@@ -389,51 +452,43 @@ if (isset($_POST["detail"])) {
             <!-- carousel -->
             <div class="d-flex justify-content-center">
                 <div class="col-1"></div>
-                <div class="col-10 my-5">
-                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner shadow">
-                            <div class="carousel-item active">
+                <div class="col-10 my-5 ">
+                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner shadow ">
+                            <div class="carousel-item active" data-bs-interval="2000">
                                 <img src="asset/sepatu1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/sepatu2.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/sepatu3.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/ball1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/gloves1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/gloves2.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/gloves3.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/jersey1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/brand1.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/brand2.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
-                            <div class="carousel-item">
+                            <div class="carousel-item" data-bs-interval="2000">
                                 <img src="asset/brand3.jpg" class="d-block w-100 rounded-4" alt="...">
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
                 <div class="col-1"></div>
@@ -476,7 +531,7 @@ if (isset($_POST["detail"])) {
                                     <form action="" method="post">
                                         <button class="bg-transparent border border-0" name="detail">
                                             <div class="img-fluid">
-                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
+                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 23rem;">
                                                     <img src="<?= $image ?>" class="card-img-top border-0 img-size" alt="...">
                                                     <div class="card-body ">
                                                         <h6 class="card-title mb-2"><?= $name ?></h6>
@@ -496,36 +551,50 @@ if (isset($_POST["detail"])) {
                         <div class="row py-4">
                             <form action="" method="post">
                                 <div class="col-12 d-flex justify-content-center">
-                                    <ul class="pagination">
+                                    <ul class="pagination bg-dark d-flex align-items-center rounded-pill px-3">
                                         <li class="page-item">
-                                            <button type="submit" class="btn btn-outline-light" name="pageSekarangMin1" aria-label="Previous">
+                                            <button type="submit" class="btn text-light border border-0" name="pageSekarangMin1" aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </button>
                                         </li>
-                                        <li class="page-item"><button type="submit" name="page0" class="btn btn-outline-light"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                                        <?php
+                                        if($_SESSION["pageSekarang"] > 3 || $_SESSION["paging"][0]["page"]!=1){
+                                            ?>
+                                            <li class="page-item"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button></li>
+                                            <p class="text-light pt-3 px-2"> . . . </p>
+                                            <?php
+                                        }
+                                        ?>
+                                        <li class="page-item"><button type="submit" name="page0" class="btn text-light border border-0"><?= $_SESSION["paging"][0]["page"] ?></button></li>
                                         <?php
                                         if (($_SESSION["productCount"] / 30) > 1) {
                                         ?>
-                                            <li class="page-item"><button type="submit" name="page1" class="btn btn-outline-light"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                                            <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
                                         <?php
                                         }
                                         if (($_SESSION["productCount"] / 30) > 2) {
                                         ?>
-                                            <li class="page-item"><button type="submit" name="page2" class="btn btn-outline-light"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                                            <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
                                         <?php
                                         }
                                         if (($_SESSION["productCount"] / 30) > 3) {
                                         ?>
-                                            <li class="page-item"><button type="submit" name="page3" class="btn btn-outline-light"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                                            <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
                                         <?php
                                         }
                                         if (($_SESSION["productCount"] / 30) > 4) {
                                         ?>
-                                            <li class="page-item"><button type="submit" name="page4" class="btn btn-outline-light"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                            <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
                                         <?php
                                         }
+                                        if($_SESSION["pageSekarang"] < $maks-3 || $_SESSION["paging"][4]["page"]!=(int)$maks){
+                                            ?>
+                                            <p class="text-light pt-3 px-2"> . . . </p>
+                                            <li class="page-item"><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?=(int)$maks?></button></li>
+                                            <?php
+                                        }
                                         ?>
-                                        <button type="submit" class="btn btn-outline-light" name="pageSekarangPlus1" aria-label="Next">
+                                        <button type="submit" class="btn text-light border border-0" name="pageSekarangPlus1" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </button>
                                         </li>

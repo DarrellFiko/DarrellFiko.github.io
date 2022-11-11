@@ -10,7 +10,18 @@
 	padding-top: 60px; /* Place content 60px from the top */
 	transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 	margin-top: 70px;
+	padding-bottom: 70px;
 }
+
+/* Hide Scroll Bar */
+*{
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
+* ::-webkit-scrollbar {
+	display: none;
+}
+
 
 /* The navigation menu buttons */
 .sidenav button {
@@ -21,7 +32,7 @@
 	transition: 0.3s;
 }
 
-.sidenav li {
+.sidenav td {
 	margin: 5px 5px 5px 32px;
 	font-size: 25px;
 	color: #818181;
