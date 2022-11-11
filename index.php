@@ -323,12 +323,6 @@ if(isset($_POST["pageTerakhir"])){
     $_SESSION["paging"][3]["page"] = $maks-1;
     $_SESSION["paging"][4]["page"] = $maks;
 }
-// if (isset($_POST["submit"])) {
-//     $_SESSION["message"] = $_POST["textarea"];
-//     $_SESSION["email"] = $_POST["email"];
-//     $_SESSION["name"] = $_POST["name"];
-//     header("Location: Mailer/Mailer/emailku.php");
-// }
 
 if (isset($_POST["detail"])) {
     alert("test");
@@ -419,6 +413,7 @@ if (isset($_POST["detail"])) {
                 </h2>
                 <table class="text-light ms-5">
                 <?php
+                    // GANTI ARRAY BRAND
                     foreach ($_SESSION["cbBrand"] as $key => $value) {
                         ?>
                         <tr class="text-light">
@@ -434,6 +429,7 @@ if (isset($_POST["detail"])) {
                 </h2>
                 <table class="text-light ms-5 mb-5">
                 <?php
+                    // GANTI ARRAY BRAND
                     foreach ($_SESSION["cbCategories"] as $key => $value) {
                         ?>
                         <tr class="text-light">
