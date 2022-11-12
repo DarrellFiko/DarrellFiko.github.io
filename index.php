@@ -5,41 +5,25 @@ require("functions.php");
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
 if (!isset($_SESSION["cbBrand"])) {
     $_SESSION["cbBrand"] = [];
-    $pageBaru = [
-        "brand" => "Nike"
-    ];
-    array_push($_SESSION["cbBrand"], $pageBaru);
-    $pageBaru = [
-        "brand" => "Adidas"
-    ];
-    array_push($_SESSION["cbBrand"], $pageBaru);
-    $pageBaru = [
-        "brand" => "Puma"
-    ];
-    array_push($_SESSION["cbBrand"], $pageBaru);
+
+    $brands = query("SELECT * FROM brand ORDER BY name_brand");
+    foreach ($brands as $brand) {
+        $pageBaru = [
+            "brand" => $brand["name_brand"]
+        ];
+        array_push($_SESSION["cbBrand"], $pageBaru);
+    }
 }
 if (!isset($_SESSION["cbCategories"])) {
     $_SESSION["cbCategories"] = [];
-    $pageBaru = [
-        "categories" => "Shoes"
-    ];
-    array_push($_SESSION["cbCategories"], $pageBaru);
-    $pageBaru = [
-        "categories" => "Balls"
-    ];
-    array_push($_SESSION["cbCategories"], $pageBaru);
-    $pageBaru = [
-        "categories" => "Jersey"
-    ];
-    array_push($_SESSION["cbCategories"], $pageBaru);
-    $pageBaru = [
-        "categories" => "Gloves"
-    ];
-    array_push($_SESSION["cbCategories"], $pageBaru);
-    $pageBaru = [
-        "categories" => "Shin Guards"
-    ];
-    array_push($_SESSION["cbCategories"], $pageBaru);
+
+    $categories = query("SELECT * FROM kategori ORDER BY name_kategori");
+    foreach ($categories as $kategori) {
+        $pageBaru = [
+            "categories" => $kategori["name_kategori"]
+        ];
+        array_push($_SESSION["cbCategories"], $pageBaru);
+    }
 }
 
 if (!isset($_SESSION["productCount"])) {
@@ -47,7 +31,7 @@ if (!isset($_SESSION["productCount"])) {
 }
 if (!isset($_SESSION["listProduk"])) {
     $_SESSION["listProduk"] = [];
-    $_SESSION["listProduk"] = query("SELECT * FROM product");
+    $_SESSION["listProduk"] = query("SELECT * FROM produk");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
 }
 // alert($tempCount);
@@ -244,7 +228,7 @@ if (isset($_POST["page2"])) {
 }
 if (isset($_POST["page3"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
-    if ($_SESSION["paging"][4]["page"] < $maks-1) {
+    if ($_SESSION["paging"][4]["page"] < $maks - 1) {
         $_SESSION["paging"][0]["page"]++;
         $_SESSION["paging"][1]["page"]++;
         $_SESSION["paging"][2]["page"]++;
@@ -262,7 +246,7 @@ if (isset($_POST["page4"])) {
         $_SESSION["paging"][2]["page"] += 2;
         $_SESSION["paging"][3]["page"] += 2;
         $_SESSION["paging"][4]["page"] += 2;
-    }else if ($_SESSION["paging"][4]["page"] < $maks - 1) {
+    } else if ($_SESSION["paging"][4]["page"] < $maks - 1) {
         $_SESSION["paging"][0]["page"] += 1;
         $_SESSION["paging"][1]["page"] += 1;
         $_SESSION["paging"][2]["page"] += 1;
@@ -299,14 +283,14 @@ if (isset($_POST["pageSekarangPlus1"])) {
             $_SESSION["paging"][2]["page"]++;
             $_SESSION["paging"][3]["page"]++;
             $_SESSION["paging"][4]["page"]++;
-        }else if($_SESSION["pageSekarang"] < $maks-1){
+        } else if ($_SESSION["pageSekarang"] < $maks - 1) {
             $_SESSION["pageSekarang"]++;
         }
     }
     // alert($_SESSION["pageSekarang"]);
     header("Location: #collections");
 }
-if(isset($_POST["pagePertama"])){
+if (isset($_POST["pagePertama"])) {
     $_SESSION["pageSekarang"] = 1;
     $_SESSION["paging"][0]["page"] = 1;
     $_SESSION["paging"][1]["page"] = 2;
@@ -314,13 +298,13 @@ if(isset($_POST["pagePertama"])){
     $_SESSION["paging"][3]["page"] = 4;
     $_SESSION["paging"][4]["page"] = 5;
 }
-if(isset($_POST["pageTerakhir"])){
+if (isset($_POST["pageTerakhir"])) {
     $maks = (int)$maks;
     $_SESSION["pageSekarang"] = $maks;
-    $_SESSION["paging"][0]["page"] = $maks-4;
-    $_SESSION["paging"][1]["page"] = $maks-3;
-    $_SESSION["paging"][2]["page"] = $maks-2;
-    $_SESSION["paging"][3]["page"] = $maks-1;
+    $_SESSION["paging"][0]["page"] = $maks - 4;
+    $_SESSION["paging"][1]["page"] = $maks - 3;
+    $_SESSION["paging"][2]["page"] = $maks - 2;
+    $_SESSION["paging"][3]["page"] = $maks - 1;
     $_SESSION["paging"][4]["page"] = $maks;
 }
 
@@ -412,32 +396,32 @@ if (isset($_POST["detail"])) {
                     Brand
                 </h2>
                 <table class="text-light ms-5">
-                <?php
+                    <?php
                     // GANTI ARRAY BRAND
                     foreach ($_SESSION["cbBrand"] as $key => $value) {
-                        ?>
+                    ?>
                         <tr class="text-light">
-                        <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?=$value["brand"]?></td>
+                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?= $value["brand"] ?></td>
                         </tr>
-                        <?php
+                    <?php
                     }
-                ?>
+                    ?>
                 </table>
 
                 <h2 class="text-white mt-5">
                     Categories
                 </h2>
                 <table class="text-light ms-5 mb-5">
-                <?php
+                    <?php
                     // GANTI ARRAY BRAND
                     foreach ($_SESSION["cbCategories"] as $key => $value) {
-                        ?>
+                    ?>
                         <tr class="text-light">
-                        <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?=$value["categories"]?></td>
+                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?= $value["categories"] ?></td>
                         </tr>
-                        <?php
+                    <?php
                     }
-                ?>
+                    ?>
                 </table>
             </div>
         </form>
@@ -504,16 +488,16 @@ if (isset($_POST["detail"])) {
                             <h1>New Collections</h1>
                         </div>
                         <div class="col-12">
-                            <?php 
-                            if(($_SESSION["pageSekarang"])*30<$_SESSION["productCount"]){
-                                ?>
-                                <h5>Result <?=($_SESSION["pageSekarang"]-1)*30+1?> - <?=($_SESSION["pageSekarang"])*30?> of <?=$_SESSION["productCount"]?></h5>
-                                <?php
-                            }else{
-                                ?>
-                                <h5>Result <?=($_SESSION["pageSekarang"]-1)*30+1?> - <?=$_SESSION["productCount"]?> of <?=$_SESSION["productCount"]?></h5>
+                            <?php
+                            if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
+                            ?>
+                                <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
+                            <?php
+                            } else {
+                            ?>
+                                <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
 
-                                <?php
+                            <?php
                             }
                             ?>
                         </div>
@@ -524,15 +508,10 @@ if (isset($_POST["detail"])) {
                         $temp = 0;
                         // GANTI MAKS ARRAY
                         foreach ($_SESSION["listProduk"] as $product) {
-                            $id = $product["id"];
-                            $name = $product["name"];
-                            $brand = $product["brand"];
-                            $category = $product["category"];
-                            $stock = $product["stock"];
-                            $price = $product["price"];
-                            $image = $product["image"];
-                            $status = $product["status"];
-                            $linkDetail = $product["link_detail"];
+                            $name = $product["name_produk"];
+                            $price = $product["price_produk"];
+                            $image = $product["image_produk"];
+                            $image = base64_decode($image);
 
                             $temp++;
                             if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
@@ -542,7 +521,9 @@ if (isset($_POST["detail"])) {
                                         <button class="bg-transparent border border-0" name="detail">
                                             <div class="img-fluid">
                                                 <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
-                                                    <img src="<?= $image ?>" class="card-img-top border-0 img-size" alt="...">
+                                                    <?php
+                                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '" class="card-img-top border-0 img-size" alt="..."/>';
+                                                    ?>
                                                     <div class="card-body ">
                                                         <h6 class="card-title mb-2"><?= $name ?></h6>
                                                         <p class="card-text">$ <?= $price ?></p>
@@ -558,10 +539,10 @@ if (isset($_POST["detail"])) {
                         }
                         ?>
                         <!-- PAGING -->
-                        <div class="row py-4">
+                        <div class="row py-3">
                             <form action="" method="post">
                                 <div class="col-12 d-flex justify-content-center">
-                                    <ul class="pagination d-flex align-items-center img-fluid">
+                                    <ul class="pagination d-flex align-items-center justify-content-center img-fluid">
                                         <div class="row d-flex justify-content-center rounded-pill bg-dark px-2">
                                             <div class="col-1 col-xl-1 d-flex justify-content-center">
                                                 <li class="page-item">
@@ -571,12 +552,12 @@ if (isset($_POST["detail"])) {
                                                 </li>
                                             </div>
                                             <?php
-                                            if($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"]!=1){
-                                                ?>
+                                            if ($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"] != 1) {
+                                            ?>
                                                 <div class="col-5 col-xl-2 d-flex justify-content-center">
-                                                    <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button> . . . </li>
+                                                    <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button><span class="text-light"> . . . </span></li>
                                                 </div>
-                                                <?php
+                                            <?php
                                             }
                                             ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
@@ -585,38 +566,38 @@ if (isset($_POST["detail"])) {
                                             <?php
                                             if (($_SESSION["productCount"] / 30) > 1) {
                                             ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
-                                            </div>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                    <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                                                </div>
                                             <?php
                                             }
                                             if (($_SESSION["productCount"] / 30) > 2) {
                                             ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
-                                            </div>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                    <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                                                </div>
                                             <?php
                                             }
                                             if (($_SESSION["productCount"] / 30) > 3) {
                                             ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
-                                            </div>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                    <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                                                </div>
                                             <?php
                                             }
                                             if (($_SESSION["productCount"] / 30) > 4) {
                                             ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
-                                                <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
-                                            </div>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                    <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                                </div>
                                             <?php
                                             }
-                                            if($_SESSION["pageSekarang"] < $maks-3 && $_SESSION["paging"][4]["page"]!=(int)$maks){
-                                                ?>
+                                            if ($_SESSION["pageSekarang"] < $maks - 3 && $_SESSION["paging"][4]["page"] != (int)$maks) {
+                                            ?>
                                                 <div class="col-5 col-xl-2 d-flex justify-content-center">
-                                                    <li class="page-item text-light"> . . . <button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?=(int)$maks?></button></li>
+                                                    <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
                                                 </div>
-                                                <?php
+                                            <?php
                                             }
                                             ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center">
@@ -628,7 +609,7 @@ if (isset($_POST["detail"])) {
                                     </ul>
                                 </div>
                                 <div class="col-12 d-flex justify-content-center">
-                                    <h5 class="text-dark">Page <?=$_SESSION["pageSekarang"]?> of <?=(int)$maks?></h5>
+                                    <h5 class="text-dark">Page <?= $_SESSION["pageSekarang"] ?> of <?= (int)$maks ?></h5>
                                 </div>
                             </form>
                         </div>

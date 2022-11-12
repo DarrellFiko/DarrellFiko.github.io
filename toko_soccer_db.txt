@@ -1,0 +1,21 @@
+toko_soccer
+-----------
+
+kategori
+- id_kategori (KTG000)
+- name_kategori
+
+brand
+- id_brand (BRN000)
+_ name_brand
+
+produk
+- id_produk (angka urut)
+- name_produk
+- id_brand (fk)
+- id_kategori (fk)
+- stok_produk
+- price_produk
+- image_produk
+- description_produk
+- status_produk

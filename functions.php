@@ -1,7 +1,7 @@
 <?php
 // session_start();
 
-$conn = mysqli_connect('localhost', 'root', '', 'sport_station');
+$conn = mysqli_connect('localhost', 'root', '', 'toko_soccer');
 
 // function alert($message)
 // {
@@ -41,6 +41,8 @@ function query($query)
     $result = mysqli_query($conn, $query);
 
     // var_dump($result);
+
+    // alert(mysqli_error($conn));
 
     $rows = [];
 
