@@ -503,6 +503,20 @@ if (isset($_POST["detail"])) {
                         <div class="col-12">
                             <h1>New Collections</h1>
                         </div>
+                        <div class="col-12">
+                            <?php
+                            if(($_SESSION["pageSekarang"])*30<$_SESSION["productCount"]){
+                                ?>
+                                <h5>Result <?=($_SESSION["pageSekarang"]-1)*30+1?> - <?=($_SESSION["pageSekarang"])*30?> of <?=$_SESSION["productCount"]?></h5>
+                                <?php
+                            }else{
+                                ?>
+                                <h5>Result <?=($_SESSION["pageSekarang"]-1)*30+1?> - <?=$_SESSION["productCount"]?> of <?=$_SESSION["productCount"]?></h5>
+
+                                <?php
+                            }
+                            ?>
+                        </div>
                         <div class="col-12 text-dark">
                             <hr style="font-weight: bold; color: black;">
                         </div>
@@ -527,7 +541,7 @@ if (isset($_POST["detail"])) {
                                     <form action="" method="post">
                                         <button class="bg-transparent border border-0" name="detail">
                                             <div class="img-fluid">
-                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 23rem;">
+                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
                                                     <img src="<?= $image ?>" class="card-img-top border-0 img-size" alt="...">
                                                     <div class="card-body ">
                                                         <h6 class="card-title mb-2"><?= $name ?></h6>
@@ -547,54 +561,74 @@ if (isset($_POST["detail"])) {
                         <div class="row py-4">
                             <form action="" method="post">
                                 <div class="col-12 d-flex justify-content-center">
-                                    <ul class="pagination bg-dark d-flex align-items-center rounded-pill px-3">
-                                        <li class="page-item">
-                                            <button type="submit" class="btn text-light border border-0" name="pageSekarangMin1" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </button>
-                                        </li>
-                                        <?php
-                                        if($_SESSION["pageSekarang"] > 3 || $_SESSION["paging"][0]["page"]!=1){
-                                            ?>
-                                            <li class="page-item"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button></li>
-                                            <p class="text-light pt-3 px-2"> . . . </p>
+                                    <ul class="pagination d-flex align-items-center img-fluid">
+                                        <div class="row d-flex justify-content-center rounded-pill bg-dark px-2">
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                <li class="page-item">
+                                                    <button type="submit" class="btn text-light border border-0" name="pageSekarangMin1" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </button>
+                                                </li>
+                                            </div>
                                             <?php
-                                        }
-                                        ?>
-                                        <li class="page-item"><button type="submit" name="page0" class="btn text-light border border-0"><?= $_SESSION["paging"][0]["page"] ?></button></li>
-                                        <?php
-                                        if (($_SESSION["productCount"] / 30) > 1) {
-                                        ?>
-                                            <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
-                                        <?php
-                                        }
-                                        if (($_SESSION["productCount"] / 30) > 2) {
-                                        ?>
-                                            <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
-                                        <?php
-                                        }
-                                        if (($_SESSION["productCount"] / 30) > 3) {
-                                        ?>
-                                            <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
-                                        <?php
-                                        }
-                                        if (($_SESSION["productCount"] / 30) > 4) {
-                                        ?>
-                                            <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
-                                        <?php
-                                        }
-                                        if($_SESSION["pageSekarang"] < $maks-3 || $_SESSION["paging"][4]["page"]!=(int)$maks){
+                                            if($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"]!=1){
+                                                ?>
+                                                <div class="col-5 col-xl-2 d-flex justify-content-center">
+                                                    <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button> . . . </li>
+                                                </div>
+                                                <?php
+                                            }
                                             ?>
-                                            <p class="text-light pt-3 px-2"> . . . </p>
-                                            <li class="page-item"><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?=(int)$maks?></button></li>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                <li class="page-item"><button type="submit" name="page0" class="btn text-light border border-0"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                                            </div>
                                             <?php
-                                        }
-                                        ?>
-                                        <button type="submit" class="btn text-light border border-0" name="pageSekarangPlus1" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </button>
-                                        </li>
+                                            if (($_SESSION["productCount"] / 30) > 1) {
+                                            ?>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                                            </div>
+                                            <?php
+                                            }
+                                            if (($_SESSION["productCount"] / 30) > 2) {
+                                            ?>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                                            </div>
+                                            <?php
+                                            }
+                                            if (($_SESSION["productCount"] / 30) > 3) {
+                                            ?>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                                            </div>
+                                            <?php
+                                            }
+                                            if (($_SESSION["productCount"] / 30) > 4) {
+                                            ?>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                            </div>
+                                            <?php
+                                            }
+                                            if($_SESSION["pageSekarang"] < $maks-3 && $_SESSION["paging"][4]["page"]!=(int)$maks){
+                                                ?>
+                                                <div class="col-5 col-xl-2 d-flex justify-content-center">
+                                                    <li class="page-item text-light"> . . . <button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?=(int)$maks?></button></li>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
+                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                <button type="submit" class="btn text-light border border-0" name="pageSekarangPlus1" aria-label="Next">
+                                                    <span aria-hidden="true">&raquo;</span>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </ul>
+                                </div>
+                                <div class="col-12 d-flex justify-content-center">
+                                    <h5 class="text-dark">Page <?=$_SESSION["pageSekarang"]?> of <?=(int)$maks?></h5>
                                 </div>
                             </form>
                         </div>
