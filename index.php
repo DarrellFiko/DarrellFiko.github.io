@@ -504,7 +504,7 @@ if (isset($_POST["detail"])) {
                             <h1>New Collections</h1>
                         </div>
                         <div class="col-12">
-                            <?php
+                            <?php 
                             if(($_SESSION["pageSekarang"])*30<$_SESSION["productCount"]){
                                 ?>
                                 <h5>Result <?=($_SESSION["pageSekarang"]-1)*30+1?> - <?=($_SESSION["pageSekarang"])*30?> of <?=$_SESSION["productCount"]?></h5>
