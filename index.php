@@ -50,135 +50,145 @@ if (!isset($_SESSION["paging"])) {
 }
 
 // AMBIL MERK ATAU BRAND
-if (isset($_POST["allBrands"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["brand"] = "";
-    if ($_SESSION["category"] != "") {
-        $tempCategory = $_SESSION["category"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = '$tempCategory'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Nike"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["brand"] = "nike";
-    if ($_SESSION["category"] != "") {
-        $tempCategory = $_SESSION["category"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike' AND category = '$tempCategory'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Adidas"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["brand"] = "adidas";
-    if ($_SESSION["category"] != "") {
-        $tempCategory = $_SESSION["category"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas' AND category = '$tempCategory'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Puma"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["brand"] = "puma";
-    if ($_SESSION["category"] != "") {
-        $tempCategory = $_SESSION["category"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma' AND category = '$tempCategory'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
+// if (isset($_POST["allBrands"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["brand"] = "";
+//     if ($_SESSION["category"] != "") {
+//         $tempCategory = $_SESSION["category"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = '$tempCategory'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Nike"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["brand"] = "nike";
+//     if ($_SESSION["category"] != "") {
+//         $tempCategory = $_SESSION["category"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike' AND category = '$tempCategory'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Adidas"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["brand"] = "adidas";
+//     if ($_SESSION["category"] != "") {
+//         $tempCategory = $_SESSION["category"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas' AND category = '$tempCategory'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Puma"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["brand"] = "puma";
+//     if ($_SESSION["category"] != "") {
+//         $tempCategory = $_SESSION["category"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma' AND category = '$tempCategory'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
 
 // AMBIL KATEGORI
-if (isset($_POST["allCategories"])) {
+// if (isset($_POST["allCategories"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Shoes"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "shoes";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shoes'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shoes'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Balls"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "balls";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'balls'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'balls'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Jersey"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "jerseys";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'jerseys'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'jerseys'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Gloves"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "gloves";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'gloves'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'gloves'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+// if (isset($_POST["Guards"])) {
+//     time_nanosleep(0, 350000000);
+//     $_SESSION["category"] = "shinGuards";
+//     if ($_SESSION["brand"] != "") {
+//         $tempBrand = $_SESSION["brand"];
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shinGuards'");
+//     } else {
+//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shinGuards'");
+//     }
+//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+//     resetPaging();
+//     header("Location: #collections");
+// }
+
+// FILTER
+if (isset($_POST["filter"])) {
     time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Shoes"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "shoes";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shoes'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shoes'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Balls"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "balls";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'balls'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'balls'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Jersey"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "jerseys";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'jerseys'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'jerseys'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Gloves"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "gloves";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'gloves'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'gloves'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    resetPaging();
-    header("Location: #collections");
-}
-if (isset($_POST["Guards"])) {
-    time_nanosleep(0, 350000000);
-    $_SESSION["category"] = "shinGuards";
-    if ($_SESSION["brand"] != "") {
-        $tempBrand = $_SESSION["brand"];
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shinGuards'");
-    } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shinGuards'");
-    }
-    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+
+    alert("filter");
+
     resetPaging();
     header("Location: #collections");
 }
@@ -402,7 +412,7 @@ if (isset($_POST["detail"])) {
                     foreach ($_SESSION["cbBrand"] as $key => $value) {
                     ?>
                         <tr class="text-light">
-                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?= $value["brand"] ?></td>
+                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterBrand[]" id=""> <?= $value["brand"] ?></td>
                         </tr>
                     <?php
                     }
@@ -418,7 +428,7 @@ if (isset($_POST["detail"])) {
                     foreach ($_SESSION["cbCategories"] as $key => $value) {
                     ?>
                         <tr class="text-light">
-                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="" id=""> <?= $value["categories"] ?></td>
+                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterKategori[]" id=""> <?= $value["categories"] ?></td>
                         </tr>
                     <?php
                     }
@@ -426,7 +436,7 @@ if (isset($_POST["detail"])) {
                 </table>
 
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-outline-light text-light">Filter</button>
+                    <button type="submit" class="btn btn-outline-light text-light" name="filter">Filter</button>
                 </div>
             </div>
         </form>
