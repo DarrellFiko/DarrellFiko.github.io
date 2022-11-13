@@ -187,7 +187,8 @@ if (isset($_POST["Guards"])) {
 //SEARCH
 if (isset($_POST["search"])) {
     $_SESSION["input"] = $_POST["input"];
-    $_SESSION["listProduk"] = query("SELECT * FROM product WHERE name LiKE '%" . $_SESSION["input"] . "%' OR brand LiKE '%" . $_SESSION["input"] . "%' OR category LiKE '%" . $_SESSION["input"] . "%'");
+    alert($_SESSION["input"]);
+    $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     resetPaging();
     header("Location: #collections");
@@ -423,6 +424,10 @@ if (isset($_POST["detail"])) {
                     }
                     ?>
                 </table>
+
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-outline-light text-light">Filter</button>
+                </div>
             </div>
         </form>
     </div>
