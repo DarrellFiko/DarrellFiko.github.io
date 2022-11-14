@@ -333,6 +333,7 @@ if (isset($_POST["detail"])) {
     <title>Sport Station</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <script src="jquery-3.6.1.min.js"></script>
 </head>
 
 <script>
@@ -403,37 +404,41 @@ if (isset($_POST["detail"])) {
 
                 <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
 
-                <h2 class="text-white">
+                <h2 class="text-white klikBrand">
                     Brand
                 </h2>
-                <table class="text-light ms-5">
-                    <?php
-                    // GANTI ARRAY BRAND
-                    foreach ($_SESSION["cbBrand"] as $key => $value) {
-                    ?>
-                        <tr class="text-light">
-                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterBrand[]" id=""> <?= $value["brand"] ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </table>
+                <div class="toogleBrand">
+                    <table class="text-light ms-5">
+                        <?php
+                        // GANTI ARRAY BRAND
+                        foreach ($_SESSION["cbBrand"] as $key => $value) {
+                        ?>
+                            <tr class="text-light">
+                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterBrand[]" id=""> <?= $value["brand"] ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                </div>
 
-                <h2 class="text-white mt-5">
+                <h2 class="text-white mt-5 klikCategories">
                     Categories
                 </h2>
-                <table class="text-light ms-5 mb-5">
-                    <?php
-                    // GANTI ARRAY BRAND
-                    foreach ($_SESSION["cbCategories"] as $key => $value) {
-                    ?>
-                        <tr class="text-light">
-                            <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterKategori[]" id=""> <?= $value["categories"] ?></td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </table>
+                <div class="toogleCategories">
+                    <table class="text-light ms-5 mb-5">
+                        <?php
+                        // GANTI ARRAY BRAND
+                        foreach ($_SESSION["cbCategories"] as $key => $value) {
+                        ?>
+                            <tr class="text-light">
+                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterKategori[]" id=""> <?= $value["categories"] ?></td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                </div>
 
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-outline-light text-light" name="filter">Filter</button>
@@ -567,7 +572,9 @@ if (isset($_POST["detail"])) {
                                                 </li>
                                             </div>
                                             <?php
+                                            $adaSatu = false;
                                             if ($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"] != 1) {
+                                                $adaSatu = true;
                                             ?>
                                                 <div class="col-5 col-xl-2 d-flex justify-content-center">
                                                     <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button><span class="text-light"> . . . </span></li>
@@ -608,11 +615,19 @@ if (isset($_POST["detail"])) {
                                             <?php
                                             }
                                             if ($_SESSION["pageSekarang"] < $maks - 3 && $_SESSION["paging"][4]["page"] != (int)$maks) {
+                                                if ($adaSatu) {
                                             ?>
-                                                <div class="col-5 col-xl-2 d-flex justify-content-center">
+                                                <div class="col-5 col-xl-2">
                                                     <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
                                                 </div>
                                             <?php
+                                                }else{
+                                                    ?>
+                                                    <div class="col-5 col-xl-3">
+                                                        <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
+                                                    </div>
+                                                    <?php
+                                                }
                                             }
                                             ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center">
@@ -677,6 +692,13 @@ if (isset($_POST["detail"])) {
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
             }
+
+            $('.klikBrand').click(function(){
+                $('.toogleBrand').slideToggle();
+            });
+            $('.klikCategories').click(function(){
+                $('.toogleCategories').slideToggle();
+            });
         </script>
 </body>
 
