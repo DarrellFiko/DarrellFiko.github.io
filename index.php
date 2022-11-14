@@ -598,34 +598,76 @@ if (isset($_POST["detail"])) {
                 <div class="d-flex justify-content-center">
                     <div class="container text-center mt-4 py-5">
                         <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
-                            <div class="col-6 d-flex justify-content-start align-items-center">
+                            <div class="col-12 text-center">
+                                <h1>Details</h1>
+                            </div>
+                            <div class="col-12 col-xl-6 d-flex justify-content-start align-items-center">
                                 <?php
                                 $image = $produkDetail[0]["image_produk"];
                                 $image = base64_decode($image);
                                 echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
                                 ?>
                             </div>
-                            <div class="bg-dark col-6 text-start text-light d-flex align-items-center">
+                            <div class="col-12 col-xl-6 px-5 py-5 d-flex align-items-center">
                                 <div class="row">
-                                    <div class="col-12">
-                                        <h5><?= $produkDetail[0]["name_produk"] ?></h5>
+                                    <div class="col-12 text-dark text-start">
+                                        <h1><?= $produkDetail[0]["name_produk"] ?></h1>
                                     </div>
-                                    <div class="col-12">
-                                        <p><?= $produkDetail[0]["description_produk"] ?></p>
+                                    <div class=" py-3 col-12 pb-4 text-danger  text-start">
+                                        <div class="row">
+                                            <div class="col-1">
+                                                <h3>$</h3>
+                                            </div>
+                                            <div class="col-9">
+                                                <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-12">
-                                        <p><?= $produkDetail[0]["price_produk"] ?></p>
+                                    <div class="col-12 pb-4 text-start">
+                                        <hr>
+                                    </div>
+                                    <div class="col-12 pb-4">
+                                        <div class="row">
+                                            <div class="col-5 col-xl-1">
+                                                <h5>Quantity:</h5>
+                                            </div>
+                                            <div class="col-5 col-xl-9">
+                                                <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="" id="quantity" min="0" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pb-4 text-start">
+                                        <div class="row">
+                                            <div class="col-7 col-xl-3">
+                                                <h3>Total: $</h3>
+                                            </div>
+                                            <div class="col-4 col-xl-7 text-danger">
+                                                <h3 id="totalHarga">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 pb-4 text-start">
+                                        <button type="button" class="btn btn-success d-flex justify-content-center align-items-center">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt=""></button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
+                            <div class="col-12 py-5 text-start d-flex align-items-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h3>Description : </h3>
+                                        <hr>
+                                    </div>
+                                    <div class="col-12">
+                                        <p style="font-size: 18px"><?= $produkDetail[0]["description_produk"] ?></p>
+                                    </div>
+                                </div>
+                            </div>
 
                         <!-- MAILER -->
                         <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
                             <div class="row my-5 d-flex justify-content-center">
                                 <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                    <h1 class="text-light">Contact Us</h1>
+                                    <h1 class="text-light">Review</h1>
                                 </div>
                                 <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
                                     <div class="form-floating mb-3 w-100">
@@ -641,8 +683,8 @@ if (isset($_POST["detail"])) {
                                 </div>
                                 <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
                                     <div class="form-floating mb-3 w-100">
-                                        <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                        <label for="floatingInput">Message</label>
+                                        <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                        <label for="floatingInput">Your Review</label>
                                     </div>
                                 </div>
                                 <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
@@ -691,6 +733,14 @@ if (isset($_POST["detail"])) {
                 $('#iconCategory').attr('name', 'expand');
             }
         });
+
+        function updateTotalHarga(){
+            tempJumlah = document.getElementById("quantity").value;
+            jumlah = parseFloat(tempJumlah);
+            tempHarga = document.getElementById("hargaProduk").innerText;
+            harga = parseFloat(tempHarga);
+            document.getElementById("totalHarga").innerText = tempJumlah*harga;
+        }
     </script>
 </body>
 
