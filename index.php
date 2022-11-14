@@ -54,140 +54,6 @@ if (!isset($_SESSION["paging"])) {
     resetPaging();
 }
 
-// AMBIL MERK ATAU BRAND
-// if (isset($_POST["allBrands"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["brand"] = "";
-//     if ($_SESSION["category"] != "") {
-//         $tempCategory = $_SESSION["category"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = '$tempCategory'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Nike"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["brand"] = "nike";
-//     if ($_SESSION["category"] != "") {
-//         $tempCategory = $_SESSION["category"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike' AND category = '$tempCategory'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'nike'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Adidas"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["brand"] = "adidas";
-//     if ($_SESSION["category"] != "") {
-//         $tempCategory = $_SESSION["category"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas' AND category = '$tempCategory'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'adidas'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Puma"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["brand"] = "puma";
-//     if ($_SESSION["category"] != "") {
-//         $tempCategory = $_SESSION["category"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma' AND category = '$tempCategory'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = 'puma'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-
-// AMBIL KATEGORI
-// if (isset($_POST["allCategories"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Shoes"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "shoes";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shoes'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shoes'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Balls"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "balls";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'balls'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'balls'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Jersey"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "jerseys";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'jerseys'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'jerseys'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Gloves"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "gloves";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'gloves'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'gloves'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-// if (isset($_POST["Guards"])) {
-//     time_nanosleep(0, 350000000);
-//     $_SESSION["category"] = "shinGuards";
-//     if ($_SESSION["brand"] != "") {
-//         $tempBrand = $_SESSION["brand"];
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE brand = '$tempBrand' AND category = 'shinGuards'");
-//     } else {
-//         $_SESSION["listProduk"] = query("SELECT * FROM product WHERE category = 'shinGuards'");
-//     }
-//     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-//     resetPaging();
-//     header("Location: #collections");
-// }
-
 // FILTER
 if (isset($_POST["filter"])) {
     time_nanosleep(0, 350000000);
@@ -329,13 +195,21 @@ if (isset($_POST["pageTerakhir"])) {
 
 if (isset($_POST["detail"])) {
     //GANTIII
-    if($_SESSION["tempIdDetail"] != -1){
-        //Munculkan detail
+    if (isset($_POST["idDetail"])) {
+        $id = $_POST["idDetail"];
+        $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
         $_SESSION["masukDetail"] = true;
-        $tempIdQuery = $_SESSION["tempIdDetail"];
-        $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$tempIdQuery'");
-        // alert($produkDetail[0]["id_produk"]);
     }
+
+    // if ($_SESSION["tempIdDetail"] != -1) {
+    //     //Munculkan detail
+    //     $_SESSION["masukDetail"] = true;
+    //     $tempIdQuery = $_SESSION["tempIdDetail"];
+    //     alert($_SESSION["tempIdDetail"]);
+
+    //     $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$tempIdQuery'");
+    //     // alert($produkDetail[0]["id_produk"]);
+    // }
 }
 ?>
 
@@ -479,8 +353,8 @@ if (isset($_POST["detail"])) {
     </div>
 
     <?php
-    if($_SESSION["masukDetail"]==false){
-        ?>
+    if ($_SESSION["masukDetail"] == false) {
+    ?>
         <div class="container-fluid bgGradient">
             <div class="" style="margin-left: 60px;">
                 <!-- carousel -->
@@ -568,13 +442,13 @@ if (isset($_POST["detail"])) {
                                 $image = $product["image_produk"];
                                 $image = base64_decode($image);
                                 //PASSINGG
-                                $_SESSION["tempIdDetail"] = $id;
                                 $temp++;
                                 if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
                             ?>
                                     <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
                                         <form action="" method="post">
                                             <button class="bg-transparent border border-0" name="detail">
+                                                <input type="hidden" name="idDetail" value="<?= $id ?>">
                                                 <div class="img-fluid">
                                                     <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
                                                         <?php
@@ -716,30 +590,32 @@ if (isset($_POST["detail"])) {
                 </div>
             </div>
         </div>
-        <?php
-    }else{
-        ?>
+    <?php
+    } else {
+    ?>
         <div class="container-fluid bgGradient">
             <div class="" style="margin-left: 60px;">
                 <div class="d-flex justify-content-center">
                     <div class="container text-center mt-4 py-5">
                         <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
-                            <div class="col-6">
+                            <div class="col-6 d-flex justify-content-start align-items-center">
                                 <?php
                                 $image = $produkDetail[0]["image_produk"];
                                 $image = base64_decode($image);
                                 echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
                                 ?>
                             </div>
-                            <div class="overflow-auto col-6 ">
-                                <div class="bg-dark">
-                                    <?php
-                                    for ($i=0; $i < 100; $i++) { 
-                                        ?>
-                                        <p class="text-light">test</p>
-                                        <?php
-                                    }
-                                    ?>
+                            <div class="bg-dark col-6 text-start text-light d-flex align-items-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5><?= $produkDetail[0]["name_produk"] ?></h5>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><?= $produkDetail[0]["description_produk"] ?></p>
+                                    </div>
+                                    <div class="col-12">
+                                        <p><?= $produkDetail[0]["price_produk"] ?></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -779,43 +655,43 @@ if (isset($_POST["detail"])) {
                 </div>
             </div>
         </div>
-        <?php
+    <?php
     }
     ?>
-        <!-- test -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <!-- test -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-        <!-- script buat open scroll yang dikiri -->
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
+    <!-- script buat open scroll yang dikiri -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+        $('.klikBrand').click(function() {
+            $('.toogleBrand').slideToggle();
+            if ($('#iconBrand').attr('name') == "expand") {
+                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                $('#iconBrand').attr('name', 'collapse');
+            } else if ($('#iconBrand').attr('name') == "collapse") {
+                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                $('#iconBrand').attr('name', 'expand');
             }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
+        });
+        $('.klikCategories').click(function() {
+            $('.toogleCategories').slideToggle();
+            if ($('#iconCategory').attr('name') == "expand") {
+                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                $('#iconCategory').attr('name', 'collapse');
+            } else if ($('#iconBrand').attr('name') == "collapse") {
+                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                $('#iconCategory').attr('name', 'expand');
             }
-
-            $('.klikBrand').click(function() {
-                $('.toogleBrand').slideToggle();
-                if ($('#iconBrand').attr('name') == "expand") {
-                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                    $('#iconBrand').attr('name', 'collapse');
-                } else if ($('#iconBrand').attr('name') == "collapse") {
-                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                    $('#iconBrand').attr('name', 'expand');
-                }
-            });
-            $('.klikCategories').click(function() {
-                $('.toogleCategories').slideToggle();
-                if ($('#iconCategory').attr('name') == "expand") {
-                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                    $('#iconCategory').attr('name', 'collapse');
-                } else if ($('#iconBrand').attr('name') == "collapse") {
-                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                    $('#iconCategory').attr('name', 'expand');
-                }
-            });
-        </script>
+        });
+    </script>
 </body>
 
 </html>
