@@ -216,6 +216,74 @@ if (isset($_POST["detail"])) {
     //     // alert($produkDetail[0]["id_produk"]);
     // }
 }
+
+if (isset($_POST["btnFilter"])) {
+
+    // alert("filter");
+
+    $brandFilter = [];
+    if (!empty($_POST["filterBrand"])) {
+        foreach ($_POST["filterBrand"] as $value) {
+            // alert("brand : " . $value);
+            $brands = query("SELECT * FROM brand WHERE name_brand = '$value'");
+            array_push($brandFilter, $brands[0]["id_brand"]);
+        }
+    }
+
+    // var_dump($brandFilter);
+
+    $kategoriFilter = [];
+    if (!empty($_POST["filterKategori"])) {
+
+        foreach ($_POST["filterKategori"] as $value) {
+            // alert("kategori : " . $value);
+            $kategories = query("SELECT * FROM kategori WHERE name_kategori = '$value'");
+            array_push($kategoriFilter, $kategories[0]["id_kategori"]);
+        }
+    }
+
+    // var_dump($kategoriFilter);
+
+    if (count($brandFilter) > 0 || count($kategoriFilter) > 0) {
+
+        $query = 'SELECT * FROM produk WHERE';
+
+        for ($i = 0; $i < count($brandFilter); $i++) {
+            $filter = $brandFilter[$i];
+            if ($i == 0) {
+                $temp = ' (id_brand LIKE "%' . $filter . '%"';
+            } else {
+                $temp = ' OR id_brand LIKE "%' . $filter . '%"';
+            }
+            $query .= $temp;
+        }
+        if (count($brandFilter) > 0) {
+            $query .= ')';
+        }
+
+        for ($i = 0; $i < count($kategoriFilter); $i++) {
+            $filter = $kategoriFilter[$i];
+            if ($i == 0 && count($brandFilter) > 0) {
+                $temp = ' AND (id_kategori LIKE "%' . $filter . '%"';
+            } else if ($i == 0) {
+                $temp = ' (id_kategori LIKE "%' . $filter . '%"';
+            } else {
+                $temp = ' OR id_kategori LIKE "%' . $filter . '%"';
+            }
+            $query .= $temp;
+        }
+        if (count($kategoriFilter) > 0) {
+            $query .= ')';
+        }
+
+        // echo "<script>console.log('$query')</script>";
+
+        $_SESSION["listProduk"] = query($query);
+        $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+        resetPaging();
+        header("Location: #collections");
+    }
+}
 ?>
 
 <!doctype html>
@@ -299,8 +367,8 @@ if (isset($_POST["detail"])) {
         </div>
 
         <!-- kategori -->
-        <form action="" method="post">
-            <div id="mySidenav" class="sidenav">
+        <div id="mySidenav" class="sidenav">
+            <form action="" method="post">
 
                 <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
 
@@ -319,7 +387,7 @@ if (isset($_POST["detail"])) {
                         foreach ($_SESSION["cbBrand"] as $key => $value) {
                         ?>
                             <tr class="text-light">
-                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterBrand[]" id=""> <?= $value["brand"] ?></td>
+                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterBrand[]" id="" value='<?= $value["brand"] ?>'> <?= $value["brand"] ?></td>
                             </tr>
                         <?php
                         }
@@ -342,7 +410,7 @@ if (isset($_POST["detail"])) {
                         foreach ($_SESSION["cbCategories"] as $key => $value) {
                         ?>
                             <tr class="text-light">
-                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterKategori[]" id=""> <?= $value["categories"] ?></td>
+                                <td class="text-light py-2"><input type="checkbox" style="width: 17px; height: 17px;" name="filterKategori[]" id="" value='<?= $value["categories"] ?>'> <?= $value["categories"] ?></td>
                             </tr>
                         <?php
                         }
@@ -351,10 +419,10 @@ if (isset($_POST["detail"])) {
                 </div>
 
                 <div class="d-flex justify-content-center mt-3">
-                    <button type="submit" class="btn btn-outline-light text-light" name="filter">Filter</button>
+                    <button type="submit" class="btn btn-outline-light text-light" name="btnFilter">Filter</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
     <?php
@@ -677,85 +745,85 @@ if (isset($_POST["detail"])) {
                                 </div>
                             </div>
 
-                        <!-- MAILER -->
-                        <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                            <div class="row my-5 d-flex justify-content-center">
-                                <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                    <h1 class="text-light">Review</h1>
-                                </div>
-                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                    <div class="form-floating mb-3 w-100">
-                                        <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                                        <label for="floatingInput">Name</label>
+                            <!-- MAILER -->
+                            <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                                <div class="row my-5 d-flex justify-content-center">
+                                    <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
+                                        <h1 class="text-light">Review</h1>
                                     </div>
-                                </div>
-                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                    <div class="form-floating mb-3 w-100">
-                                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                                        <label for="floatingInput">Email address</label>
+                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                        <div class="form-floating mb-3 w-100">
+                                            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                                            <label for="floatingInput">Name</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                    <div class="form-floating mb-3 w-100">
-                                        <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                        <label for="floatingInput">Your Review</label>
+                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                        <div class="form-floating mb-3 w-100">
+                                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                            <label for="floatingInput">Email address</label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                                    <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                                    <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                        <div class="form-floating mb-3 w-100">
+                                            <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                            <label for="floatingInput">Your Review</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
+                                        <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
+                                        <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    <?php
+        <?php
     }
-    ?>
-    <!-- test -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+        ?>
+        <!-- test -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-    <!-- script buat open scroll yang dikiri -->
-    <script>
-        function openNav() {
-            document.getElementById("mySidenav").style.width = "250px";
-        }
-
-        function closeNav() {
-            document.getElementById("mySidenav").style.width = "0";
-        }
-
-        $('.klikBrand').click(function() {
-            $('.toogleBrand').slideToggle();
-            if ($('#iconBrand').attr('name') == "expand") {
-                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                $('#iconBrand').attr('name', 'collapse');
-            } else if ($('#iconBrand').attr('name') == "collapse") {
-                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                $('#iconBrand').attr('name', 'expand');
+        <!-- script buat open scroll yang dikiri -->
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
             }
-        });
-        $('.klikCategories').click(function() {
-            $('.toogleCategories').slideToggle();
-            if ($('#iconCategory').attr('name') == "expand") {
-                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                $('#iconCategory').attr('name', 'collapse');
-            } else if ($('#iconBrand').attr('name') == "collapse") {
-                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                $('#iconCategory').attr('name', 'expand');
-            }
-        });
 
-        function updateTotalHarga(){
-            tempJumlah = document.getElementById("quantity").value;
-            jumlah = parseFloat(tempJumlah);
-            tempHarga = document.getElementById("hargaProduk").innerText;
-            harga = parseFloat(tempHarga);
-            document.getElementById("totalHarga").innerText = tempJumlah*harga;
-        }
-    </script>
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+
+            $('.klikBrand').click(function() {
+                $('.toogleBrand').slideToggle();
+                if ($('#iconBrand').attr('name') == "expand") {
+                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                    $('#iconBrand').attr('name', 'collapse');
+                } else if ($('#iconBrand').attr('name') == "collapse") {
+                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                    $('#iconBrand').attr('name', 'expand');
+                }
+            });
+            $('.klikCategories').click(function() {
+                $('.toogleCategories').slideToggle();
+                if ($('#iconCategory').attr('name') == "expand") {
+                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                    $('#iconCategory').attr('name', 'collapse');
+                } else if ($('#iconCategory').attr('name') == "collapse") {
+                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                    $('#iconCategory').attr('name', 'expand');
+                }
+            });
+
+            function updateTotalHarga() {
+                tempJumlah = document.getElementById("quantity").value;
+                jumlah = parseFloat(tempJumlah);
+                tempHarga = document.getElementById("hargaProduk").innerText;
+                harga = parseFloat(tempHarga);
+                document.getElementById("totalHarga").innerText = tempJumlah * harga;
+            }
+        </script>
 </body>
 
 </html>
