@@ -13,6 +13,10 @@
 	padding-bottom: 70px;
 }
 
+.fixed{
+	position: fixed;
+}
+
 /* Hide Scroll Bar */
 *{
 	-ms-overflow-style: none;  /* IE and Edge */

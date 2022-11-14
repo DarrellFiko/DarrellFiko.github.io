@@ -1,6 +1,12 @@
 <?php
 require("functions.php");
 
+if (!isset($_SESSION["masukDetail"])) {
+    $_SESSION["masukDetail"] = false;
+}
+if (!isset($_SESSION["tempIdDetail"])) {
+    $_SESSION["tempIdDetail"] = -1;
+}
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
 if (!isset($_SESSION["cbBrand"])) {
     $_SESSION["cbBrand"] = [];
@@ -195,6 +201,9 @@ if (isset($_POST["filter"])) {
 
 //SEARCH
 if (isset($_POST["search"])) {
+    //Munculkan semua
+    $_SESSION["masukDetail"] = false;
+
     $_SESSION["input"] = $_POST["input"];
     alert($_SESSION["input"]);
     $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%'");
@@ -319,7 +328,14 @@ if (isset($_POST["pageTerakhir"])) {
 }
 
 if (isset($_POST["detail"])) {
-    alert("test");
+    //GANTIII
+    if($_SESSION["tempIdDetail"] != -1){
+        //Munculkan detail
+        $_SESSION["masukDetail"] = true;
+        $tempIdQuery = $_SESSION["tempIdDetail"];
+        $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$tempIdQuery'");
+        // alert($produkDetail[0]["id_produk"]);
+    }
 }
 ?>
 
@@ -409,9 +425,14 @@ if (isset($_POST["detail"])) {
 
                 <button type="button" class="closebtn bg-transparent text-white border border-0" onclick="closeNav()" class="btn btn-link">&times;</button>
 
-                <h2 class="text-white klikBrand">
-                    Brand
-                </h2>
+                <div class="d-flex justify-content-between align-items-center klikBrand">
+                    <span class="fs-3 text-white ms-4">
+                        Brand
+                    </span>
+                    <div id="iconBrand" name="collapse">
+                        <i class="fa-sharp fa-solid fa-arrow-up text-light me-4"></i>
+                    </div>
+                </div>
                 <div class="toogleBrand">
                     <table class="text-light ms-5">
                         <?php
@@ -427,11 +448,16 @@ if (isset($_POST["detail"])) {
                     </table>
                 </div>
 
-                <h2 class="text-white mt-2 klikCategories">
-                    Categories
-                </h2>
+                <div class="mt-2 d-flex justify-content-between align-items-center klikCategories">
+                    <span class="fs-3 text-white ms-4">
+                        Categories
+                    </span>
+                    <div id="iconCategory" name="collapse">
+                        <i class="fa-sharp fa-solid fa-arrow-up text-light me-4"></i>
+                    </div>
+                </div>
                 <div class="toogleCategories">
-                    <table class="text-light ms-5 mb-2">
+                    <table class="text-light ms-5">
                         <?php
                         // GANTI ARRAY BRAND
                         foreach ($_SESSION["cbCategories"] as $key => $value) {
@@ -445,247 +471,317 @@ if (isset($_POST["detail"])) {
                     </table>
                 </div>
 
-                <div class="d-flex justify-content-center">
+                <div class="d-flex justify-content-center mt-3">
                     <button type="submit" class="btn btn-outline-light text-light" name="filter">Filter</button>
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="container-fluid bgGradient">
-        <div class="" style="margin-left: 60px;">
-            <!-- carousel -->
-            <div class="d-flex justify-content-center">
-                <div class="col-1"></div>
-                <div class="col-10 my-5 ">
-                    <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner shadow ">
-                            <div class="carousel-item active" data-bs-interval="2000">
-                                <img src="asset/sepatu1.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/sepatu2.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/sepatu3.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/ball1.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/gloves1.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/gloves2.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/gloves3.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/jersey1.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/brand1.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/brand2.jpg" class="d-block w-100 rounded-4" alt="...">
-                            </div>
-                            <div class="carousel-item" data-bs-interval="2000">
-                                <img src="asset/brand3.jpg" class="d-block w-100 rounded-4" alt="...">
+    <?php
+    if($_SESSION["masukDetail"]==false){
+        ?>
+        <div class="container-fluid bgGradient">
+            <div class="" style="margin-left: 60px;">
+                <!-- carousel -->
+                <div class="d-flex justify-content-center">
+                    <div class="col-1"></div>
+                    <div class="col-10 my-5 ">
+                        <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner shadow ">
+                                <div class="carousel-item active" data-bs-interval="2000">
+                                    <img src="asset/sepatu1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/sepatu2.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/sepatu3.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/ball1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/gloves1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/gloves2.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/gloves3.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/jersey1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/brand1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/brand2.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="asset/brand3.jpg" class="d-block w-100 rounded-4" alt="...">
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-1"></div>
+                    <!-- tutup carousel -->
                 </div>
-                <div class="col-1"></div>
-                <!-- tutup carousel -->
             </div>
-        </div>
 
-        <!-- untuk paging -->
-        <div id="collections" class="pt-5"></div>
+            <!-- untuk paging -->
+            <div id="collections" class="pt-5"></div>
 
-        <div class="" style="margin-left: 60px;">
-            <div class="d-flex justify-content-center">
-                <div class="container text-center mt-4 pb-5">
-                    <!-- CARD -->
-                    <div class="row d-flex justify-content-center glass pt-4">
-                        <div class="col-12">
-                            <h1>New Collections</h1>
-                        </div>
-                        <div class="col-12">
+            <div class="" style="margin-left: 60px;">
+                <div class="d-flex justify-content-center">
+                    <div class="container text-center mt-4 pb-5">
+                        <!-- CARD -->
+                        <div class="row d-flex justify-content-center glass pt-4">
+                            <div class="col-12">
+                                <h1>New Collections</h1>
+                            </div>
+                            <div class="col-12">
+                                <?php
+                                if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
+                                ?>
+                                    <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
+                                <?php
+                                } else {
+                                ?>
+                                    <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
+
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <div class="col-12 text-dark">
+                                <hr style="font-weight: bold; color: black;">
+                            </div>
                             <?php
-                            if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
+                            $temp = 0;
+                            // GANTI MAKS ARRAY
+                            foreach ($_SESSION["listProduk"] as $product) {
+                                $id = $product["id_produk"];
+                                $name = $product["name_produk"];
+                                $price = $product["price_produk"];
+                                $image = $product["image_produk"];
+                                $image = base64_decode($image);
+                                //PASSINGG
+                                $_SESSION["tempIdDetail"] = $id;
+                                $temp++;
+                                if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
                             ?>
-                                <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
-                            <?php
-                            } else {
-                            ?>
-                                <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
-
-                            <?php
-                            }
-                            ?>
-                        </div>
-                        <div class="col-12 text-dark">
-                            <hr style="font-weight: bold; color: black;">
-                        </div>
-                        <?php
-                        $temp = 0;
-                        // GANTI MAKS ARRAY
-                        foreach ($_SESSION["listProduk"] as $product) {
-                            $id = $product["id_produk"];
-                            $name = $product["name_produk"];
-                            $price = $product["price_produk"];
-                            $image = $product["image_produk"];
-                            $image = base64_decode($image);
-
-                            $temp++;
-                            if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
-                        ?>
-                                <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
-                                    <form action="" method="post">
-                                        <a class="bg-transparent border border-0" style="text-decoration: none;" name="detail" href="detail.php?id=<?= $id ?>">
-                                            <div class="img-fluid">
-                                                <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
-                                                    <?php
-                                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '" class="card-img-top border-0 img-size" alt="..."/>';
-                                                    ?>
-                                                    <div class="card-body ">
-                                                        <h6 class="card-title mb-2"><?= $name ?></h6>
-                                                        <p class="card-text">$ <?= $price ?></p>
-                                                        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                    <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
+                                        <form action="" method="post">
+                                            <button class="bg-transparent border border-0" name="detail">
+                                                <div class="img-fluid">
+                                                    <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
+                                                        <?php
+                                                        echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '" class="card-img-top border-0 img-size" alt="..."/>';
+                                                        ?>
+                                                        <div class="card-body ">
+                                                            <h6 class="card-title mb-2"><?= $name ?></h6>
+                                                            <p class="card-text">$ <?= $price ?></p>
+                                                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    </form>
-                                </div>
-                        <?php
+                                            </button>
+                                        </form>
+                                    </div>
+                            <?php
+                                }
                             }
-                        }
-                        ?>
-                        <!-- PAGING -->
-                        <div class="row py-3">
-                            <form action="" method="post">
-                                <div class="col-12 d-flex justify-content-center">
-                                    <ul class="pagination d-flex align-items-center justify-content-center img-fluid">
-                                        <div class="row d-flex justify-content-center rounded-pill bg-dark px-2">
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
-                                                <li class="page-item">
-                                                    <button type="submit" class="btn text-light border border-0" name="pageSekarangMin1" aria-label="Previous">
-                                                        <span aria-hidden="true">&laquo;</span>
-                                                    </button>
-                                                </li>
-                                            </div>
-                                            <?php
-                                            $adaSatu = false;
-                                            if ($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"] != 1) {
-                                                $adaSatu = true;
-                                            ?>
-                                                <div class="col-5 col-xl-2 d-flex justify-content-center">
-                                                    <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button><span class="text-light"> . . . </span></li>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                <li class="page-item"><button type="submit" name="page0" class="btn text-light border border-0"><?= $_SESSION["paging"][0]["page"] ?></button></li>
-                                            </div>
-                                            <?php
-                                            if (($_SESSION["productCount"] / 30) > 1) {
-                                            ?>
-                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                    <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
-                                                </div>
-                                            <?php
-                                            }
-                                            if (($_SESSION["productCount"] / 30) > 2) {
-                                            ?>
-                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                    <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
-                                                </div>
-                                            <?php
-                                            }
-                                            if (($_SESSION["productCount"] / 30) > 3) {
-                                            ?>
-                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
-                                                    <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
-                                                </div>
-                                            <?php
-                                            }
-                                            if (($_SESSION["productCount"] / 30) > 4) {
-                                            ?>
+                            ?>
+                            <!-- PAGING -->
+                            <div class="row py-3">
+                                <form action="" method="post">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <ul class="pagination d-flex align-items-center justify-content-center img-fluid">
+                                            <div class="row d-flex justify-content-center rounded-pill bg-dark px-2">
                                                 <div class="col-1 col-xl-1 d-flex justify-content-center">
-                                                    <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                                    <li class="page-item">
+                                                        <button type="submit" class="btn text-light border border-0" name="pageSekarangMin1" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </button>
+                                                    </li>
                                                 </div>
                                                 <?php
-                                            }
-                                            if ($_SESSION["pageSekarang"] < $maks - 3 && $_SESSION["paging"][4]["page"] != (int)$maks) {
-                                                if ($adaSatu) {
+                                                $adaSatu = false;
+                                                if ($_SESSION["pageSekarang"] > 3 && $_SESSION["paging"][0]["page"] != 1) {
+                                                    $adaSatu = true;
                                                 ?>
-                                                    <div class="col-5 col-xl-2">
-                                                        <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
+                                                    <div class="col-5 col-xl-2 d-flex justify-content-center">
+                                                        <li class="page-item text-light"><button type="submit" name="pagePertama" class="btn text-light border border-0">1</button><span class="text-light"> . . . </span></li>
                                                     </div>
                                                 <?php
-                                                } else {
-                                                ?>
-                                                    <div class="col-5 col-xl-3">
-                                                        <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
-                                                    </div>
-                                            <?php
                                                 }
-                                            }
-                                            ?>
-                                            <div class="col-1 col-xl-1 d-flex justify-content-center">
-                                                <button type="submit" class="btn text-light border border-0" name="pageSekarangPlus1" aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </button>
+                                                ?>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                    <li class="page-item"><button type="submit" name="page0" class="btn text-light border border-0"><?= $_SESSION["paging"][0]["page"] ?></button></li>
+                                                </div>
+                                                <?php
+                                                if (($_SESSION["productCount"] / 30) > 1) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page1" class="btn text-light border border-0"><?= $_SESSION["paging"][1]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if (($_SESSION["productCount"] / 30) > 2) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page2" class="btn text-light border border-0"><?= $_SESSION["paging"][2]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if (($_SESSION["productCount"] / 30) > 3) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page3" class="btn text-light border border-0"><?= $_SESSION["paging"][3]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if (($_SESSION["productCount"] / 30) > 4) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                        <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                if ($_SESSION["pageSekarang"] < $maks - 3 && $_SESSION["paging"][4]["page"] != (int)$maks) {
+                                                    if ($adaSatu) {
+                                                    ?>
+                                                        <div class="col-5 col-xl-2">
+                                                            <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
+                                                        </div>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <div class="col-5 col-xl-3">
+                                                            <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
+                                                        </div>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                    <button type="submit" class="btn text-light border border-0" name="pageSekarangPlus1" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                                <div class="col-12 d-flex justify-content-center">
-                                    <h5 class="text-dark">Page <?= $_SESSION["pageSekarang"] ?> of <?= (int)$maks ?></h5>
-                                </div>
-                            </form>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <h5 class="text-dark">Page <?= $_SESSION["pageSekarang"] ?> of <?= (int)$maks ?></h5>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                    </div>
 
 
-                    <!-- MAILER -->
-                    <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                        <div class="row my-5 d-flex justify-content-center">
-                            <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                <h1 class="text-light">Contact Us</h1>
-                            </div>
-                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                <div class="form-floating mb-3 w-100">
-                                    <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                                    <label for="floatingInput">Name</label>
+                        <!-- MAILER -->
+                        <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                            <div class="row my-5 d-flex justify-content-center">
+                                <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
+                                    <h1 class="text-light">Contact Us</h1>
                                 </div>
-                            </div>
-                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                <div class="form-floating mb-3 w-100">
-                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                                    <label for="floatingInput">Email address</label>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                                        <label for="floatingInput">Name</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                <div class="form-floating mb-3 w-100">
-                                    <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                    <label for="floatingInput">Message</label>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                        <label for="floatingInput">Email address</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                                <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                                <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                        <label for="floatingInput">Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
+                                    <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
+                                    <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <?php
+    }else{
+        ?>
+        <div class="container-fluid bgGradient">
+            <div class="" style="margin-left: 60px;">
+                <div class="d-flex justify-content-center">
+                    <div class="container text-center mt-4 py-5">
+                        <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
+                            <div class="col-6">
+                                <?php
+                                $image = $produkDetail[0]["image_produk"];
+                                $image = base64_decode($image);
+                                echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
+                                ?>
+                            </div>
+                            <div class="overflow-auto col-6 ">
+                                <div class="bg-dark">
+                                    <?php
+                                    for ($i=0; $i < 100; $i++) { 
+                                        ?>
+                                        <p class="text-light">test</p>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
 
+
+                        <!-- MAILER -->
+                        <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                            <div class="row my-5 d-flex justify-content-center">
+                                <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
+                                    <h1 class="text-light">Contact Us</h1>
+                                </div>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                                        <label for="floatingInput">Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                        <label for="floatingInput">Email address</label>
+                                    </div>
+                                </div>
+                                <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                    <div class="form-floating mb-3 w-100">
+                                        <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                        <label for="floatingInput">Message</label>
+                                    </div>
+                                </div>
+                                <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
+                                    <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
+                                    <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
         <!-- test -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
@@ -701,9 +797,23 @@ if (isset($_POST["detail"])) {
 
             $('.klikBrand').click(function() {
                 $('.toogleBrand').slideToggle();
+                if ($('#iconBrand').attr('name') == "expand") {
+                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                    $('#iconBrand').attr('name', 'collapse');
+                } else if ($('#iconBrand').attr('name') == "collapse") {
+                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                    $('#iconBrand').attr('name', 'expand');
+                }
             });
             $('.klikCategories').click(function() {
                 $('.toogleCategories').slideToggle();
+                if ($('#iconCategory').attr('name') == "expand") {
+                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                    $('#iconCategory').attr('name', 'collapse');
+                } else if ($('#iconBrand').attr('name') == "collapse") {
+                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                    $('#iconCategory').attr('name', 'expand');
+                }
             });
         </script>
 </body>
