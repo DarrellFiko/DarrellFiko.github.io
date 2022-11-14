@@ -1,5 +1,4 @@
 <?php
-require_once("connection.php");
 require("functions.php");
 
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
@@ -539,7 +538,7 @@ if (isset($_POST["detail"])) {
                         ?>
                                 <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
                                     <form action="" method="post">
-                                        <a class="bg-transparent border border-0" style="text-decoration: none;" name="detail" href="detail.php?id=<?=$id?>">
+                                        <a class="bg-transparent border border-0" style="text-decoration: none;" name="detail" href="detail.php?id=<?= $id ?>">
                                             <div class="img-fluid">
                                                 <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
                                                     <?php
@@ -613,21 +612,21 @@ if (isset($_POST["detail"])) {
                                                 <div class="col-1 col-xl-1 d-flex justify-content-center">
                                                     <li class="page-item"><button type="submit" name="page4" class="btn text-light border border-0"><?= $_SESSION["paging"][4]["page"] ?></button></li>
                                                 </div>
-                                            <?php
+                                                <?php
                                             }
                                             if ($_SESSION["pageSekarang"] < $maks - 3 && $_SESSION["paging"][4]["page"] != (int)$maks) {
                                                 if ($adaSatu) {
-                                            ?>
-                                                <div class="col-5 col-xl-2">
-                                                    <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
-                                                </div>
-                                            <?php
-                                                }else{
-                                                    ?>
+                                                ?>
+                                                    <div class="col-5 col-xl-2">
+                                                        <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
+                                                    </div>
+                                                <?php
+                                                } else {
+                                                ?>
                                                     <div class="col-5 col-xl-3">
                                                         <li class="page-item text-light"><span class="text-light"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-light border border-0"><?= (int)$maks ?></button></li>
                                                     </div>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
@@ -694,10 +693,10 @@ if (isset($_POST["detail"])) {
                 document.getElementById("mySidenav").style.width = "0";
             }
 
-            $('.klikBrand').click(function(){
+            $('.klikBrand').click(function() {
                 $('.toogleBrand').slideToggle();
             });
-            $('.klikCategories').click(function(){
+            $('.klikCategories').click(function() {
                 $('.toogleCategories').slideToggle();
             });
         </script>

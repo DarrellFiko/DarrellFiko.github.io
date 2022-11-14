@@ -1,12 +1,12 @@
 <?php
-// session_start();
+session_start();
 
 $conn = mysqli_connect('localhost', 'root', '', 'toko_soccer');
 
-// function alert($message)
-// {
-//     echo "<script>alert('$message');</script>";
-// }
+function alert($message)
+{
+    echo "<script>alert('$message');</script>";
+}
 
 function resetPaging()
 {
