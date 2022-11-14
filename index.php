@@ -193,6 +193,11 @@ if (isset($_POST["pageTerakhir"])) {
     $_SESSION["paging"][4]["page"] = $maks;
 }
 
+if (isset($_POST["back"])) {
+    $_SESSION["masukDetail"] = false;
+    header("Location: #collections");
+}
+
 if (isset($_POST["detail"])) {
     //GANTIII
     if (isset($_POST["idDetail"])) {
@@ -647,7 +652,16 @@ if (isset($_POST["detail"])) {
                                         </div>
                                     </div>
                                     <div class="col-12 pb-4 text-start">
-                                        <button type="button" class="btn btn-success d-flex justify-content-center align-items-center">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt=""></button>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt="" name="addToCart"></button>
+                                            </div>
+                                            <div class="col-6">
+                                                <form action="" method="post">
+                                                    <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center" name="back">BACK</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
