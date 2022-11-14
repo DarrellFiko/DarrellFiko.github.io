@@ -528,6 +528,7 @@ if (isset($_POST["detail"])) {
                         $temp = 0;
                         // GANTI MAKS ARRAY
                         foreach ($_SESSION["listProduk"] as $product) {
+                            $id = $product["id_produk"];
                             $name = $product["name_produk"];
                             $price = $product["price_produk"];
                             $image = $product["image_produk"];
@@ -538,7 +539,7 @@ if (isset($_POST["detail"])) {
                         ?>
                                 <div class="col-5 col-md-4 col-lg-3 col-xl-2 mx-3 my-3 d-flex justify-content-center ">
                                     <form action="" method="post">
-                                        <button class="bg-transparent border border-0" name="detail">
+                                        <a class="bg-transparent border border-0" style="text-decoration: none;" name="detail" href="detail.php?id=<?=$id?>">
                                             <div class="img-fluid">
                                                 <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
                                                     <?php
@@ -551,7 +552,7 @@ if (isset($_POST["detail"])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </button>
+                                        </a>
                                     </form>
                                 </div>
                         <?php
