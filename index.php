@@ -278,6 +278,13 @@ if (isset($_POST["btnFilter"])) {
         header("Location: #collections");
     }
 }
+
+if(isset($_POST["addToCart"])){
+    $_SESSION["masukDetail"] = false;
+    alert($_POST["idDetail"]);
+    alert($_POST["quantity"]);
+    header("Location: cart.php");
+}
 ?>
 
 <!doctype html>
@@ -660,6 +667,7 @@ if (isset($_POST["btnFilter"])) {
     <?php
     } else {
     ?>
+    <form action="" method="post">
         <div class="container-fluid bgGradient">
             <div class="" style="margin-left: 60px;">
                 <div class="d-flex justify-content-center">
@@ -699,7 +707,7 @@ if (isset($_POST["btnFilter"])) {
                                                 <h5>Quantity:</h5>
                                             </div>
                                             <div class="col-5 col-xl-9">
-                                                <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="" id="quantity" min="0" value="0">
+                                                <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -773,6 +781,8 @@ if (isset($_POST["btnFilter"])) {
                     </div>
                 </div>
             </div>
+        </div>
+    </form>
         <?php
     }
         ?>
