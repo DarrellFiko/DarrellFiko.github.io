@@ -282,9 +282,25 @@ if (isset($_POST["btnFilter"])) {
 
 if (isset($_POST["addToCart"])) {
     $_SESSION["masukDetail"] = false;
-    $id = $_POST["cartPassID"];
-    $qty = $_POST["quantity"];
-    // header("Location: cart.php");
+    $tempId = $_POST["cartPassID"];
+    $tempQuantity = $_POST["quantity"];
+    alert("Berhasil menambahkan ke keranjang!");
+    //header("Location: cart.php");
+    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$tempId'");
+    
+    $tempKeranjang = [
+        "id_produk" => $tempProduk[0]["id_produk"],
+        "image_produk" => $tempProduk[0]["image_produk"],
+        "name_produk" => $tempProduk[0]["name_produk"],
+        "price_produk" => $tempProduk[0]["price_produk"],
+        "quantity_produk" => $tempQuantity
+    ];
+    if (isset($_SESSION["keranjang"])){
+        array_push($_SESSION["keranjang"],$tempKeranjang);
+    }else{
+        $_SESSION["keranjang"] = []; 
+        array_push($_SESSION["keranjang"],$tempKeranjang);
+    }
 }
 ?>
 
@@ -348,7 +364,7 @@ if (isset($_POST["addToCart"])) {
                     </form>
                 </div>
                 <div class="col-3 col-lg-2 d-flex justify-content-end py-3">
-                    <a class="navbar-brand mx-2" href="#">
+                    <a class="navbar-brand mx-2" href="cart.php">
                         <img src="asset/keranjang.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                     </a>
                     <a class="navbar-brand mx-2" href="login.php">
@@ -690,7 +706,7 @@ if (isset($_POST["addToCart"])) {
                                         <div class="col-12 text-dark text-start">
                                             <h1><?= $produkDetail[0]["name_produk"] ?></h1>
                                         </div>
-                                        <div class=" py-3 col-12 pb-4 text-danger  text-start">
+                                        <div class=" py-3 col-12 pb-4 text-danger text-start">
                                             <div class="row">
                                                 <div class="col-1">
                                                     <h3>$</h3>
