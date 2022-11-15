@@ -4,6 +4,10 @@
     if (!isset($_SESSION["keranjang"])){
         $_SESSION["keranjang"] = []; 
     }
+
+    if (isset($_SESSION["buy"])){
+        $_SESSION["tempKeranjang"] = $_SESSION["keranjang"]; 
+    }
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +31,7 @@
             </div>
         </div>
     </nav>
-    <div class="row d-flex justify-content-center bg-dark text-light">
+    <div class="row mt-5 d-flex justify-content-center bg-dark text-light">
         <?php
         for ($i=0; $i < count($_SESSION["keranjang"]); $i++) { 
             ?>

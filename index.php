@@ -190,10 +190,10 @@ if (isset($_POST["back"])) {
 if (isset($_POST["detail"])) {
     //GANTIII
     if (isset($_POST["idDetail"])) {
+        $_SESSION["masukDetail"] = true;
         $id = $_POST["idDetail"];
         $curID = $id;
         $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
-        $_SESSION["masukDetail"] = true;
     }
 
     // if ($_SESSION["tempIdDetail"] != -1) {
@@ -683,6 +683,7 @@ if (isset($_POST["addToCart"])) {
         </div>
     <?php
     } else {
+        $_SESSION["masukDetail"] = false;
     ?>
         <form action="" method="post">
             <input type="hidden" name="cartPassID" value="<?= $curID ?>">
