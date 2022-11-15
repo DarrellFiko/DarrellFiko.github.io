@@ -54,17 +54,6 @@ if (!isset($_SESSION["paging"])) {
     resetPaging();
 }
 
-// FILTER
-if (isset($_POST["filter"])) {
-    time_nanosleep(0, 350000000);
-
-    alert("filter");
-
-    resetPaging();
-    header("Location: #collections");
-}
-
-
 //SEARCH
 if (isset($_POST["search"])) {
     //Munculkan semua
@@ -279,6 +268,11 @@ if (isset($_POST["btnFilter"])) {
         // echo "<script>console.log('$query')</script>";
 
         $_SESSION["listProduk"] = query($query);
+        $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+        resetPaging();
+        header("Location: #collections");
+    } else {
+        $_SESSION["listProduk"] = query("SELECT * FROM produk");
         $_SESSION["productCount"] = count($_SESSION["listProduk"]);
         resetPaging();
         header("Location: #collections");
