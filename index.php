@@ -191,6 +191,7 @@ if (isset($_POST["detail"])) {
     //GANTIII
     if (isset($_POST["idDetail"])) {
         $id = $_POST["idDetail"];
+        $curID = $id;
         $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
         $_SESSION["masukDetail"] = true;
     }
@@ -279,11 +280,11 @@ if (isset($_POST["btnFilter"])) {
     }
 }
 
-if(isset($_POST["addToCart"])){
+if (isset($_POST["addToCart"])) {
     $_SESSION["masukDetail"] = false;
-    alert($_POST["idDetail"]);
-    alert($_POST["quantity"]);
-    header("Location: cart.php");
+    $id = $_POST["cartPassID"];
+    $qty = $_POST["quantity"];
+    // header("Location: cart.php");
 }
 ?>
 
@@ -667,113 +668,115 @@ if(isset($_POST["addToCart"])){
     <?php
     } else {
     ?>
-    <form action="" method="post">
-        <div class="container-fluid bgGradient">
-            <div class="" style="margin-left: 60px;">
-                <div class="d-flex justify-content-center">
-                    <div class="container text-center mt-4 py-5">
-                        <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
-                            <div class="col-12 text-center">
-                                <h1>Details</h1>
-                            </div>
-                            <div class="col-12 col-xl-6 d-flex justify-content-start align-items-center">
-                                <?php
-                                $image = $produkDetail[0]["image_produk"];
-                                $image = base64_decode($image);
-                                echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
-                                ?>
-                            </div>
-                            <div class="col-12 col-xl-6 px-5 py-5 d-flex align-items-center">
-                                <div class="row">
-                                    <div class="col-12 text-dark text-start">
-                                        <h1><?= $produkDetail[0]["name_produk"] ?></h1>
-                                    </div>
-                                    <div class=" py-3 col-12 pb-4 text-danger  text-start">
-                                        <div class="row">
-                                            <div class="col-1">
-                                                <h3>$</h3>
-                                            </div>
-                                            <div class="col-9">
-                                                <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+        <form action="" method="post">
+            <input type="hidden" name="cartPassID" value="<?= $curID ?>">
+            <div class="container-fluid bgGradient">
+                <div class="" style="margin-left: 60px;">
+                    <div class="d-flex justify-content-center">
+                        <div class="container text-center mt-4 py-5">
+                            <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
+                                <div class="col-12 text-center">
+                                    <h1>Details</h1>
+                                </div>
+                                <div class="col-12 col-xl-6 d-flex justify-content-start align-items-center">
+                                    <?php
+                                    $image = $produkDetail[0]["image_produk"];
+                                    $image = base64_decode($image);
+                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
+                                    ?>
+                                </div>
+                                <div class="col-12 col-xl-6 px-5 py-5 d-flex align-items-center">
+                                    <div class="row">
+                                        <div class="col-12 text-dark text-start">
+                                            <h1><?= $produkDetail[0]["name_produk"] ?></h1>
+                                        </div>
+                                        <div class=" py-3 col-12 pb-4 text-danger  text-start">
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <h3>$</h3>
+                                                </div>
+                                                <div class="col-9">
+                                                    <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 pb-4 text-start">
-                                        <hr>
-                                    </div>
-                                    <div class="col-12 pb-4">
-                                        <div class="row">
-                                            <div class="col-5 col-xl-1">
-                                                <h5>Quantity:</h5>
-                                            </div>
-                                            <div class="col-5 col-xl-9">
-                                                <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value="0">
+                                        <div class="col-12 pb-4 text-start">
+                                            <hr>
+                                        </div>
+                                        <div class="col-12 pb-4">
+                                            <div class="row">
+                                                <div class="col-5 col-xl-1">
+                                                    <h5>Quantity:</h5>
+                                                </div>
+                                                <div class="col-5 col-xl-9">
+                                                    <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value="0">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 pb-4 text-start">
-                                        <div class="row">
-                                            <div class="col-7 col-xl-3">
-                                                <h3>Total: $</h3>
-                                            </div>
-                                            <div class="col-4 col-xl-7 text-danger">
-                                                <h3 id="totalHarga">0</h3>
+                                        <div class="col-12 pb-4 text-start">
+                                            <div class="row">
+                                                <div class="col-7 col-xl-3">
+                                                    <h3>Total: $</h3>
+                                                </div>
+                                                <div class="col-4 col-xl-7 text-danger">
+                                                    <h3 id="totalHarga">0</h3>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 pb-4 text-start">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt="" name="addToCart"></button>
-                                            </div>
-                                            <div class="col-6">
-                                                <form action="" method="post">
-                                                    <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center" name="back">BACK</button>
-                                                </form>
+                                        <div class="col-12 pb-4 text-start">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center" name="addToCart">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt=""></button>
+                                                </div>
+                                                <div class="col-6">
+                                                    <form action="" method="post">
+                                                        <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center" name="back">BACK</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-12 py-5 text-start d-flex align-items-center">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h3>Description : </h3>
-                                        <hr>
-                                    </div>
-                                    <div class="col-12">
-                                        <p style="font-size: 18px"><?= $produkDetail[0]["description_produk"] ?></p>
+                                <div class="col-12 py-5 text-start d-flex align-items-center">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h3>Description : </h3>
+                                            <hr>
+                                        </div>
+                                        <div class="col-12">
+                                            <p style="font-size: 18px"><?= $produkDetail[0]["description_produk"] ?></p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- MAILER -->
-                            <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                                <div class="row my-5 d-flex justify-content-center">
-                                    <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                        <h1 class="text-light">Review</h1>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                                            <label for="floatingInput">Name</label>
+                                <!-- MAILER -->
+                                <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                                    <div class="row my-5 d-flex justify-content-center">
+                                        <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
+                                            <h1 class="text-light">Review</h1>
                                         </div>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                                            <label for="floatingInput">Email address</label>
+                                        <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
+                                                <label for="floatingInput">Name</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                            <label for="floatingInput">Your Review</label>
+                                        <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+                                                <label for="floatingInput">Email address</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                                        <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                                        <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                        <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
+                                            <div class="form-floating mb-3 w-100">
+                                                <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
+                                                <label for="floatingInput">Your Review</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
+                                            <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
+                                            <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -781,53 +784,52 @@ if(isset($_POST["addToCart"])){
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-        <?php
+        </form>
+    <?php
     }
-        ?>
-        <!-- test -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    ?>
+    <!-- test -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-        <!-- script buat open scroll yang dikiri -->
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
+    <!-- script buat open scroll yang dikiri -->
+    <script>
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+        $('.klikBrand').click(function() {
+            $('.toogleBrand').slideToggle();
+            if ($('#iconBrand').attr('name') == "expand") {
+                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                $('#iconBrand').attr('name', 'collapse');
+            } else if ($('#iconBrand').attr('name') == "collapse") {
+                $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                $('#iconBrand').attr('name', 'expand');
             }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
+        });
+        $('.klikCategories').click(function() {
+            $('.toogleCategories').slideToggle();
+            if ($('#iconCategory').attr('name') == "expand") {
+                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
+                $('#iconCategory').attr('name', 'collapse');
+            } else if ($('#iconCategory').attr('name') == "collapse") {
+                $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
+                $('#iconCategory').attr('name', 'expand');
             }
+        });
 
-            $('.klikBrand').click(function() {
-                $('.toogleBrand').slideToggle();
-                if ($('#iconBrand').attr('name') == "expand") {
-                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                    $('#iconBrand').attr('name', 'collapse');
-                } else if ($('#iconBrand').attr('name') == "collapse") {
-                    $('#iconBrand').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                    $('#iconBrand').attr('name', 'expand');
-                }
-            });
-            $('.klikCategories').click(function() {
-                $('.toogleCategories').slideToggle();
-                if ($('#iconCategory').attr('name') == "expand") {
-                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-up text-light me-4'></i>");
-                    $('#iconCategory').attr('name', 'collapse');
-                } else if ($('#iconCategory').attr('name') == "collapse") {
-                    $('#iconCategory').html("<i class='fa-sharp fa-solid fa-arrow-down text-light me-4'></i>");
-                    $('#iconCategory').attr('name', 'expand');
-                }
-            });
-
-            function updateTotalHarga() {
-                tempJumlah = document.getElementById("quantity").value;
-                jumlah = parseFloat(tempJumlah);
-                tempHarga = document.getElementById("hargaProduk").innerText;
-                harga = parseFloat(tempHarga);
-                document.getElementById("totalHarga").innerText = tempJumlah * harga;
-            }
-        </script>
+        function updateTotalHarga() {
+            tempJumlah = document.getElementById("quantity").value;
+            jumlah = parseFloat(tempJumlah);
+            tempHarga = document.getElementById("hargaProduk").innerText;
+            harga = parseFloat(tempHarga);
+            document.getElementById("totalHarga").innerText = tempJumlah * harga;
+        }
+    </script>
 </body>
 
 </html>
