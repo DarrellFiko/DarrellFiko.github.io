@@ -78,11 +78,19 @@ if (isset($_POST["back"])) {
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
-                                        <input type="text" name="name" class="form-control form-control-lg" placeholder="Name" />
+                                        <input type="text" name="name" class="form-control form-control-lg" placeholder="Full Name" />
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
                                         <input type="email" name="email" class="form-control form-control-lg" placeholder="Email" />
+                                    </div>
+
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="text" name="alamat" class="form-control form-control-lg" placeholder="Alamat" />
+                                    </div>
+
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="text" name="noTelp" class="form-control form-control-lg" placeholder="Nomor Telepon" />
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
