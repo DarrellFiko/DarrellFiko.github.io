@@ -5,6 +5,8 @@
 namespace Midtrans;
 
 require_once dirname(__FILE__) . '/Midtrans.php';
+require("functions.php");
+
 // Set Your server key
 // can find in Merchant Portal -> Settings -> Access keys
 Config::$serverKey = 'SB-Mid-server-FY5-JgqWOTwkKCWZke7dWNeK';
@@ -26,30 +28,67 @@ Config::$is3ds = true;
 // Config::$appendNotifUrl = "https://example.com";
 // Config::$overrideNotifUrl = "https://example.com";
 
+$htrans = query("SELECT * FROM htrans");
+$ctr = 0;
+foreach ($htrans as $key) {
+    $nota = $key["nota_jual"];
+    $ctr++;
+}
+
+if ($ctr == 0) {
+    $nota = "NOTA0000000000000000000000000000000000000000000001";
+} else {
+    $number = substr($nota, 4);
+    $number = intval($number) + 1;
+    $nota = "NOTA" . str_pad($number, 46, '0', STR_PAD_LEFT);
+}
+
+// // Optional
+// $item1_details = array(
+//     'id' => 'a1',
+//     'price' => 50000,
+//     'quantity' => 3,
+//     'name' => "Apple"
+// );
+
+// // Optional
+// $item2_details = array(
+//     'id' => 'a2',
+//     'price' => 50000,
+//     'quantity' => 2,
+//     'name' => "Orange"
+// );
+
+// Optional
+$item_details = [];
+
+$subtotal = 0;
+foreach ($_SESSION["keranjang"] as $key) {
+    $id = $key["id_produk"];
+    $price = doubleval($key["price_produk"]);
+    $price = ceil($price * 15606.50);
+    $price = intval($price);
+    $quantity = intval($key["quantity_produk"]);
+    $name = $key["name_produk"];
+
+    $checkOutPrice = $price * $quantity;
+
+    $item_detail = array(
+        'id' => $id,
+        'price' => $price,
+        'quantity' => $quantity,
+        'name' => $name
+    );
+
+    $subtotal += $price;
+    array_push($item_details, $item_detail);
+}
+
 // Required
 $transaction_details = array(
-    'order_id' => rand(),
-    'gross_amount' => 350000, // no decimal allowed for creditcard
+    'order_id' => $nota,
+    'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
 );
-
-// Optional
-$item1_details = array(
-    'id' => 'a1',
-    'price' => 50000,
-    'quantity' => 3,
-    'name' => "Apple"
-);
-
-// Optional
-$item2_details = array(
-    'id' => 'a2',
-    'price' => 50000,
-    'quantity' => 2,
-    'name' => "Orange"
-);
-
-// Optional
-$item_details = array($item1_details, $item2_details);
 
 // Optional
 $billing_address = array(
@@ -84,11 +123,11 @@ $customer_details = array(
 );
 
 // Optional, remove this to display all available payment methods
-$enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
+// $enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
 
 // Fill transaction details
 $transaction = array(
-    'enabled_payments' => $enable_payments,
+    // 'enabled_payments' => $enable_payments,
     'transaction_details' => $transaction_details,
     'customer_details' => $customer_details,
     'item_details' => $item_details,
@@ -116,7 +155,7 @@ function printExampleWarningMessage()
     }
 }
 
-require("functions.php");
+
 
 if (!isset($_SESSION["keranjang"])) {
     $_SESSION["keranjang"] = [];
