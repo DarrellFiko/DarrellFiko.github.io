@@ -19,3 +19,23 @@ produk
 - image_produk
 - description_produk
 - status_produk
+
+user
+- id_user
+- username
+- full name
+- email
+- alamat
+- nomor_telepon
+- password
+
+htrans
+- nota_jual
+- tanggal
+- id_user
+- subtotal
+
+dtrans
+- nota_jual
+- id_produk
+- quantity
