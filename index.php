@@ -7,6 +7,24 @@ if (!isset($_SESSION["masukDetail"])) {
 if (!isset($_SESSION["tempIdDetail"])) {
     $_SESSION["tempIdDetail"] = -1;
 }
+
+if (isset($_POST["cart"])) {
+    $_SESSION["masukCart"] = true;
+    $_SESSION["masukDetail"] = false;
+}
+if (isset($_POST["back"])) {
+    $_SESSION["masukCart"] = false;
+    $_SESSION["masukDetail"] = false;
+}
+if (!isset($_SESSION["masukCart"])) {
+    $_SESSION["masukCart"] = false;
+}
+
+if (!isset($_SESSION["keranjang"])) {
+    $_SESSION["keranjang"] = [];
+}
+
+
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
 if (!isset($_SESSION["cbBrand"])) {
     $_SESSION["cbBrand"] = [];
@@ -60,13 +78,14 @@ if (isset($_POST["search"])) {
     $_SESSION["masukDetail"] = false;
 
     $_SESSION["input"] = $_POST["input"];
-    alert($_SESSION["input"]);
-    $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%'");
+
+    $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%' ORDER BY produk.id_produk");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    alert(count($_SESSION["listProduk"]));
     resetPaging();
     header("Location: #collections");
+    $_SESSION["masukCart"] = false;
 }
-
 
 //PAGING
 //GANTI MAKS PAGE ARRAY
@@ -278,42 +297,36 @@ if (isset($_POST["btnFilter"])) {
         resetPaging();
         header("Location: #collections");
     }
+    $_SESSION["masukCart"] = false;
 }
 
 if (isset($_POST["addToCart"])) {
     $_SESSION["masukDetail"] = false;
     $tempId = $_POST["cartPassID"];
     $tempQuantity = $_POST["quantity"];
-    alert("Berhasil menambahkan ke keranjang!");
-    //header("Location: cart.php");
-    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$tempId'");
+    // alert("Berhasil menambahkan ke keranjang!");
 
-    $tempKeranjang = [
-        "id_produk" => $tempProduk[0]["id_produk"],
-        "image_produk" => $tempProduk[0]["image_produk"],
-        "name_produk" => $tempProduk[0]["name_produk"],
-        "price_produk" => $tempProduk[0]["price_produk"],
-        "quantity_produk" => $tempQuantity
-    ];
-    if (isset($_SESSION["keranjang"])) {
-        array_push($_SESSION["keranjang"], $tempKeranjang);
+    if ($tempQuantity > 0) {
+        $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$tempId'");
+
+        $tempKeranjang = [
+            "id_produk" => $tempProduk[0]["id_produk"],
+            "image_produk" => $tempProduk[0]["image_produk"],
+            "name_produk" => $tempProduk[0]["name_produk"],
+            "price_produk" => $tempProduk[0]["price_produk"],
+            "quantity_produk" => $tempQuantity
+        ];
+        if (isset($_SESSION["keranjang"])) {
+            array_push($_SESSION["keranjang"], $tempKeranjang);
+        } else {
+            $_SESSION["keranjang"] = [];
+            array_push($_SESSION["keranjang"], $tempKeranjang);
+        }
     } else {
         $_SESSION["keranjang"] = [];
-        array_push($_SESSION["keranjang"], $tempKeranjang);
     }
 }
 
-if (isset($_POST["cart"])) {
-    $_SESSION["masukCart"] = true;
-    $_SESSION["masukDetail"] = false;
-}
-if (isset($_POST["back"])) {
-    $_SESSION["masukCart"] = false;
-    $_SESSION["masukDetail"] = false;
-}
-if (!isset($_SESSION["masukCart"])) {
-    $_SESSION["masukCart"] = false;
-}
 ?>
 
 <!doctype html>
@@ -832,13 +845,17 @@ if (!isset($_SESSION["masukCart"])) {
                             <h1 class="text-success">Cart</h1>
                         </div>
                         <div class="col-10">
-                            <div class="row d-flex justify-content-center">
+                            <div class="row d-flex justify-content-center bg-info">
                                 <?php
+                                $subtotalCart = 0;
                                 for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
                                     $image = $_SESSION["keranjang"][$i]["image_produk"];
                                     $image = base64_decode($image);
+                                    $name = $_SESSION["keranjang"][$i]["name_produk"];
+                                    $price = $_SESSION["keranjang"][$i]["price_produk"];
+                                    $countCart = count($_SESSION["keranjang"]);
                                 ?>
-                                    <div class="col-10 pb-3">
+                                    <div class="col-10 pb-3 bg-danger">
                                         <div class="card mb-3">
                                             <div class="row">
                                                 <div class="col-4">
@@ -847,17 +864,17 @@ if (!isset($_SESSION["masukCart"])) {
                                                     ?>
                                                 </div>
                                                 <div class="col-8 text-start">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title"><?= $_SESSION["keranjang"][$i]["name_produk"] ?></h5>
+                                                    <div class="card-body shoppingCart">
+                                                        <h5 class="card-title"><?= $name ?></h5>
                                                         <div class="row d-flex align-items-center">
                                                             <div class="col-2">
-                                                                <p id="hargaProdukCart" +<?= $i ?>>$ <?= $_SESSION["keranjang"][$i]["price_produk"] ?></p>
+                                                                <p id="hargaProdukCart<?= $i ?>">$ <?= $price ?></p>
                                                             </div>
                                                             <div class="col-4 text-start">
-                                                                <input type="number" onclick="updateTotalHargaCart(<?= +$i ?>);" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value="<?= $_SESSION["keranjang"][$i]["quantity_produk"] ?>">
+                                                                <input type="number" onchange='updateTotalHargaCart("<?= $i ?>");' class="mx-3" style="width: 60px" name="quantity" id='quantity<?= $i ?>' min="0" value="<?= $_SESSION["keranjang"][$i]["quantity_produk"] ?>">
                                                             </div>
                                                             <div class="col-4">
-                                                                <p id="totalHargaCart" +<?= $i ?>></p>
+                                                                <p class="text-dark" id='totalHargaCart<?= $i ?>'></p>
                                                             </div>
                                                             <div class="col-2">
                                                                 <button type="submit" class="btn-close" name="delete" aria-label="Close"></button>
@@ -871,6 +888,13 @@ if (!isset($_SESSION["masukCart"])) {
                                 <?php
                                 }
                                 ?>
+
+                                <div class="mt-2 fs-4 d-flex justify-content-end align-items-center mb-2">
+                                    <span class="me-3">
+                                        Subtotal: $ <span id="subtotalCart">0</span>
+                                    </span>
+                                    <button id="checkOut">Check Out</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -894,6 +918,7 @@ if (!isset($_SESSION["masukCart"])) {
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
         }
+
 
         $('.klikBrand').click(function() {
             $('.toogleBrand').slideToggle();
@@ -925,13 +950,28 @@ if (!isset($_SESSION["masukCart"])) {
         }
 
         function updateTotalHargaCart(id) {
+            // alert(id);
             tempJumlah = document.getElementById("quantity" + id).value;
-            tempJumlah = text.substring(2);
-            alert(tempJumlah);
             jumlah = parseFloat(tempJumlah);
-            tempHarga = document.getElementById("hargaProduk" + id).innerText;
+            tempHarga = document.getElementById("hargaProdukCart" + id).innerText;
+            tempHarga = tempHarga.substring(2);
             harga = parseFloat(tempHarga);
-            document.getElementById("totalHarga" + id).innerText = tempJumlah * harga;
+            totalHarga = harga * jumlah;
+            document.getElementById("totalHargaCart" + id).innerText = totalHarga;
+
+            updateSubtotal();
+        }
+
+        function updateSubtotal() {
+            countCart = document.getElementsByClassName("shoppingCart");
+
+            alert(countCart);
+
+            // subtotal = document.getElementById("subtotalCart").innerText;
+            // subtotal = parseFloat(subtotal);
+            // subtotal += totalHarga;
+            // document.getElementById("subtotalCart").innerText = subtotal;
+
         }
     </script>
 </body>
