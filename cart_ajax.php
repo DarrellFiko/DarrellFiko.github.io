@@ -1,2 +1,66 @@
 <?php
 require("functions.php");
+
+$edit = false;
+
+if (isset($_REQUEST["id"])) {
+    $id = $_REQUEST["id"];
+    $quantity = $_REQUEST["quantity"];
+    $edit = true;
+}
+
+if ($edit) {
+    $_SESSION["keranjang"][$id]["quantity_produk"] = $quantity;
+}
+
+$subtotalCart = 0;
+for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
+    $image = $_SESSION["keranjang"][$i]["image_produk"];
+    $image = base64_decode($image);
+    $name = $_SESSION["keranjang"][$i]["name_produk"];
+    $price = $_SESSION["keranjang"][$i]["price_produk"];
+    $quantity = $_SESSION["keranjang"][$i]["quantity_produk"];
+    $countCart = count($_SESSION["keranjang"]);
+    echo "Price : " . $price . " Qty : " . $quantity;
+    $totalHarga = $price * $quantity;
+    $subtotalCart += $totalHarga;
+
+    echo "<div class='col-10 pb-3'>";
+    echo "<div class='card mb-3'>";
+    echo "<div class='row'>";
+    echo "<div class='col-4'>";
+    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="width:200px; height: auto;" class="img-fluid rounded-start my-2" alt="..."/>';
+    echo "</div>";
+    echo "<div class='col-7 text-start d-flex align-items-center'>";
+    echo "<div class='card-body shoppingCart'>";
+    echo "<h4 class='card-title pb-3'>" . $name . "</h4>";
+    echo "<div class='row d-flex align-items-center'>";
+    echo "<div id='hargaProdukCart" . $i . "' class='col-4 d-flex align-items-center'>";
+    echo "Price : $ " . $price;
+    echo "</div>";
+    echo "<div class='col-3 text-start'>";
+    echo "<input type='number' onchange='updateCart(" . $i . ");' class='mx-3' style='width: 60px' name='quantity' id='quantity" . $i . "' min='0' value='$quantity'>";
+    echo "</div>";
+    echo "<div id='totalHargaCart" . $i . "' class='col-12 mt-3 d-flex align-items-center'>";
+    echo "Total Price : $ " . $totalHarga;
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "<div class='col-1 d-flex align-items-center'>";
+    echo "<button type='submit' class='btn-close d-flex align-items-center' name='delete' aria-label='Close'></button>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+    echo "</div>";
+}
+
+echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-2'>";
+echo "<span class='me-3'>";
+echo "Subtotal: $ <span id='subtotalCart'>" . $subtotalCart . "</span>";
+echo "</span>";
+echo "<button type='button' id='checkOutBtn' class='btn btn-outline-dark fs-4'>Check Out</button>";
+echo "</div>";

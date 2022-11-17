@@ -24,6 +24,13 @@ if (!isset($_SESSION["keranjang"])) {
     $_SESSION["keranjang"] = [];
 }
 
+if (!isset($_SESSION["login"])) {
+    $_SESSION["login"] = false;
+}
+if (isset($_POST["logout"])) {
+    $_SESSION["login"] = false;
+}
+
 
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
 if (!isset($_SESSION["cbBrand"])) {
@@ -404,13 +411,27 @@ if (isset($_POST["addToCart"])) {
                 </div>
                 <div class="col-3 col-lg-2 d-flex justify-content-end py-3">
                     <form action="" method="post">
-                        <button class="navbar-brand mx-2 bg-transparent border border-0" name="cart">
+                        <button class="navbar-brand mx-2 bg-transparent border border-0" name="cart" onclick="loadCart()">
                             <img src="asset/keranjang.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                         </button>
                     </form>
-                    <a class="navbar-brand mx-2" href="login.php">
-                        <img src="asset/login.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
-                    </a>
+                    <?php
+                    if ($_SESSION["login"] == false) {
+                    ?>
+                        <a class="navbar-brand mx-2" href="login.php">
+                            <img src="asset/login.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
+                        </a>
+                    <?php
+                    } else {
+                    ?>
+                        <form action="" method="post">
+                            <button class="navbar-brand mx-2 bg-transparent border border-0" name="logout">
+                                <img src="asset/logout.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
+                            </button>
+                        </form>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -865,59 +886,8 @@ if (isset($_POST["addToCart"])) {
                             <h1 class="text-success">Cart</h1>
                         </div>
                         <div class="col-10">
-                            <div class="row d-flex justify-content-center">
-                                <?php
-                                $subtotalCart = 0;
-                                for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
-                                    $image = $_SESSION["keranjang"][$i]["image_produk"];
-                                    $image = base64_decode($image);
-                                    $name = $_SESSION["keranjang"][$i]["name_produk"];
-                                    $price = $_SESSION["keranjang"][$i]["price_produk"];
-                                    $quantity = $_SESSION["keranjang"][$i]["quantity_produk"];
-                                    $countCart = count($_SESSION["keranjang"]);
-                                    $totalHarga = $price * $quantity;
-                                    $subtotalCart += $totalHarga;
-                                ?>
-                                    <div class="col-10 pb-3">
-                                        <div class="card mb-3">
-                                            <div class="row">
-                                                <div class="col-4">
-                                                    <?php
-                                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="width:200px; height: auto;" class="img-fluid rounded-start my-2" alt="..."/>';
-                                                    ?>
-                                                </div>
-                                                <div class="col-8 text-start">
-                                                    <div class="card-body shoppingCart">
-                                                        <h5 class="card-title"><?= $name ?></h5>
-                                                        <div class="row d-flex align-items-center bg-danger">
-                                                            <div class="col-2 bg-success d-flex align-items-center">
-                                                                <p id="hargaProdukCart<?= $i ?>" class="bg-info">$ <?= $price ?></p>
-                                                            </div>
-                                                            <div class="col-4 text-start">
-                                                                <input type="number" onchange='updateCart("<?= $i ?>");' class="mx-3" style="width: 60px" name="quantity" id='quantity<?= $i ?>' min="0" value="<?= $quantity ?>">
-                                                            </div>
-                                                            <div class="col-4">
-                                                                <p class="text-dark" id='totalHargaCart<?= $i ?>'><?= $totalHarga ?></p>
-                                                            </div>
-                                                            <div class="col-2">
-                                                                <button type="submit" class="btn-close" name="delete" aria-label="Close"></button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php
-                                }
-                                ?>
+                            <div class="row d-flex justify-content-center" id="listCart" onload="loadCart()">
 
-                                <div class="mt-2 fs-4 d-flex justify-content-end align-items-center mb-2">
-                                    <span class="me-3">
-                                        Subtotal: $ <span id="subtotalCart"><?= $subtotalCart ?></span>
-                                    </span>
-                                    <button type="button" id="checkOutBtn" class="btn btn-outline-dark fs-4">Check Out</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -974,7 +944,44 @@ if (isset($_POST["addToCart"])) {
 
         function updateCart(id) {
             idx = parseInt(id);
+            quantity = document.getElementById("quantity" + idx).innerText;
+            quantity = parseInt(quantity);
 
+            alert(quantity);
+
+            r = new XMLHttpRequest();
+            // 2. Callback Function apa yang akan dikerjakan
+            // NB: Jangan menggunakan Arrow Function () => {} di sini
+            //     karena akan return undefined dan null
+            r.onreadystatechange = function() {
+                // Kalau dapat data dan status selesai > Lakukan sesuatu
+                if ((this.readyState == 4) && (this.status == 200)) {
+                    console.log("ajax ok!");
+                    document.getElementById("listCart").innerHTML = this.responseText;
+                }
+            }
+            // 3. Memanggil dan mengeksekusi AJAX
+            r.open('GET', 'cart_ajax.php?id=' + id + '&quantity=' + quantity);
+            r.send();
+        }
+
+        loadCart();
+
+        function loadCart() {
+            r = new XMLHttpRequest();
+            // 2. Callback Function apa yang akan dikerjakan
+            // NB: Jangan menggunakan Arrow Function () => {} di sini
+            //     karena akan return undefined dan null
+            r.onreadystatechange = function() {
+                // Kalau dapat data dan status selesai > Lakukan sesuatu
+                if ((this.readyState == 4) && (this.status == 200)) {
+                    console.log("ajax ok!");
+                    document.getElementById("listCart").innerHTML = this.responseText;
+                }
+            }
+            // 3. Memanggil dan mengeksekusi AJAX
+            r.open('GET', 'cart_ajax.php?');
+            r.send();
         }
 
         // function updateTotalHargaCart(id) {

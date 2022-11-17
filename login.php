@@ -16,15 +16,13 @@ if (isset($_POST["login"])) {
     } else if ($username == "" || $password == "") {
         $safe = false;
         alert("Semua Field Harus Terisi!");
-    //buat user
+        //buat user
     } else {
         foreach ($users as $user) {
             if ($username == $user["username"] || $username == $user["email"]) {
                 $exist = true;
                 if ($password == $user["password"]) {
-                    if ($username == $user["email"]) {
-                        $username = $user["username"];
-                    }
+                    $_SESSION["login"] = true;
                     header("Location: index.php");
                 } else {
                     alert("Wrong Password!");
@@ -37,9 +35,10 @@ if (isset($_POST["login"])) {
         alert("User Tidak Terdaftar!");
     }
 }
-    if (isset($_POST["back"])) {
-        header("Location: index.php");
-    }
+
+if (isset($_POST["back"])) {
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
