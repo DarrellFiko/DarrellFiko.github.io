@@ -86,7 +86,7 @@ foreach ($_SESSION["keranjang"] as $key) {
 
 // Required
 $transaction_details = array(
-    'order_id' => $nota,
+    'order_id' => rand(),
     'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
 );
 
