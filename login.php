@@ -23,6 +23,7 @@ if (isset($_POST["login"])) {
                 $exist = true;
                 if ($password == $user["password"]) {
                     $_SESSION["login"] = true;
+                    $_SESSION["idUser"] = $user["id_user"];
                     header("Location: index.php");
                 } else {
                     alert("Wrong Password!");
