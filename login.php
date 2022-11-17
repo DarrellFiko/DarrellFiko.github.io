@@ -51,11 +51,11 @@ if (isset($_POST["login"])) {
     <title>Login</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="loginStyle.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="min-vh-100 gradient-custom pt-5">
+    <div class="min-vh-100 bgGradient pt-5">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -73,8 +73,8 @@ if (isset($_POST["login"])) {
                                     <input type="password" name="password" class="form-control form-control-lg" placeholder="Password" />
                                 </div>
                                 <div class="row">
-                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5 me-3" type="submit" name="login">Login</button></div>
-                                    <div class="col-6"><button class="btn btn-outline-light btn-lg px-5 ms-3" type="submit" name="back">Back</button></div>
+                                    <div class="col-5 col-xl-4 mb-3 d-flex justify-content-start"><button class="btn btn-outline-light btn-lg px-4" type="submit" name="login">Login</button></div>
+                                    <div class="col-5 mb-3 d-flex justify-content-start"><button class="btn btn-outline-light btn-lg px-4" type="submit" name="back">Back</button></div>
                                 </div>
                             </form>
 
