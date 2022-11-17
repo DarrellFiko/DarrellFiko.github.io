@@ -2,26 +2,34 @@
 require("functions.php");
 
 $edit = false;
+$delete = false;
 
 if (isset($_REQUEST["id"])) {
     $id = $_REQUEST["id"];
     $quantity = $_REQUEST["quantity"];
-    $edit = true;
+    $quantity = intval($quantity);
+    if ($quantity < 1) {
+        $delete = true;
+    } else {
+        $edit = true;
+    }
 }
 
 if ($edit) {
     $_SESSION["keranjang"][$id]["quantity_produk"] = $quantity;
 }
 
+if ($delete) {
+    unset($_SESSION["keranjang"][$id]);
+}
+
 $subtotalCart = 0;
-for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
-    $image = $_SESSION["keranjang"][$i]["image_produk"];
+foreach ($_SESSION["keranjang"] as $i => $key) {
+    $image = $key["image_produk"];
     $image = base64_decode($image);
-    $name = $_SESSION["keranjang"][$i]["name_produk"];
-    $price = $_SESSION["keranjang"][$i]["price_produk"];
-    $quantity = $_SESSION["keranjang"][$i]["quantity_produk"];
-    $countCart = count($_SESSION["keranjang"]);
-    echo "Price : " . $price . " Qty : " . $quantity;
+    $name = $key["name_produk"];
+    $price = $key["price_produk"];
+    $quantity = $key["quantity_produk"];
     $totalHarga = $price * $quantity;
     $subtotalCart += $totalHarga;
 
@@ -39,7 +47,7 @@ for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
     echo "Price : $ " . $price;
     echo "</div>";
     echo "<div class='col-3 text-start'>";
-    echo "<input type='number' onchange='updateCart(" . $i . ");' class='mx-3' style='width: 60px' name='quantity' id='quantity" . $i . "' min='0' value='$quantity'>";
+    echo "<input type='number' onchange='updateCart(" . $i . ")' class='mx-3' style='width: 60px' name='quantity' id='quantity" . $i . "' min='0' value='$quantity'>";
     echo "</div>";
     echo "<div id='totalHargaCart" . $i . "' class='col-12 mt-3 d-flex align-items-center'>";
     echo "Total Price : $ " . $totalHarga;
@@ -58,9 +66,9 @@ for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
     echo "</div>";
 }
 
-echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-2'>";
+echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-4'>";
 echo "<span class='me-3'>";
 echo "Subtotal: $ <span id='subtotalCart'>" . $subtotalCart . "</span>";
 echo "</span>";
-echo "<button type='button' id='checkOutBtn' class='btn btn-outline-dark fs-4'>Check Out</button>";
+echo "<button type='button' id='checkOutBtn' class='btn btn-outline-dark fs-4' onclick='transaksi()'>Check Out</button>";
 echo "</div>";

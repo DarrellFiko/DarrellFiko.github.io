@@ -1,5 +1,143 @@
 <?php
+// Midtrans
+namespace Midtrans;
+
+require_once dirname(__FILE__) . '/Midtrans.php';
 require("functions.php");
+
+// Set Your server key
+// can find in Merchant Portal -> Settings -> Access keys
+Config::$serverKey = 'SB-Mid-server-FY5-JgqWOTwkKCWZke7dWNeK';
+Config::$clientKey = 'SB-Mid-client-ZbOMHp7KRkClWyAG';
+
+// non-relevant function only used for demo/example purpose
+printExampleWarningMessage();
+
+// Uncomment for production environment
+// Config::$isProduction = true;
+
+// Enable sanitization
+Config::$isSanitized = true;
+
+// Enable 3D-Secure
+Config::$is3ds = true;
+
+// Uncomment for append and override notification URL
+// Config::$appendNotifUrl = "https://example.com";
+// Config::$overrideNotifUrl = "https://example.com";
+
+$htrans = query("SELECT * FROM htrans");
+$ctr = 0;
+foreach ($htrans as $key) {
+    $nota = $key["nota_jual"];
+    $ctr++;
+}
+
+if ($ctr == 0) {
+    $nota = "NOTA0000000000000000000000000000000000000000000001";
+} else {
+    $number = substr($nota, 4);
+    $number = intval($number) + 1;
+    $nota = "NOTA" . str_pad($number, 46, '0', STR_PAD_LEFT);
+}
+
+// Optional
+$item_details = [];
+
+$subtotal = 0;
+foreach ($_SESSION["keranjang"] as $key) {
+    $id = $key["id_produk"];
+    $price = doubleval($key["price_produk"]);
+    $price = ceil($price * 15606.50);
+    $price = intval($price);
+    $quantity = intval($key["quantity_produk"]);
+    $name = $key["name_produk"];
+
+    $checkOutPrice = $price * $quantity;
+
+    $item_detail = array(
+        'id' => $id,
+        'price' => $price,
+        'quantity' => $quantity,
+        'name' => $name
+    );
+
+    $subtotal += $price;
+    array_push($item_details, $item_detail);
+}
+
+// Required
+$transaction_details = array(
+    'order_id' => rand(),
+    'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
+);
+
+// Optional
+$billing_address = array(
+    'first_name'    => "Andri",
+    'last_name'     => "Litani",
+    'address'       => "Mangga 20",
+    'city'          => "Jakarta",
+    'postal_code'   => "16602",
+    'phone'         => "081122334455",
+    'country_code'  => 'IDN'
+);
+
+// Optional
+$shipping_address = array(
+    'first_name'    => "Obet",
+    'last_name'     => "Supriadi",
+    'address'       => "Manggis 90",
+    'city'          => "Jakarta",
+    'postal_code'   => "16601",
+    'phone'         => "08113366345",
+    'country_code'  => 'IDN'
+);
+
+// Optional
+$customer_details = array(
+    'first_name'    => "Andri",
+    'last_name'     => "Litani",
+    'email'         => "andri@litani.com",
+    'phone'         => "081122334455",
+    'billing_address'  => $billing_address,
+    'shipping_address' => $shipping_address
+);
+
+// Optional, remove this to display all available payment methods
+// $enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
+
+// Fill transaction details
+$transaction = array(
+    // 'enabled_payments' => $enable_payments,
+    'transaction_details' => $transaction_details,
+    'customer_details' => $customer_details,
+    'item_details' => $item_details,
+);
+
+$snap_token = '';
+try {
+    $snap_token = Snap::getSnapToken($transaction);
+} catch (\Exception $e) {
+    echo "<script>console.log('$e->getMessage()')</script>";
+}
+
+echo "<script>console.log('snapToken = $snap_token')</script>";
+
+function printExampleWarningMessage()
+{
+    if (strpos(Config::$serverKey, 'your ') != false) {
+        // echo "<code>";
+        // echo "<h4>Please set your server key from sandbox</h4>";
+        // echo "In file: " . __FILE__;
+        // echo "<br>";
+        // echo "<br>";
+        // echo htmlspecialchars('Config::$serverKey = \'<your server key>\';');
+        die();
+    }
+}
+
+// 
 
 if (!isset($_SESSION["masukDetail"])) {
     $_SESSION["masukDetail"] = false;
@@ -325,8 +463,8 @@ if (isset($_POST["addToCart"])) {
         ];
 
         $tempIdCart = -1;
-        for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
-            if ($_SESSION["keranjang"][$i]["id_produk"] == $tempProduk[0]["id_produk"] && $tempIdCart == -1) {
+        foreach ($_SESSION["keranjang"] as $i => $key) {
+            if ($key["id_produk"] == $tempProduk[0]["id_produk"] && $tempIdCart == -1) {
                 $tempIdCart = $i;
             }
         }
@@ -346,6 +484,7 @@ if (isset($_POST["addToCart"])) {
     }
 }
 
+// var_dump($_SESSION["keranjang"]);
 ?>
 
 <!doctype html>
@@ -365,7 +504,7 @@ if (isset($_POST["addToCart"])) {
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo Config::$clientKey; ?>"></script>
 <script>
     function submit() {
         nama = document.getElementsByName("name")[0].value;
@@ -386,6 +525,29 @@ if (isset($_POST["addToCart"])) {
         document.getElementsByName("email")[0].value = "";
         document.getElementsByName("textarea")[0].value = "";
     }
+
+    function transaksi() {
+        // SnapToken acquired from previous step
+        snap.pay("<?php echo $snap_token ?>", {
+            // Optional
+            onSuccess: function(result) {
+                /* You may add your own js here, this is just example */
+                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onPending: function(result) {
+                /* You may add your own js here, this is just example */
+                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            },
+            // Optional
+            onError: function(result) {
+                /* You may add your own js here, this is just example */
+                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+            }
+        });
+
+
+    };
 </script>
 
 <body>
@@ -792,8 +954,8 @@ if (isset($_POST["addToCart"])) {
                                                     <div class="col-5 col-xl-9">
                                                         <?php
                                                         $cekJumlah = 0;
-                                                        for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
-                                                            if ($_SESSION["keranjang"][$i]["id_produk"] == $produkDetail[0]["id_produk"]) {
+                                                        foreach ($_SESSION["keranjang"] as $i => $key) {
+                                                            if ($key["id_produk"] == $produkDetail[0]["id_produk"]) {
                                                                 $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
                                                             }
                                                         }
@@ -808,7 +970,7 @@ if (isset($_POST["addToCart"])) {
                                                         <h3>Total: $</h3>
                                                     </div>
                                                     <div class="col-4 col-xl-7 text-danger">
-                                                        <h3 id="totalHarga">0</h3>
+                                                        <h3 id="totalHarga"><?= $produkDetail[0]["price_produk"] * $cekJumlah ?></h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -944,10 +1106,8 @@ if (isset($_POST["addToCart"])) {
 
         function updateCart(id) {
             idx = parseInt(id);
-            quantity = document.getElementById("quantity" + idx).innerText;
+            quantity = document.getElementById("quantity" + idx).value;
             quantity = parseInt(quantity);
-
-            alert(quantity);
 
             r = new XMLHttpRequest();
             // 2. Callback Function apa yang akan dikerjakan
@@ -963,6 +1123,9 @@ if (isset($_POST["addToCart"])) {
             // 3. Memanggil dan mengeksekusi AJAX
             r.open('GET', 'cart_ajax.php?id=' + id + '&quantity=' + quantity);
             r.send();
+
+            document.location.href = 'index.php';
+
         }
 
         loadCart();
@@ -982,31 +1145,10 @@ if (isset($_POST["addToCart"])) {
             // 3. Memanggil dan mengeksekusi AJAX
             r.open('GET', 'cart_ajax.php?');
             r.send();
+
+            // document.location.href = 'index.php';
+
         }
-
-        // function updateTotalHargaCart(id) {
-        //     // alert(id);
-        //     tempJumlah = document.getElementById("quantity" + id).value;
-        //     jumlah = parseFloat(tempJumlah);
-        //     tempHarga = document.getElementById("hargaProdukCart" + id).innerText;
-        //     tempHarga = tempHarga.substring(2);
-        //     harga = parseFloat(tempHarga);
-        //     totalHarga = harga * jumlah;
-        //     document.getElementById("totalHargaCart" + id).innerText = totalHarga;
-
-        //     updateSubtotal();
-        // }
-
-        // function updateSubtotal() {
-        //     countCart = document.getElementsByClassName("shoppingCart").length;
-        //     subtotal = 0;
-        //     for (let i = 0; i < countCart; i++) {
-        //         total = document.getElementById("totalHargaCart" + i).innerText;
-        //         total = parseFloat(total);
-        //         subtotal += total;
-        //     }
-        //     document.getElementById("subtotalCart").innerText = subtotal;
-        // }
     </script>
 </body>
 
