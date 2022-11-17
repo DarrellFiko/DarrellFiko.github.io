@@ -1,48 +1,58 @@
 <?php
-// require("functions.php");
+require("functions.php");
 
-// if (isset($_POST["register"])) {
-//     $safe = true;
+if (isset($_POST["register"])) {
+    $safe = true;
 
-//     $username = $_POST["username"];
-//     $name = $_POST["name"];
-//     $email = $_POST["email"];
-//     $password = $_POST["password"];
-//     $confirmPassword = $_POST["confirmPassword"];
+    $username = $_POST["username"];
+    $name = $_POST["name"];
+    $email = $_POST["email"];
+    $alamat = $_POST["alamat"];
+    $telp = $_POST["noTelp"];
+    $password = $_POST["password"];
+    $confirmPassword = $_POST["confirmPassword"];
 
-//     if ($username == "" || $name == "" || $email == "" || $password == "" || $confirmPassword == "") {
-//         $safe = false;
-//         alert("Semua Field Harus Terisi!");
-//     } else if ($username == 'admin') {
-//         $safe = false;
-//         alert("Admin Can\'t be Used!");
-//     } else if ($password != $confirmPassword) {
-//         $safe = false;
-//         alert("Password Not Match!");
-//     }
+    if ($username == "" || $name == "" || $email == "" || $alamat == "" || $telp == "" || $password == "" || $confirmPassword == "") {
+        $safe = false;
+        alert("Semua Field Harus Terisi!");
+    } else if ($username == 'admin') {
+        $safe = false;
+        alert("Admin Can\'t be Used!");
+    } else if ($password != $confirmPassword) {
+        $safe = false;
+        alert("Password Not Match!");
+    }
 
-//     $users = query("SELECT * FROM users");
+    $users = query("SELECT * FROM user");
 
-//     foreach ($users as $user) {
-//         if ($username == $user["username"]) {
-//             $safe = false;
-//             alert("Username Sudah Terdaftar!");
-//         }
-//         if ($email == $user["email"]) {
-//             $safe = false;
-//             alert("Email Sudah Terdaftar!");
-//         }
-//     }
+    foreach ($users as $user) {
+        if ($username == $user["username"]) {
+            $safe = false;
+            alert("Username Sudah Terdaftar!");
+        }
+        if ($email == $user["email"]) {
+            $safe = false;
+            alert("Email Sudah Terdaftar!");
+        }
+    }
 
-//     if ($safe) {
-//         if (insertUser($_POST) > 0) {
-//             alert("Berhasil Register!");
-//             echo "<script> document.location.href = 'login.php'; </script>";
-//         } else {
-//             alert("Gagal Register!");
-//         }
-//     }
-// }
+    if ($safe) {
+        alert("Register Successfull!");
+        $tempUser = [
+            "username" => $username,
+            "full_name" => $name,
+            "email" => $email,
+            "alamat" => $alamat,
+            "nomor_telepon" => $telp,
+            "password" => $password
+        ];
+        insert($tempUser, 'user');
+        // $stmt = $conn->prepare("INSERT INTO user(username, full_name, email, alamat, nomor_telepon, password) VALUES(?,?,?,?,?,?)");
+        // $stmt->bind_param("ssssss", $username, $name, $email, $alamat, $telp, $password);
+        // $stmt->execute();
+        echo "<script> document.location.href = 'login.php'; </script>";
+    }
+}
 if (isset($_POST["back"])) {
     header("Location: index.php");
 }

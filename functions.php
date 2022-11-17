@@ -55,14 +55,19 @@ function query($query)
 
 // INSERT
 
-function insert($data)
+function insert($data, $table)
 {
     global $conn;
 
     // DATA
+    $username = $data["username"];
+    $name = $data["full_name"];
+    $email = $data["email"];
+    $alamat = $data["alamat"];
+    $telp = $data["nomor_telepon"];
+    $password = $data["password"];
 
-    $query = "INSERT INTO  VALUES ()";
-
+    $query = "INSERT INTO $table (username, full_name, email, alamat, nomor_telepon, password) VALUES ('$username', '$name', '$email', '$alamat', '$telp', '$password')";
     mysqli_query($conn, $query);
 
     return mysqli_affected_rows($conn);

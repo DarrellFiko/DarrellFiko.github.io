@@ -1,40 +1,42 @@
 <?php
-// require("functions.php");
+require("functions.php");
 
-// if (isset($_POST["login"])) {
+if (isset($_POST["login"])) {
 
-//     $username = $_POST["username"];
-//     $password = $_POST["password"];
+    $username = $_POST["username"];
+    $password = $_POST["password"];
 
-//     $users = query("SELECT * FROM users");
+    $users = query("SELECT * FROM user");
 
-//     $exist = false;
-//     if ($username == "admin" && $password == "nimda") {
-//         $safe = false;
-//         header("Location: adminHome.php");
-//     } else if ($username == "" || $password == "") {
-//         $safe = false;
-//         alert("Semua Field Harus Terisi!");
-//     } else {
-//         foreach ($users as $user) {
-//             if ($username == $user["username"] || $username == $user["email"]) {
-//                 $exist = true;
-//                 if ($password == $user["password"]) {
-//                     if ($username == $user["email"]) {
-//                         $username = $user["username"];
-//                     }
-//                     header("Location: user.php?username=$username");
-//                 } else {
-//                     alert("Wrong Password!");
-//                 }
-//             }
-//         }
-//     }
+    $exist = false;
+    //buat admin
+    if ($username == "admin" && $password == "nimda") {
+        $safe = false;
+        header("Location: adminHome.php");
+    } else if ($username == "" || $password == "") {
+        $safe = false;
+        alert("Semua Field Harus Terisi!");
+    //buat user
+    } else {
+        foreach ($users as $user) {
+            if ($username == $user["username"] || $username == $user["email"]) {
+                $exist = true;
+                if ($password == $user["password"]) {
+                    if ($username == $user["email"]) {
+                        $username = $user["username"];
+                    }
+                    header("Location: index.php");
+                } else {
+                    alert("Wrong Password!");
+                }
+            }
+        }
+    }
 
-//     if ($exist == false && $username != "" && $password != "") {
-//         alert("User Tidak Terdaftar!");
-//     }
-// }
+    if ($exist == false && $username != "" && $password != "") {
+        alert("User Tidak Terdaftar!");
+    }
+}
     if (isset($_POST["back"])) {
         header("Location: index.php");
     }
