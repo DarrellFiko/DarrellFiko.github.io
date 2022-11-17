@@ -316,11 +316,23 @@ if (isset($_POST["addToCart"])) {
             "price_produk" => $tempProduk[0]["price_produk"],
             "quantity_produk" => $tempQuantity
         ];
-        if (isset($_SESSION["keranjang"])) {
-            array_push($_SESSION["keranjang"], $tempKeranjang);
+
+        $tempIdCart = -1;
+        for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
+            if ($_SESSION["keranjang"][$i]["id_produk"] == $tempProduk[0]["id_produk"] && $tempIdCart == -1) {
+                $tempIdCart = $i;
+            }
+        }
+
+        if ($tempIdCart == -1) {
+            if (isset($_SESSION["keranjang"])) {
+                array_push($_SESSION["keranjang"], $tempKeranjang);
+            } else {
+                $_SESSION["keranjang"] = [];
+                array_push($_SESSION["keranjang"], $tempKeranjang);
+            }
         } else {
-            $_SESSION["keranjang"] = [];
-            array_push($_SESSION["keranjang"], $tempKeranjang);
+            $_SESSION["keranjang"][$tempIdCart]["quantity_produk"] = $tempQuantity;
         }
     } else {
         $_SESSION["keranjang"] = [];
@@ -757,7 +769,15 @@ if (isset($_POST["addToCart"])) {
                                                         <h5>Quantity:</h5>
                                                     </div>
                                                     <div class="col-5 col-xl-9">
-                                                        <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value="0">
+                                                        <?php
+                                                        $cekJumlah = 0;
+                                                        for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
+                                                            if ($_SESSION["keranjang"][$i]["id_produk"] == $produkDetail[0]["id_produk"]) {
+                                                                $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value=<?= $cekJumlah ?>>
                                                     </div>
                                                 </div>
                                             </div>
@@ -845,7 +865,7 @@ if (isset($_POST["addToCart"])) {
                             <h1 class="text-success">Cart</h1>
                         </div>
                         <div class="col-10">
-                            <div class="row d-flex justify-content-center bg-info">
+                            <div class="row d-flex justify-content-center">
                                 <?php
                                 $subtotalCart = 0;
                                 for ($i = 0; $i < count($_SESSION["keranjang"]); $i++) {
@@ -853,28 +873,31 @@ if (isset($_POST["addToCart"])) {
                                     $image = base64_decode($image);
                                     $name = $_SESSION["keranjang"][$i]["name_produk"];
                                     $price = $_SESSION["keranjang"][$i]["price_produk"];
+                                    $quantity = $_SESSION["keranjang"][$i]["quantity_produk"];
                                     $countCart = count($_SESSION["keranjang"]);
+                                    $totalHarga = $price * $quantity;
+                                    $subtotalCart += $totalHarga;
                                 ?>
-                                    <div class="col-10 pb-3 bg-danger">
+                                    <div class="col-10 pb-3">
                                         <div class="card mb-3">
                                             <div class="row">
                                                 <div class="col-4">
                                                     <?php
-                                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="width:200px; height: auto;" class="img-fluid rounded-start" alt="..."/>';
+                                                    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="width:200px; height: auto;" class="img-fluid rounded-start my-2" alt="..."/>';
                                                     ?>
                                                 </div>
                                                 <div class="col-8 text-start">
                                                     <div class="card-body shoppingCart">
                                                         <h5 class="card-title"><?= $name ?></h5>
-                                                        <div class="row d-flex align-items-center">
-                                                            <div class="col-2">
-                                                                <p id="hargaProdukCart<?= $i ?>">$ <?= $price ?></p>
+                                                        <div class="row d-flex align-items-center bg-danger">
+                                                            <div class="col-2 bg-success d-flex align-items-center">
+                                                                <p id="hargaProdukCart<?= $i ?>" class="bg-info">$ <?= $price ?></p>
                                                             </div>
                                                             <div class="col-4 text-start">
-                                                                <input type="number" onchange='updateTotalHargaCart("<?= $i ?>");' class="mx-3" style="width: 60px" name="quantity" id='quantity<?= $i ?>' min="0" value="<?= $_SESSION["keranjang"][$i]["quantity_produk"] ?>">
+                                                                <input type="number" onchange='updateCart("<?= $i ?>");' class="mx-3" style="width: 60px" name="quantity" id='quantity<?= $i ?>' min="0" value="<?= $quantity ?>">
                                                             </div>
                                                             <div class="col-4">
-                                                                <p class="text-dark" id='totalHargaCart<?= $i ?>'></p>
+                                                                <p class="text-dark" id='totalHargaCart<?= $i ?>'><?= $totalHarga ?></p>
                                                             </div>
                                                             <div class="col-2">
                                                                 <button type="submit" class="btn-close" name="delete" aria-label="Close"></button>
@@ -891,9 +914,9 @@ if (isset($_POST["addToCart"])) {
 
                                 <div class="mt-2 fs-4 d-flex justify-content-end align-items-center mb-2">
                                     <span class="me-3">
-                                        Subtotal: $ <span id="subtotalCart">0</span>
+                                        Subtotal: $ <span id="subtotalCart"><?= $subtotalCart ?></span>
                                     </span>
-                                    <button id="checkOut">Check Out</button>
+                                    <button type="button" id="checkOutBtn" class="btn btn-outline-dark fs-4">Check Out</button>
                                 </div>
                             </div>
                         </div>
@@ -949,30 +972,34 @@ if (isset($_POST["addToCart"])) {
             document.getElementById("totalHarga").innerText = tempJumlah * harga;
         }
 
-        function updateTotalHargaCart(id) {
-            // alert(id);
-            tempJumlah = document.getElementById("quantity" + id).value;
-            jumlah = parseFloat(tempJumlah);
-            tempHarga = document.getElementById("hargaProdukCart" + id).innerText;
-            tempHarga = tempHarga.substring(2);
-            harga = parseFloat(tempHarga);
-            totalHarga = harga * jumlah;
-            document.getElementById("totalHargaCart" + id).innerText = totalHarga;
-
-            updateSubtotal();
-        }
-
-        function updateSubtotal() {
-            countCart = document.getElementsByClassName("shoppingCart");
-
-            alert(countCart);
-
-            // subtotal = document.getElementById("subtotalCart").innerText;
-            // subtotal = parseFloat(subtotal);
-            // subtotal += totalHarga;
-            // document.getElementById("subtotalCart").innerText = subtotal;
+        function updateCart(id) {
+            idx = parseInt(id);
 
         }
+
+        // function updateTotalHargaCart(id) {
+        //     // alert(id);
+        //     tempJumlah = document.getElementById("quantity" + id).value;
+        //     jumlah = parseFloat(tempJumlah);
+        //     tempHarga = document.getElementById("hargaProdukCart" + id).innerText;
+        //     tempHarga = tempHarga.substring(2);
+        //     harga = parseFloat(tempHarga);
+        //     totalHarga = harga * jumlah;
+        //     document.getElementById("totalHargaCart" + id).innerText = totalHarga;
+
+        //     updateSubtotal();
+        // }
+
+        // function updateSubtotal() {
+        //     countCart = document.getElementsByClassName("shoppingCart").length;
+        //     subtotal = 0;
+        //     for (let i = 0; i < countCart; i++) {
+        //         total = document.getElementById("totalHargaCart" + i).innerText;
+        //         total = parseFloat(total);
+        //         subtotal += total;
+        //     }
+        //     document.getElementById("subtotalCart").innerText = subtotal;
+        // }
     </script>
 </body>
 
