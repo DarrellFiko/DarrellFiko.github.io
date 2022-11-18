@@ -119,7 +119,6 @@ $snap_token = '';
 try {
     $snap_token = Snap::getSnapToken($transaction);
 } catch (\Exception $e) {
-    echo "<script>console.log('$e->getMessage()')</script>";
 }
 
 echo "<script>console.log('snapToken = $snap_token')</script>";
