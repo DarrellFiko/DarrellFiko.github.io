@@ -25,7 +25,11 @@ if ($delete) {
 
 $loginValue = $_SESSION["login"];
 
-$ongkosKirim = rand(2, 5);
+if (count($_SESSION["keranjang"]) > 0) {
+    $ongkosKirim = rand(2, 5);
+} else {
+    $ongkosKirim = 0;
+}
 
 $subtotalCart = 0;
 foreach ($_SESSION["keranjang"] as $i => $key) {
