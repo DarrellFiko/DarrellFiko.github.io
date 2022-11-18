@@ -64,7 +64,7 @@ foreach ($_SESSION["keranjang"] as $i => $key) {
     echo "</div>";
     echo "</div>";
     echo "<div class='col-1 d-flex align-items-center'>";
-    echo "<button type='submit' class='btn-close d-flex align-items-center' name='delete' aria-label='Close'></button>";
+    echo "<button type='submit' class='btn-close d-flex align-items-center' name='delete' aria-label='Close' id='delete" . $i . "' onclick='deleteItemCart(" . $i . ")'></button>";
     echo "</div>";
     echo "</div>";
     echo "</div>";

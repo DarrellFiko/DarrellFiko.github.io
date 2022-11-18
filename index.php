@@ -1135,6 +1135,29 @@ if (isset($_POST["addToCart"])) {
 
         }
 
+        function deleteItemCart(id) {
+            idx = parseInt(id);
+            quantity = 0;
+
+            r = new XMLHttpRequest();
+            // 2. Callback Function apa yang akan dikerjakan
+            // NB: Jangan menggunakan Arrow Function () => {} di sini
+            //     karena akan return undefined dan null
+            r.onreadystatechange = function() {
+                // Kalau dapat data dan status selesai > Lakukan sesuatu
+                if ((this.readyState == 4) && (this.status == 200)) {
+                    console.log("ajax ok!");
+                    document.getElementById("listCart").innerHTML = this.responseText;
+                }
+            }
+            // 3. Memanggil dan mengeksekusi AJAX
+            r.open('GET', 'cart_ajax.php?id=' + id + '&quantity=' + quantity);
+            r.send();
+
+            document.location.href = 'index.php';
+
+        }
+
         loadCart();
 
         function loadCart() {
