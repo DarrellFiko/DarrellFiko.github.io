@@ -11,7 +11,7 @@ Config::$serverKey = 'SB-Mid-server-FY5-JgqWOTwkKCWZke7dWNeK';
 Config::$clientKey = 'SB-Mid-client-ZbOMHp7KRkClWyAG';
 
 // non-relevant function only used for demo/example purpose
-printExampleWarningMessage();
+// printExampleWarningMessage();
 
 // Uncomment for production environment
 // Config::$isProduction = true;
@@ -25,6 +25,17 @@ Config::$is3ds = true;
 // Uncomment for append and override notification URL
 // Config::$appendNotifUrl = "https://example.com";
 // Config::$overrideNotifUrl = "https://example.com";
+
+if (!isset($_SESSION["keranjang"])) {
+    $_SESSION["keranjang"] = [];
+}
+
+if (!isset($_SESSION["login"])) {
+    $_SESSION["login"] = false;
+}
+if (isset($_POST["logout"])) {
+    $_SESSION["login"] = false;
+}
 
 $htrans = query("SELECT * FROM htrans");
 $ctr = 0;
@@ -136,6 +147,7 @@ function printExampleWarningMessage()
     }
 }
 
+
 // 
 
 if (!isset($_SESSION["masukDetail"])) {
@@ -157,16 +169,7 @@ if (!isset($_SESSION["masukCart"])) {
     $_SESSION["masukCart"] = false;
 }
 
-if (!isset($_SESSION["keranjang"])) {
-    $_SESSION["keranjang"] = [];
-}
 
-if (!isset($_SESSION["login"])) {
-    $_SESSION["login"] = false;
-}
-if (isset($_POST["logout"])) {
-    $_SESSION["login"] = false;
-}
 
 
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
@@ -526,24 +529,29 @@ if (isset($_POST["addToCart"])) {
     }
 
     function transaksi() {
-        // SnapToken acquired from previous step
-        snap.pay("<?php echo $snap_token ?>", {
-            // Optional
-            onSuccess: function(result) {
-                /* You may add your own js here, this is just example */
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onPending: function(result) {
-                /* You may add your own js here, this is just example */
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            },
-            // Optional
-            onError: function(result) {
-                /* You may add your own js here, this is just example */
-                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-            }
-        });
+        loginValue = document.getElementById("loginValue").value;
+        if (loginValue) {
+            // SnapToken acquired from previous step
+            snap.pay("<?php echo $snap_token ?>", {
+                // Optional
+                onSuccess: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                },
+                // Optional
+                onPending: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                },
+                // Optional
+                onError: function(result) {
+                    /* You may add your own js here, this is just example */
+                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                }
+            });
+        } else {
+            document.location.href = "login.php";
+        }
 
 
     };

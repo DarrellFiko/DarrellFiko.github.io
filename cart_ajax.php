@@ -23,6 +23,10 @@ if ($delete) {
     unset($_SESSION["keranjang"][$id]);
 }
 
+$loginValue = $_SESSION["login"];
+
+$ongkosKirim = rand(2, 5);
+
 $subtotalCart = 0;
 foreach ($_SESSION["keranjang"] as $i => $key) {
     $image = $key["image_produk"];
@@ -66,9 +70,19 @@ foreach ($_SESSION["keranjang"] as $i => $key) {
     echo "</div>";
 }
 
+$subtotalCart += $ongkosKirim;
+
+echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-4'>";
+echo "<span class='me-3'>";
+echo "Ongkos Kirim: $ <span id='ongkosKirim'>" . $ongkosKirim . "</span>";
+echo "</span>";
+echo "</div>";
 echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-4'>";
 echo "<span class='me-3'>";
 echo "Subtotal: $ <span id='subtotalCart'>" . $subtotalCart . "</span>";
 echo "</span>";
-echo "<button type='button' id='checkOutBtn' class='btn btn-outline-dark fs-4' onclick='transaksi()'>Check Out</button>";
+echo "<form action='' method='post' class='my-auto'>";
+echo "<input type='hidden' name='loginValue' id='loginValue' value='$loginValue'>";
+echo "<button type='button' name='checkOutBtn' id='checkOutBtn' class='btn btn-outline-dark fs-4' onclick='transaksi()'>Check Out</button>";
+echo "</form>";
 echo "</div>";
