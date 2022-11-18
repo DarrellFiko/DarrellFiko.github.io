@@ -26,7 +26,7 @@ if ($delete) {
 $loginValue = $_SESSION["login"];
 
 if (count($_SESSION["keranjang"]) > 0) {
-    $ongkosKirim = rand(2, 5);
+    $ongkosKirim = 5;
 } else {
     $ongkosKirim = 0;
 }
@@ -82,7 +82,7 @@ echo "Ongkos Kirim: $ <span id='ongkosKirim'>" . $ongkosKirim . "</span>";
 echo "</span>";
 echo "</div>";
 echo "<div class='mt-2 fs-4 d-flex justify-content-end align-items-center mb-4'>";
-echo "<span class='me-3'>";
+echo "<span class='me-3 fw-bold'>";
 echo "Subtotal: $ <span id='subtotalCart'>" . $subtotalCart . "</span>";
 echo "</span>";
 echo "<form action='' method='post' class='my-auto'>";
