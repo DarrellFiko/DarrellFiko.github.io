@@ -33,7 +33,31 @@ function resetPaging()
     ];
     array_push($_SESSION["paging"], $pageBaru);
 }
-
+function resetPagingAdmin()
+{
+    $_SESSION["pageAdminSekarang"] = 1;
+    $_SESSION["pagingAdmin"] = [];
+    $pageBaru = [
+        "page" => 1
+    ];
+    array_push($_SESSION["pagingAdmin"], $pageBaru);
+    $pageBaru = [
+        "page" => 2
+    ];
+    array_push($_SESSION["pagingAdmin"], $pageBaru);
+    $pageBaru = [
+        "page" => 3
+    ];
+    array_push($_SESSION["pagingAdmin"], $pageBaru);
+    $pageBaru = [
+        "page" => 4
+    ];
+    array_push($_SESSION["pagingAdmin"], $pageBaru);
+    $pageBaru = [
+        "page" => 5
+    ];
+    array_push($_SESSION["pagingAdmin"], $pageBaru);
+}
 function query($query)
 {
     global $conn;
@@ -73,6 +97,32 @@ function insert($data, $table)
     return mysqli_affected_rows($conn);
 }
 
+function insertBrand($data)
+{
+    global $conn;
+
+    // DATA
+    $id_brand = $data["id_brand"];
+    $name_brand = $data["name_brand"];
+
+    $query = "INSERT INTO brand (id_brand, name_brand) VALUES ('$id_brand', '$name_brand')";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+function insertKategori($data)
+{
+    global $conn;
+
+    // DATA
+    $id_kategori = $data["id_kategori"];
+    $name_kategori = $data["name_kategori"];
+
+    $query = "INSERT INTO kategori (id_kategori, name_kategori) VALUES ('$id_kategori', '$name_kategori')";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
 // UPDATE
 
 function update($data)
