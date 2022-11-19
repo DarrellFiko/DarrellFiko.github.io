@@ -1,3 +1,11 @@
+<?php
+    require("functions.php");
+    $idUser = $_SESSION['idUser'];
+
+    $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
+    $user = $stmt->fetch_assoc();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,19 +27,34 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="usernamePembelian" class="form-control form-control-lg" placeholder="Username" />
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Username" name="usernamePembelian" value="<?=$user['username']?>">
+                        <label for="floatingInput">Username</label>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="namePembelian" class="form-control form-control-lg" placeholder="Full Name" />
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Full Name" name="namePembelian" value="<?=$user['full_name']?>">
+                        <label for="floatingInput">Full Name</label>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <input type="email" name="emailPembelian" class="form-control form-control-lg" placeholder="Email" />
+                    <div class="form-floating mb-1 w-100">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="Email" name="emailPembelian" value="<?=$user['email']?>">
+                        <label for="floatingInput">Email</label>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="alamatPembelian" class="form-control form-control-lg" placeholder="Alamat" />
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Address" name="alamatPembelian" value="<?=$user['alamat']?>">
+                        <label for="floatingInput">Address</label>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <input type="text" name="noTelpPembelian" class="form-control form-control-lg" placeholder="Nomor Telepon" />
+                    <div class="form-floating mb-1 w-100">
+                        <input type="text" class="form-control" id="floatingInput" placeholder="Nomor Telepon" name="noTelpPembelian" value="<?=$user['nomor_telepon']?>">
+                        <label for="floatingInput">Nomor Telepon</label>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
