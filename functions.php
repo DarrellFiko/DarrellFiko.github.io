@@ -110,6 +110,7 @@ function insertBrand($data)
 
     return mysqli_affected_rows($conn);
 }
+
 function insertKategori($data)
 {
     global $conn;
@@ -119,10 +120,33 @@ function insertKategori($data)
     $name_kategori = $data["name_kategori"];
 
     $query = "INSERT INTO kategori (id_kategori, name_kategori) VALUES ('$id_kategori', '$name_kategori')";
+
     mysqli_query($conn, $query);
 
     return mysqli_affected_rows($conn);
 }
+
+function insertProduk($data)
+{
+    global $conn;
+
+    // DATA
+    $name_produk = $data["name_produk"];
+    $id_brand = $data["id_brand"];
+    $id_kategori = $data["id_kategori"];
+    $stok_produk = $data["stok_produk"];
+    $price_produk = $data["price_produk"];
+    $image_produk = $data["image_produk"];
+    $description_produk = $data["description_produk"];
+    $status_produk = $data["status_produk"];
+
+    $query = "INSERT INTO produk (name_produk,id_brand,id_kategori,stok_produk,price_produk,image_produk,description_produk,status_produk) VALUES ('$name_produk', '$id_brand', '$id_kategori', '$stok_produk', '$price_produk', '$image_produk','$description_produk','$status_produk')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 // UPDATE
 
 function update($data)
@@ -132,6 +156,28 @@ function update($data)
     // DATA
 
     $query = "UPDATE  SET () WHERE ";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function updateProduk($data)
+{
+    global $conn;
+
+    // DATA
+    $id_produk = $data["id_produk"];
+    $name_produk = $data["name_produk"];
+    $id_brand = $data["id_brand"];
+    $id_kategori = $data["id_kategori"];
+    $stok_produk = $data["stok_produk"];
+    $price_produk = $data["price_produk"];
+    $image_produk = $data["image_produk"];
+    $description_produk = $data["description_produk"];
+    $status_produk = $data["status_produk"];
+
+    $query = "UPDATE produk SET name_produk = '$name_produk',id_brand = '$id_brand',id_kategori = '$id_kategori',stok_produk = '$stok_produk',price_produk = '$price_produk',image_produk = '$image_produk',description_produk = '$description_produk',status_produk = '$status_produk' WHERE id_produk = '$id_produk'";
 
     mysqli_query($conn, $query);
 
@@ -150,3 +196,16 @@ function delete($id)
 
     return mysqli_affected_rows($conn);
 }
+
+function deleteProduk($id)
+{
+    global $conn;
+
+    $query = "DELETE FROM produk WHERE id_produk = '$id'";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+// ALTER TABLE produk AUTO_INCREMENT = 1504

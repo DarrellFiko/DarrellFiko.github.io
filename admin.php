@@ -1,208 +1,321 @@
 <?php
-    require("functions.php");
+require("functions.php");
 
-    if(!isset($_SESSION["dataAdmin"])){
-        $_SESSION["dataAdmin"] = [];
-        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-    }
-    if (!isset($_SESSION["pagingAdmin"])) {
-        resetPagingAdmin();
-    }
+if (!isset($_SESSION["dataAdmin"])) {
+    $_SESSION["dataAdmin"] = [];
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+} else {
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+}
+if (!isset($_SESSION["pagingAdmin"])) {
+    resetPagingAdmin();
+}
 
-    // PAGINATION
-    $maks = (count($_SESSION["dataAdmin"]) / 30) + 1;
-    if (isset($_POST["page0"])) {
-        $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][0]["page"];
-        if ($_SESSION["pagingAdmin"][0]["page"] > 2) {
-            $_SESSION["pagingAdmin"][0]["page"] -= 2;
-            $_SESSION["pagingAdmin"][1]["page"] -= 2;
-            $_SESSION["pagingAdmin"][2]["page"] -= 2;
-            $_SESSION["pagingAdmin"][3]["page"] -= 2;
-            $_SESSION["pagingAdmin"][4]["page"] -= 2;
+// PAGINATION
+$maks = (count($_SESSION["dataAdmin"]) / 30) + 1;
+if (isset($_POST["page0"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][0]["page"];
+    if ($_SESSION["pagingAdmin"][0]["page"] > 2) {
+        $_SESSION["pagingAdmin"][0]["page"] -= 2;
+        $_SESSION["pagingAdmin"][1]["page"] -= 2;
+        $_SESSION["pagingAdmin"][2]["page"] -= 2;
+        $_SESSION["pagingAdmin"][3]["page"] -= 2;
+        $_SESSION["pagingAdmin"][4]["page"] -= 2;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page1"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
+    if ($_SESSION["pagingAdmin"][0]["page"] > 1) {
+        $_SESSION["pagingAdmin"][0]["page"]--;
+        $_SESSION["pagingAdmin"][1]["page"]--;
+        $_SESSION["pagingAdmin"][2]["page"]--;
+        $_SESSION["pagingAdmin"][3]["page"]--;
+        $_SESSION["pagingAdmin"][4]["page"]--;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page2"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page3"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
+    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
+        $_SESSION["pagingAdmin"][0]["page"]++;
+        $_SESSION["pagingAdmin"][1]["page"]++;
+        $_SESSION["pagingAdmin"][2]["page"]++;
+        $_SESSION["pagingAdmin"][3]["page"]++;
+        $_SESSION["pagingAdmin"][4]["page"]++;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page4"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
+    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 2) {
+        $_SESSION["pagingAdmin"][0]["page"] += 2;
+        $_SESSION["pagingAdmin"][1]["page"] += 2;
+        $_SESSION["pagingAdmin"][2]["page"] += 2;
+        $_SESSION["pagingAdmin"][3]["page"] += 2;
+        $_SESSION["pagingAdmin"][4]["page"] += 2;
+    } else if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
+        $_SESSION["pagingAdmin"][0]["page"] += 1;
+        $_SESSION["pagingAdmin"][1]["page"] += 1;
+        $_SESSION["pagingAdmin"][2]["page"] += 1;
+        $_SESSION["pagingAdmin"][3]["page"] += 1;
+        $_SESSION["pagingAdmin"][4]["page"] += 1;
+    }
+    // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
+}
+if (isset($_POST["pageSekarangMin1"])) {
+    if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageSekarang"] != 1) {
+        $_SESSION["pageAdminSekarang"]--;
+        $_SESSION["pagingAdmin"][0]["page"]--;
+        $_SESSION["pagingAdmin"][1]["page"]--;
+        $_SESSION["pagingAdmin"][2]["page"]--;
+        $_SESSION["pagingAdmin"][3]["page"]--;
+        $_SESSION["pagingAdmin"][4]["page"]--;
+    } else if ($_SESSION["pageAdminSekarang"] > 1) {
+        $_SESSION["pageAdminSekarang"]--;
+    }
+    // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
+}
+if (isset($_POST["pageSekarangPlus1"])) {
+    if ($maks <= 4) {
+        if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageSekarang"] < $maks - 1) {
+            $_SESSION["pageAdminSekarang"]++;
         }
-        // alert($_SESSION["pageSekarang"]);
-    }
-    if (isset($_POST["page1"])) {
-        $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
-        if ($_SESSION["pagingAdmin"][0]["page"] > 1) {
-            $_SESSION["pagingAdmin"][0]["page"]--;
-            $_SESSION["pagingAdmin"][1]["page"]--;
-            $_SESSION["pagingAdmin"][2]["page"]--;
-            $_SESSION["pagingAdmin"][3]["page"]--;
-            $_SESSION["pagingAdmin"][4]["page"]--;
-        }
-        // alert($_SESSION["pageSekarang"]);
-    }
-    if (isset($_POST["page2"])) {
-        $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
-        // alert($_SESSION["pageSekarang"]);
-    }
-    if (isset($_POST["page3"])) {
-        $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
-        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
+    } else {
+        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageSekarang"] != $maks) {
+            $_SESSION["pageAdminSekarang"]++;
             $_SESSION["pagingAdmin"][0]["page"]++;
             $_SESSION["pagingAdmin"][1]["page"]++;
             $_SESSION["pagingAdmin"][2]["page"]++;
             $_SESSION["pagingAdmin"][3]["page"]++;
             $_SESSION["pagingAdmin"][4]["page"]++;
+        } else if ($_SESSION["pageAdminSekarang"] < $maks - 1) {
+            $_SESSION["pageAdminSekarang"]++;
         }
-        // alert($_SESSION["pageSekarang"]);
     }
-    if (isset($_POST["page4"])) {
-        $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
-        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 2) {
-            $_SESSION["pagingAdmin"][0]["page"] += 2;
-            $_SESSION["pagingAdmin"][1]["page"] += 2;
-            $_SESSION["pagingAdmin"][2]["page"] += 2;
-            $_SESSION["pagingAdmin"][3]["page"] += 2;
-            $_SESSION["pagingAdmin"][4]["page"] += 2;
-        } else if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
-            $_SESSION["pagingAdmin"][0]["page"] += 1;
-            $_SESSION["pagingAdmin"][1]["page"] += 1;
-            $_SESSION["pagingAdmin"][2]["page"] += 1;
-            $_SESSION["pagingAdmin"][3]["page"] += 1;
-            $_SESSION["pagingAdmin"][4]["page"] += 1;
-        }
-        // alert($_SESSION["pageSekarang"]);
-        header("Location: #collections");
-    }
-    if (isset($_POST["pageSekarangMin1"])) {
-        if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageSekarang"] != 1) {
-            $_SESSION["pageAdminSekarang"]--;
-            $_SESSION["pagingAdmin"][0]["page"]--;
-            $_SESSION["pagingAdmin"][1]["page"]--;
-            $_SESSION["pagingAdmin"][2]["page"]--;
-            $_SESSION["pagingAdmin"][3]["page"]--;
-            $_SESSION["pagingAdmin"][4]["page"]--;
-        } else if ($_SESSION["pageAdminSekarang"] > 1) {
-            $_SESSION["pageAdminSekarang"]--;
-        }
-        // alert($_SESSION["pageSekarang"]);
-        header("Location: #collections");
-    }
-    if (isset($_POST["pageSekarangPlus1"])) {
-        if ($maks <= 4) {
-            if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageSekarang"] < $maks - 1) {
-                $_SESSION["pageAdminSekarang"]++;
-            }
+    // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
+}
+if (isset($_POST["pagePertama"])) {
+    $_SESSION["pageAdminSekarang"] = 1;
+    $_SESSION["pagingAdmin"][0]["page"] = 1;
+    $_SESSION["pagingAdmin"][1]["page"] = 2;
+    $_SESSION["pagingAdmin"][2]["page"] = 3;
+    $_SESSION["pagingAdmin"][3]["page"] = 4;
+    $_SESSION["pagingAdmin"][4]["page"] = 5;
+}
+if (isset($_POST["pageTerakhir"])) {
+    $maks = (int)$maks;
+    $_SESSION["pageAdminSekarang"] = $maks;
+    $_SESSION["pagingAdmin"][0]["page"] = $maks - 4;
+    $_SESSION["pagingAdmin"][1]["page"] = $maks - 3;
+    $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
+    $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
+    $_SESSION["pagingAdmin"][4]["page"] = $maks;
+}
+
+if (isset($_POST["logout"])) {
+    header("Location: index.php");
+}
+
+if (isset($_POST["submitBrand"])) {
+    $tempNameBrand = $_POST["addBrand"];
+    if ($tempNameBrand == "") {
+        alert("Add Brand Failed!");
+    } else {
+        $bikinId = "BRN";
+        $tempBrand = query("SELECT * FROM brand");
+        $idBrandAkhir = $tempBrand[count($tempBrand) - 1]["id_brand"];
+
+        $urutanIdBrand = (int)substr($idBrandAkhir, 3);
+        $urutanIdBrand++;
+
+        if ($urutanIdBrand < 10) {
+            $bikinId = $bikinId . ("00" . $urutanIdBrand);
+        } else if ($urutanIdBrand < 100) {
+            $bikinId = $bikinId . ("0" . $urutanIdBrand);
         } else {
-            if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageSekarang"] != $maks) {
-                $_SESSION["pageAdminSekarang"]++;
-                $_SESSION["pagingAdmin"][0]["page"]++;
-                $_SESSION["pagingAdmin"][1]["page"]++;
-                $_SESSION["pagingAdmin"][2]["page"]++;
-                $_SESSION["pagingAdmin"][3]["page"]++;
-                $_SESSION["pagingAdmin"][4]["page"]++;
-            } else if ($_SESSION["pageAdminSekarang"] < $maks - 1) {
-                $_SESSION["pageAdminSekarang"]++;
+            $bikinId = $bikinId . $urutanIdBrand;
+        }
+        $brandBaru = [
+            "id_brand" => $bikinId,
+            "name_brand" => $tempNameBrand
+        ];
+        insertBrand($brandBaru);
+        alert("Add Brand Success!");
+    }
+    echo "<script> document.location.href = 'admin.php'; </script>";
+}
+if (isset($_POST["submitKategori"])) {
+    $tempNameKategori = $_POST["addKategori"];
+    if ($tempNameKategori == "") {
+        alert("Add Categories Failed!");
+    } else {
+        $bikinId = "KTG";
+        $tempKategori = query("SELECT * FROM kategori");
+        $idKategoriAkhir = $tempKategori[count($tempKategori) - 1]["id_kategori"];
+
+        $urutanIdKategori = (int)substr($idKategoriAkhir, 3);
+        $urutanIdKategori++;
+
+        if ($urutanIdKategori < 10) {
+            $bikinId = $bikinId . ("00" . $urutanIdKategori);
+        } else if ($urutanIdKategori < 100) {
+            $bikinId = $bikinId . ("0" . $urutanIdKategori);
+        } else {
+            $bikinId = $bikinId . $urutanIdKategori;
+        }
+        $KategoriBaru = [
+            "id_kategori" => $bikinId,
+            "name_kategori" => $tempNameKategori
+        ];
+        insertKategori($KategoriBaru);
+        alert("Add Categories Success!");
+    }
+    echo "<script> document.location.href = 'admin.php'; </script>";
+}
+
+if (isset($_POST["edit"])) {
+    $id = $_POST["idData"];
+    $stmt = $conn->query("SELECT * FROM produk WHERE id_produk='$id'");
+    $_SESSION["editData"] = $stmt->fetch_assoc();
+    header("Location: editData.php");
+}
+
+if (isset($_POST["delete"])) {
+    $id = $_POST["idData"];
+
+    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id'");
+    foreach ($tempProduk as $key => $value) {
+        $dir = $value["image_produk"];
+    }
+
+    if (file_exists($dir)) {
+        unlink($dir);
+    }
+
+    deleteProduk($id);
+
+    echo "<script> document.location.href = 'admin.php'; </script>";
+}
+
+if (isset($_POST["submitProduk"])) {
+    $safe = true;
+
+    $nameProduk = $_POST["addName"];
+    $brandProduk = $_POST["addProdukBrand"];
+    $categoryProduk = $_POST["addProdukKategori"];
+    $stockProduk = $_POST["addStock"];
+    $priceProduk = $_POST["addPrice"];
+    $descriptionProduk = $_POST["addDescription"];
+
+    if ($nameProduk == "" || $brandProduk == "" || $categoryProduk == "" || $stockProduk == "" || $priceProduk == "" || $descriptionProduk == "") {
+        $safe = false;
+    } else {
+        $target_dir = "asset/product/";
+        $target_file = $target_dir . basename($_FILES["addImage"]["name"]);
+        $uploadOk = true;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+        // Check if image file is a actual image or fake image
+        $check = getimagesize($_FILES["addImage"]["tmp_name"]);
+        if ($check !== false) {
+            $uploadOk = true;
+        } else {
+            $uploadOk = false;
+            alert("File is not an image.");
+        }
+
+        // Check if file already exists
+        if (file_exists($target_file) && $uploadOk == true) {
+            $uploadOk = false;
+            alert("Sorry, file already exists.");
+        }
+
+        // Check file size
+        if ($_FILES["addImage"]["size"] > 10000000 && $uploadOk == true) {
+            $uploadOk = false;
+            alert("Sorry, your file is too large.");
+        }
+
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $uploadOk == true) {
+            $uploadOk = false;
+            alert("Sorry, only JPG files are allowed.");
+        }
+
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == false) {
+            $safe = false;
+        } else {
+            if (move_uploaded_file($_FILES["addImage"]["tmp_name"], $target_file)) {
+                $safe = true;
+            } else {
+                alert("Sorry, there was an error uploading your file.");
+                $safe = false;
             }
         }
-        // alert($_SESSION["pageSekarang"]);
-        header("Location: #collections");
-    }
-    if (isset($_POST["pagePertama"])) {
-        $_SESSION["pageAdminSekarang"] = 1;
-        $_SESSION["pagingAdmin"][0]["page"] = 1;
-        $_SESSION["pagingAdmin"][1]["page"] = 2;
-        $_SESSION["pagingAdmin"][2]["page"] = 3;
-        $_SESSION["pagingAdmin"][3]["page"] = 4;
-        $_SESSION["pagingAdmin"][4]["page"] = 5;
-    }
-    if (isset($_POST["pageTerakhir"])) {
-        $maks = (int)$maks;
-        $_SESSION["pageAdminSekarang"] = $maks;
-        $_SESSION["pagingAdmin"][0]["page"] = $maks - 4;
-        $_SESSION["pagingAdmin"][1]["page"] = $maks - 3;
-        $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
-        $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
-        $_SESSION["pagingAdmin"][4]["page"] = $maks;
     }
 
-    if(isset($_POST["logout"])){
-        header("Location: index.php");
-    }
+    if ($safe) {
+        $path = $target_dir . htmlspecialchars(basename($_FILES["addImage"]["name"]));
 
-    if(isset($_POST["submitBrand"])){
-        $tempNameBrand = $_POST["addBrand"];
-        if($tempNameBrand==""){
-            alert("Add Brand Failed!");
-        }else{
-            $bikinId = "BRN";
-            $tempBrand = query("SELECT * FROM brand");
-            $idBrandAkhir = $tempBrand[count($tempBrand)-1]["id_brand"];
-    
-            $urutanIdBrand = (int)substr($idBrandAkhir,3);
-            $urutanIdBrand++;
-    
-            if($urutanIdBrand<10){
-                $bikinId = $bikinId.("00".$urutanIdBrand);
-            }else if($urutanIdBrand<100){
-                $bikinId = $bikinId.("0".$urutanIdBrand);
-            }else{
-                $bikinId = $bikinId.$urutanIdBrand;
+        $brands = query("SELECT * FROM brand");
+        foreach ($brands as $key => $value) {
+            if ($brandProduk == $value["name_brand"]) {
+                $idBrand = $value["id_brand"];
             }
-            $brandBaru = [
-                "id_brand" => $bikinId,
-                "name_brand" => $tempNameBrand
-            ];
-            insertBrand($brandBaru);
-            alert("Add Brand Success!");
         }
-    }
-    if(isset($_POST["submitKategori"])){
-        $tempNameKategori = $_POST["addKategori"];
-        if($tempNameKategori==""){
-            alert("Add Categories Failed!");
-        }else{
-            $bikinId = "KTG";
-            $tempKategori = query("SELECT * FROM kategori");
-            $idKategoriAkhir = $tempKategori[count($tempKategori)-1]["id_kategori"];
-    
-            $urutanIdKategori = (int)substr($idKategoriAkhir,3);
-            $urutanIdKategori++;
-    
-            if($urutanIdKategori<10){
-                $bikinId = $bikinId.("00".$urutanIdKategori);
-            }else if($urutanIdKategori<100){
-                $bikinId = $bikinId.("0".$urutanIdKategori);
-            }else{
-                $bikinId = $bikinId.$urutanIdKategori;
+
+        $categories = query("SELECT * FROM kategori");
+        foreach ($categories as $key => $value) {
+            if ($categoryProduk == $value["name_kategori"]) {
+                $idCategory = $value["id_kategori"];
             }
-            $KategoriBaru = [
-                "id_kategori" => $bikinId,
-                "name_kategori" => $tempNameKategori
-            ];
-            insertKategori($KategoriBaru);
-            alert("Add Categories Success!");
         }
-    }
 
-    if(isset($_POST["edit"])){
-        $id = $_POST["idData"];
-        $stmt = $conn->query("SELECT * FROM produk WHERE id_produk='$id'");
-        $_SESSION["editData"] = $stmt->fetch_assoc();
-        header("Location: editData.php");
-    }
+        $data = [
+            "name_produk" => $nameProduk,
+            "id_brand" => $idBrand,
+            "id_kategori" => $idCategory,
+            "stok_produk" => $stockProduk,
+            "price_produk" => $priceProduk,
+            "image_produk" => $path,
+            "description_produk" => $descriptionProduk,
+            "status_produk" => 1
+        ];
 
-    if(isset($_POST["delete"])){
-        $id = $_POST["idData"];
-        
+        insertProduk($data);
+
+        alert("Add Product Success!");
+    } else {
+        alert("Add Product Failed!");
     }
+    echo "<script> document.location.href = 'admin.php'; </script>";
+}
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <form action="" method="post">
+
+<body onload="load()">
+    <form action="#" method="post" enctype="multipart/form-data">
         <!-- Input -->
         <div class="d-flex justify-content-center">
             <div class="container text-center p-5 my-5 glass">
@@ -221,8 +334,8 @@
                     </div>
                     <div class="col-12 mt-4">
                         <div class="form-floating mb-3 w-100">
-                            <input type="text" class="form-control" id="floatingInput" placeholder="Name Product" name="addName" id="addName">
-                            <label for="floatingInput">Name Product</label>
+                            <input type="text" class="form-control" placeholder="Name Product" name="addName" id="addName">
+                            <label for="addName">Name Product</label>
                         </div>
                     </div>
                     <div class="col-12 mt-4">
@@ -232,21 +345,21 @@
                                     <?php
                                     $tempBrand = query("SELECT * FROM brand");
                                     foreach ($tempBrand as $key => $value) {
-                                        ?>
-                                        <option value="<?=$value["name_brand"]?>" style="width: 7vw; height: 5vh;"><?=$value["name_brand"]?></option>
-                                        <?php
+                                    ?>
+                                        <option value="<?= $value["name_brand"] ?>" style="width: 7vw; height: 5vh;"><?= $value["name_brand"] ?></option>
+                                    <?php
                                     }
                                     ?>
                                 </select>
                             </div>
                             <div class="col-6 col-xl-3 d-flex justify-content-start align-items-center" style="font-size: 20px;">
-                                Categories : <select name="addProdukKategori" class="ms-3" id="addProdukKategori" style="width: 8vw; height: 5vh;">
+                                Categories : <select name="addProdukKategori" class="ms-3" id="addProdukKategori" style="width: 7vw; height: 5vh;">
                                     <?php
                                     $tempBrand = query("SELECT * FROM kategori");
                                     foreach ($tempBrand as $key => $value) {
-                                        ?>
-                                        <option value="<?=$value["name_kategori"]?>" style="width: 8vw; height: 5vh;"> <?=$value["name_kategori"]?></option>
-                                        <?php
+                                    ?>
+                                        <option value="<?= $value["name_kategori"] ?>" style="width: 8vw; height: 5vh;"> <?= $value["name_kategori"] ?></option>
+                                    <?php
                                     }
                                     ?>
                                 </select>
@@ -255,20 +368,20 @@
                                 Stock : <input type="number" onclick="" class="mx-3" style="width: 7vw; height: 5vh;" name="addStock" id="addStock" min="1">
                             </div>
                             <div class="col-6 col-xl-3 d-flex justify-content-end align-items-center" style="font-size: 20px;">
-                                Price : $ <input type="number" onclick="" class="mx-3" style="width: 8vw; height: 5vh;" name="addPrice" id="addPrice" min="0">
+                                Price : $ <input type="number" step="0.01" onclick="" class="mx-3" style="width: 8vw; height: 5vh;" name="addPrice" id="addPrice" min="0">
                             </div>
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-start pt-4" style="font-size: 20px;">
-                        Image : <input type="file" name="" id="" class="ms-3">
+                        Image (.jpg): <input type="file" name="addImage" id="" class="ms-3">
                     </div>
                     <div class="col-12 pt-4 d-flex justify-content-start">
                         <div class="form-floating mb-3 w-100">
-                            <textarea class="form-control" id="floatingInput" placeholder="Description Product" style="height: 20vh" aria-label="With textarea" name="addDescription" id="addDescription"></textarea>
-                            <label for="floatingInput">Description Product</label>
+                            <textarea class="form-control" placeholder="Description Product" style="height: 20vh" aria-label="With textarea" name="addDescription" id="addDescription"></textarea>
+                            <label for="addDescription">Description Product</label>
                         </div>
                     </div>
-                    <div class="col-12 pt-3 d-flex justify-content-start">
+                    <div class="col-12 pt-3 d-flex justify-content-end">
                         <button type="submit" class="btn btn-outline-success py-2 px-5 me-3" name="submitProduk" onclick="">Add Product</button>
                         <button type="submit" class="btn btn-outline-success py-2 px-5" name="clear" onclick="clearForm();">Clear</button>
                     </div>
@@ -284,8 +397,8 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="form-floating mb-3 w-100">
-                                        <input type="text" class="form-control " id="floatingInput" placeholder="Name Brand" name="addBrand" id="addBrand">
-                                        <label for="floatingInput">Name Brand</label>
+                                        <input type="text" class="form-control " placeholder="Name Brand" name="addBrand" id="addBrand">
+                                        <label for="addBrand">Name Brand</label>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -301,8 +414,8 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="form-floating mb-3 w-100">
-                                        <input type="text" class="form-control" id="floatingInput" placeholder="Name Categories" name="addKategori" id="addKategori">
-                                        <label for="floatingInput">Name Categories</label>
+                                        <input type="text" class="form-control" placeholder="Name Categories" name="addKategori" id="addKategori">
+                                        <label for="addKategori">Name Categories</label>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -315,7 +428,7 @@
             </div>
         </div>
         <!-- Data produk -->
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" id="collections">
             <div class="container text-center p-5 my-5 glass">
                 <div class="row d-flex justify-content-center">
                     <div class="col-12">
@@ -336,71 +449,22 @@
                         ?>
                     </div>
                     <div class="col-12">
-                    <form class="d-flex" role="search" method="POST">
-                        <div class="row">
-                            <div class="col-11">
-                                <input class="form-control me-2" type="Search" placeholder="Search" aria-label="Search" name="input">
+                        <form class="d-flex" role="search" method="POST">
+                            <div class="row">
+                                <div class="col-11">
+                                    <input class="form-control me-2" type="Search" placeholder="Search" aria-label="Search" name="inputSearch" id="inputSearch" onkeypress="load()">
+                                </div>
+                                <div class="col-1">
+                                    <button class="btn btn-outline-success" type="button" name="search" onclick="load()">Search</button>
+                                </div>
                             </div>
-                            <div class="col-1">
-                                <button class="btn btn-outline-success" type="submit" name="search">Search</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                     <div class="col-12 text-dark">
                         <hr style="font-weight: bold; color: black;">
                     </div>
-                    <table class="table">
-                        <tr>
-                            <!-- <th>Image Produk</th> -->
-                            <th scope="col">ID Produk</th>
-                            <th scope="col">Name Produk</th>
-                            <th scope="col">Brand Produk</th>
-                            <th scope="col">Category Produk</th>
-                            <th scope="col">Stok Produk</th>
-                            <th scope="col">Price Produk</th>
-                            <th scope="col">Action</th>
-                            <!-- <th>Deskription Produk</th> -->
-                        </tr>
-                        <?php
-                    $temp = 0;
-                    foreach ($_SESSION["dataAdmin"] as $product) {
-                        $id = $product["id_produk"];
-                        $name = $product["name_produk"];
-                        $id_brand = $product["id_brand"];
-                        $id_category = $product["id_kategori"];
-                        $stok = $product["stok_produk"];
-                        $price = $product["price_produk"];
-                        $description = $product["description_produk"];
-                        $image = $product["image_produk"];
-                        $temp++;
-                        if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
-                            ?>
-                            <form action="" method="post">
-                                <input type="hidden" name="idData" value="<?= $id ?>">
-                                <tr>
-                                    <td><?=$id?></td>
-                                    <td><?=$name?></td>
-                                    <?php
-                                    $stmt = $conn->query("SELECT * FROM brand WHERE id_brand='$id_brand'");
-                                    $brand = $stmt->fetch_assoc();
-                                    ?>
-                                    <td><?=$brand["name_brand"]?></td>
-                                    <?php
-                                    $stmt = $conn->query("SELECT * FROM kategori WHERE id_kategori='$id_category'");
-                                    $kategori = $stmt->fetch_assoc();
-                                    ?>
-                                    <td><?=$kategori["name_kategori"]?></td>
-                                    <td><?=$stok?></td>
-                                    <td>$ <?=$price?></td>
-                                    <td><button type="submit" class="btn btn-outline-warning ms-3" name="edit">Edit</button><button type="submit" class="btn btn-outline-danger mx-3" name="delete">Delete</button></td>
-                                    <!-- <td><?=$description?></td> -->
-                                </tr>
-                            </form>
-                    <?php
-                        }
-                    }
-                    ?>
+                    <table class="table" id="produkInfo">
+                        
                     </table>
                     <!-- PAGING -->
                     <div class="row py-3">
@@ -499,6 +563,26 @@
             document.getElementsById("addPrice").value = 0;
             document.getElementsById("addDescription").value = "";
         }
+
+        function load() {
+            // 1. Inisialisai buat object dulu
+            r = new XMLHttpRequest();
+            search = document.getElementById("inputSearch").value;
+            // 2. Callback Function apa yang akan dikerjakan
+            // NB: Jangan menggunakan Arrow Function () => {} di sini
+            //     karena akan return undefined dan null
+            r.onreadystatechange = function() {
+                // Kalau dapat data dan status selesai > Lakukan sesuatu
+                if ((this.readyState == 4) && (this.status == 200)) {
+                    console.log("ajax ok!");
+                    document.getElementById("produkInfo").innerHTML = this.responseText;
+                }
+            }
+            // 3. Memanggil dan mengeksekusi AJAX
+            r.open('GET', 'infoProduk_ajax.php?search=' + search);
+            r.send();
+        }
     </script>
 </body>
+
 </html>
