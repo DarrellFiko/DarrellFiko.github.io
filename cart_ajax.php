@@ -34,7 +34,6 @@ if (count($_SESSION["keranjang"]) > 0) {
 $subtotalCart = 0;
 foreach ($_SESSION["keranjang"] as $i => $key) {
     $image = $key["image_produk"];
-    $image = base64_decode($image);
     $name = $key["name_produk"];
     $price = $key["price_produk"];
     $quantity = $key["quantity_produk"];
@@ -45,7 +44,7 @@ foreach ($_SESSION["keranjang"] as $i => $key) {
     echo "<div class='card mb-3'>";
     echo "<div class='row'>";
     echo "<div class='col-4'>";
-    echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="width:200px; height: auto;" class="img-fluid rounded-start my-2" alt="..."/>';
+    echo "<img src ='$image' style='width:200px; height: auto;' class='img-fluid rounded-start my-2' alt='...'/>";
     echo "</div>";
     echo "<div class='col-7 text-start d-flex align-items-center'>";
     echo "<div class='card-body shoppingCart'>";

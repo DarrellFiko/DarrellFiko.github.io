@@ -764,7 +764,6 @@ if (isset($_POST["addToCart"])) {
                                     $name = $product["name_produk"];
                                     $price = $product["price_produk"];
                                     $image = $product["image_produk"];
-                                    $image = base64_decode($image);
                                     //PASSINGG
                                     $temp++;
                                     if (($temp / 30) > $_SESSION["pageSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageSekarang"]) {
@@ -776,7 +775,7 @@ if (isset($_POST["addToCart"])) {
                                                     <div class="img-fluid">
                                                         <div class="card btn btn-outline-dark shadow border-0" style="width: 13rem; height: 21rem;">
                                                             <?php
-                                                            echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '" class="card-img-top border-0 img-size" alt="..."/>';
+                                                            echo "<img src ='$image' class='card-img-top border-0 img-size' alt='...'/>";
                                                             ?>
                                                             <div class="card-body ">
                                                                 <h6 class="card-title mb-2"><?= $name ?></h6>
@@ -931,8 +930,7 @@ if (isset($_POST["addToCart"])) {
                                     <div class="col-12 col-xl-6 d-flex justify-content-start align-items-center">
                                         <?php
                                         $image = $produkDetail[0]["image_produk"];
-                                        $image = base64_decode($image);
-                                        echo '<img src = "data:assets/jpg;base64,' . base64_encode($image) . '"style="height: auto;" class="card-img-top border-0 img-size" alt="..."/>';
+                                        echo "<img src='$image' style='height: auto;' class='card-img-top border-0 img-size' alt='...'/>";
                                         ?>
                                     </div>
                                     <div class="col-12 col-xl-6 px-5 py-5 d-flex align-items-center">
