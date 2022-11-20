@@ -101,6 +101,8 @@ if (isset($_POST["delete"])) {
 
     deleteProduk($id);
 
+    alert("Delete Product Success!");
+
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 
@@ -337,7 +339,7 @@ if (isset($_POST["pageTerakhir"])) {
                     </div>
                 </div>
                 <!-- Add Product -->
-                <form action="" method="post">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="col-12 border border-2 p-5 mb-5">
                         <div class="col-12 text-success">
                             <h1>Add Product</h1>
@@ -442,7 +444,7 @@ if (isset($_POST["pageTerakhir"])) {
                 </div>
             </div>
         </div>
-        
+
         <!-- Data produk -->
         <form action="" method="post">
             <div class="d-flex justify-content-center" id="collections">
@@ -505,7 +507,7 @@ if (isset($_POST["pageTerakhir"])) {
                                 $temp++;
                                 if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
                             ?>
-                                    <form action='' method='post'>
+                                    <form action="" method="post">
                                         <input type='hidden' name='idData' value='<?= $id ?>'>
                                         <tr>
                                             <td><?= $id ?></td>
@@ -522,7 +524,10 @@ if (isset($_POST["pageTerakhir"])) {
                                             <td><?= $kategori["name_kategori"] ?></td>
                                             <td><?= $stok ?></td>
                                             <td>$ <?= $price ?></td>
-                                            <td><button type='submit' class='btn btn-outline-warning ms-3' name='edit'>Edit</button><button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button></td>
+                                            <td>
+                                                <button type='submit' class='btn btn-outline-warning ms-3' name='edit'>Edit</button>
+                                                <button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button>
+                                            </td>
                                             <!-- <td>$description</td> -->
                                         </tr>
                                     </form>
