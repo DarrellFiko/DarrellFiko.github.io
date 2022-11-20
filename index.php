@@ -1044,7 +1044,7 @@ if (isset($_POST["addToCart"])) {
         }
     } else {
         ?>
-        <div class="bgGradient" style="margin-left: 40px;">
+        <div class="bgGradient min-vh-100" style="margin-left: 40px;">
             <div class="row pt-5 d-flex justify-content-evenly mx-3">
                 <div class="col-12 col-xl-7 text-center mt-4 pb-5 d-flex me-3">
                     <div class="row d-flex justify-content-center glass pt-4">
@@ -1105,7 +1105,7 @@ if (isset($_POST["addToCart"])) {
                 }else{
                     ?>
                     <div class="col-8 col-xl-4 text-center mt-4">
-                        <div class="row d-flex justify-content-center w-100" style="background-image: url('asset/shipping.jpg'); background-repeat: no-repeat;background-size: cover;">
+                        <div class="row glass d-flex justify-content-center w-100" style="background-image: url('asset/shipping.jpg'); background-repeat: no-repeat;background-size: cover;">
                             <div class="glass2 d-flex align-items-center justify-content-center text-dark" style="height: 66vh;">
                                 <div class="row">
                                     <div class="col-12">
