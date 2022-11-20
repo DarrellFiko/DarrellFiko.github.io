@@ -228,7 +228,6 @@ if (isset($_POST["search"])) {
 
     $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%' ORDER BY produk.id_produk");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    alert(count($_SESSION["listProduk"]));
     resetPaging();
     header("Location: #collections");
     $_SESSION["masukCart"] = false;

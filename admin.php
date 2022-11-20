@@ -1,127 +1,26 @@
 <?php
 require("functions.php");
 
+if (isset($_POST["logout"])) {
+    header("Location: index.php");
+}
+
 if (!isset($_SESSION["dataAdmin"])) {
     $_SESSION["dataAdmin"] = [];
     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-} else {
-    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
 }
+
 if (!isset($_SESSION["pagingAdmin"])) {
     resetPagingAdmin();
 }
 
-// PAGINATION
-$maks = (count($_SESSION["dataAdmin"]) / 30) + 1;
-if (isset($_POST["page0"])) {
-    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][0]["page"];
-    if ($_SESSION["pagingAdmin"][0]["page"] > 2) {
-        $_SESSION["pagingAdmin"][0]["page"] -= 2;
-        $_SESSION["pagingAdmin"][1]["page"] -= 2;
-        $_SESSION["pagingAdmin"][2]["page"] -= 2;
-        $_SESSION["pagingAdmin"][3]["page"] -= 2;
-        $_SESSION["pagingAdmin"][4]["page"] -= 2;
-    }
-    // alert($_SESSION["pageSekarang"]);
-}
-if (isset($_POST["page1"])) {
-    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
-    if ($_SESSION["pagingAdmin"][0]["page"] > 1) {
-        $_SESSION["pagingAdmin"][0]["page"]--;
-        $_SESSION["pagingAdmin"][1]["page"]--;
-        $_SESSION["pagingAdmin"][2]["page"]--;
-        $_SESSION["pagingAdmin"][3]["page"]--;
-        $_SESSION["pagingAdmin"][4]["page"]--;
-    }
-    // alert($_SESSION["pageSekarang"]);
-}
-if (isset($_POST["page2"])) {
-    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
-    // alert($_SESSION["pageSekarang"]);
-}
-if (isset($_POST["page3"])) {
-    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
-    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
-        $_SESSION["pagingAdmin"][0]["page"]++;
-        $_SESSION["pagingAdmin"][1]["page"]++;
-        $_SESSION["pagingAdmin"][2]["page"]++;
-        $_SESSION["pagingAdmin"][3]["page"]++;
-        $_SESSION["pagingAdmin"][4]["page"]++;
-    }
-    // alert($_SESSION["pageSekarang"]);
-}
-if (isset($_POST["page4"])) {
-    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
-    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 2) {
-        $_SESSION["pagingAdmin"][0]["page"] += 2;
-        $_SESSION["pagingAdmin"][1]["page"] += 2;
-        $_SESSION["pagingAdmin"][2]["page"] += 2;
-        $_SESSION["pagingAdmin"][3]["page"] += 2;
-        $_SESSION["pagingAdmin"][4]["page"] += 2;
-    } else if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
-        $_SESSION["pagingAdmin"][0]["page"] += 1;
-        $_SESSION["pagingAdmin"][1]["page"] += 1;
-        $_SESSION["pagingAdmin"][2]["page"] += 1;
-        $_SESSION["pagingAdmin"][3]["page"] += 1;
-        $_SESSION["pagingAdmin"][4]["page"] += 1;
-    }
-    // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
-}
-if (isset($_POST["pageSekarangMin1"])) {
-    if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageAdminSekarang"] != 1) {
-        $_SESSION["pageAdminSekarang"]--;
-        $_SESSION["pagingAdmin"][0]["page"]--;
-        $_SESSION["pagingAdmin"][1]["page"]--;
-        $_SESSION["pagingAdmin"][2]["page"]--;
-        $_SESSION["pagingAdmin"][3]["page"]--;
-        $_SESSION["pagingAdmin"][4]["page"]--;
-    } else if ($_SESSION["pageAdminSekarang"] > 1) {
-        $_SESSION["pageAdminSekarang"]--;
-    }
-    // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
-}
-if (isset($_POST["pageSekarangPlus1"])) {
-    if ($maks <= 4) {
-        if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageAdminSekarang"] < $maks - 1) {
-            $_SESSION["pageAdminSekarang"]++;
-        }
-    } else {
-        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageAdminSekarang"] != $maks) {
-            $_SESSION["pageAdminSekarang"]++;
-            $_SESSION["pagingAdmin"][0]["page"]++;
-            $_SESSION["pagingAdmin"][1]["page"]++;
-            $_SESSION["pagingAdmin"][2]["page"]++;
-            $_SESSION["pagingAdmin"][3]["page"]++;
-            $_SESSION["pagingAdmin"][4]["page"]++;
-        } else if ($_SESSION["pageAdminSekarang"] < $maks - 1) {
-            $_SESSION["pageAdminSekarang"]++;
-        }
-    }
-    // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
-}
-if (isset($_POST["pagePertama"])) {
-    $_SESSION["pageAdminSekarang"] = 1;
-    $_SESSION["pagingAdmin"][0]["page"] = 1;
-    $_SESSION["pagingAdmin"][1]["page"] = 2;
-    $_SESSION["pagingAdmin"][2]["page"] = 3;
-    $_SESSION["pagingAdmin"][3]["page"] = 4;
-    $_SESSION["pagingAdmin"][4]["page"] = 5;
-}
-if (isset($_POST["pageTerakhir"])) {
-    $maks = (int)$maks;
-    $_SESSION["pageAdminSekarang"] = $maks;
-    $_SESSION["pagingAdmin"][0]["page"] = $maks - 4;
-    $_SESSION["pagingAdmin"][1]["page"] = $maks - 3;
-    $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
-    $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
-    $_SESSION["pagingAdmin"][4]["page"] = $maks;
-}
+//SEARCH
+if (isset($_POST["btnSearchAdmin"])) {
+    $_SESSION["adminSearch"] = $_POST["inputSearchAdmin"];
 
-if (isset($_POST["logout"])) {
-    header("Location: index.php");
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["adminSearch"] . "%' ORDER BY produk.id_produk");
+    resetPaging();
+    header("Location: #collections");
 }
 
 if (isset($_POST["submitBrand"])) {
@@ -300,6 +199,114 @@ if (isset($_POST["submitProduk"])) {
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 
+// PAGINATION
+$maks = (count($_SESSION["dataAdmin"]) / 30) + 1;
+if (isset($_POST["page0"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][0]["page"];
+    if ($_SESSION["pagingAdmin"][0]["page"] > 2) {
+        $_SESSION["pagingAdmin"][0]["page"] -= 2;
+        $_SESSION["pagingAdmin"][1]["page"] -= 2;
+        $_SESSION["pagingAdmin"][2]["page"] -= 2;
+        $_SESSION["pagingAdmin"][3]["page"] -= 2;
+        $_SESSION["pagingAdmin"][4]["page"] -= 2;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page1"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
+    if ($_SESSION["pagingAdmin"][0]["page"] > 1) {
+        $_SESSION["pagingAdmin"][0]["page"]--;
+        $_SESSION["pagingAdmin"][1]["page"]--;
+        $_SESSION["pagingAdmin"][2]["page"]--;
+        $_SESSION["pagingAdmin"][3]["page"]--;
+        $_SESSION["pagingAdmin"][4]["page"]--;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page2"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page3"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
+    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
+        $_SESSION["pagingAdmin"][0]["page"]++;
+        $_SESSION["pagingAdmin"][1]["page"]++;
+        $_SESSION["pagingAdmin"][2]["page"]++;
+        $_SESSION["pagingAdmin"][3]["page"]++;
+        $_SESSION["pagingAdmin"][4]["page"]++;
+    }
+    // alert($_SESSION["pageSekarang"]);
+}
+if (isset($_POST["page4"])) {
+    $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
+    if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 2) {
+        $_SESSION["pagingAdmin"][0]["page"] += 2;
+        $_SESSION["pagingAdmin"][1]["page"] += 2;
+        $_SESSION["pagingAdmin"][2]["page"] += 2;
+        $_SESSION["pagingAdmin"][3]["page"] += 2;
+        $_SESSION["pagingAdmin"][4]["page"] += 2;
+    } else if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1) {
+        $_SESSION["pagingAdmin"][0]["page"] += 1;
+        $_SESSION["pagingAdmin"][1]["page"] += 1;
+        $_SESSION["pagingAdmin"][2]["page"] += 1;
+        $_SESSION["pagingAdmin"][3]["page"] += 1;
+        $_SESSION["pagingAdmin"][4]["page"] += 1;
+    }
+    // alert($_SESSION["pageSekarang"]);
+    // header("Location: #collections");
+}
+if (isset($_POST["pageSekarangMin1"])) {
+    if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageAdminSekarang"] != 1) {
+        $_SESSION["pageAdminSekarang"]--;
+        $_SESSION["pagingAdmin"][0]["page"]--;
+        $_SESSION["pagingAdmin"][1]["page"]--;
+        $_SESSION["pagingAdmin"][2]["page"]--;
+        $_SESSION["pagingAdmin"][3]["page"]--;
+        $_SESSION["pagingAdmin"][4]["page"]--;
+    } else if ($_SESSION["pageAdminSekarang"] > 1) {
+        $_SESSION["pageAdminSekarang"]--;
+    }
+    // alert($_SESSION["pageSekarang"]);
+    // header("Location: #collections");
+}
+if (isset($_POST["pageSekarangPlus1"])) {
+    if ($maks <= 4) {
+        if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageAdminSekarang"] < $maks - 1) {
+            $_SESSION["pageAdminSekarang"]++;
+        }
+    } else {
+        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageAdminSekarang"] != $maks) {
+            $_SESSION["pageAdminSekarang"]++;
+            $_SESSION["pagingAdmin"][0]["page"]++;
+            $_SESSION["pagingAdmin"][1]["page"]++;
+            $_SESSION["pagingAdmin"][2]["page"]++;
+            $_SESSION["pagingAdmin"][3]["page"]++;
+            $_SESSION["pagingAdmin"][4]["page"]++;
+        } else if ($_SESSION["pageAdminSekarang"] < $maks - 1) {
+            $_SESSION["pageAdminSekarang"]++;
+        }
+    }
+    // alert($_SESSION["pageSekarang"]);
+    // header("Location: #collections");
+}
+if (isset($_POST["pagePertama"])) {
+    $_SESSION["pageAdminSekarang"] = 1;
+    $_SESSION["pagingAdmin"][0]["page"] = 1;
+    $_SESSION["pagingAdmin"][1]["page"] = 2;
+    $_SESSION["pagingAdmin"][2]["page"] = 3;
+    $_SESSION["pagingAdmin"][3]["page"] = 4;
+    $_SESSION["pagingAdmin"][4]["page"] = 5;
+}
+if (isset($_POST["pageTerakhir"])) {
+    $maks = (int)$maks;
+    $_SESSION["pageAdminSekarang"] = $maks;
+    $_SESSION["pagingAdmin"][0]["page"] = $maks - 4;
+    $_SESSION["pagingAdmin"][1]["page"] = $maks - 3;
+    $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
+    $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
+    $_SESSION["pagingAdmin"][4]["page"] = $maks;
+}
 ?>
 
 <!DOCTYPE html>
@@ -314,7 +321,7 @@ if (isset($_POST["submitProduk"])) {
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body onload="load()">
+<body>
     <form action="#" method="post" enctype="multipart/form-data">
         <!-- Input -->
         <div class="d-flex justify-content-center">
@@ -443,7 +450,6 @@ if (isset($_POST["submitProduk"])) {
                         } else {
                         ?>
                             <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
-
                         <?php
                         }
                         ?>
@@ -454,7 +460,7 @@ if (isset($_POST["submitProduk"])) {
                                 <input class="form-control me-2" type="text" placeholder="Search" name="inputSearchAdmin" id="inputSearchAdmin">
                             </div>
                             <div class="col-1">
-                                <button class="btn btn-outline-success" type="button" name="inputSearchAdmin" onclick="load()">Search</button>
+                                <button class="btn btn-outline-success" type="submit" name="btnSearchAdmin">Search</button>
                             </div>
                         </div>
                     </div>
@@ -462,7 +468,56 @@ if (isset($_POST["submitProduk"])) {
                         <hr style="font-weight: bold; color: black;">
                     </div>
                     <table class="table" id="produkInfo">
-                        
+                        <tr>
+                            <!-- <th>Image Produk</th> -->
+                            <th scope='col'>ID Produk</th>
+                            <th scope='col'>Name Produk</th>
+                            <th scope='col'>Brand Produk</th>
+                            <th scope='col'>Category Produk</th>
+                            <th scope='col'>Stok Produk</th>
+                            <th scope='col'>Price Produk</th>
+                            <th scope='col'>Action</th>
+                            <!-- <th>Deskription Produk</th> -->
+                        </tr>
+                        <?php
+                        $temp = 0;
+                        foreach ($_SESSION["dataAdmin"] as $product) {
+                            $id = $product["id_produk"];
+                            $name = $product["name_produk"];
+                            $id_brand = $product["id_brand"];
+                            $id_category = $product["id_kategori"];
+                            $stok = $product["stok_produk"];
+                            $price = $product["price_produk"];
+                            $description = $product["description_produk"];
+                            $image = $product["image_produk"];
+                            $temp++;
+                            if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
+                        ?>
+                                <form action='' method='post'>
+                                    <input type='hidden' name='idData' value='<?= $id ?>'>
+                                    <tr>
+                                        <td><?= $id ?></td>
+                                        <td><?= $name ?></td>
+                                        <?php
+                                        $stmt = $conn->query("SELECT * FROM brand WHERE id_brand='$id_brand'");
+                                        $brand = $stmt->fetch_assoc();
+                                        ?>
+                                        <td><?= $brand["name_brand"] ?></td>
+                                        <?php
+                                        $stmt = $conn->query("SELECT * FROM kategori WHERE id_kategori='$id_category'");
+                                        $kategori = $stmt->fetch_assoc();
+                                        ?>
+                                        <td><?= $kategori["name_kategori"] ?></td>
+                                        <td><?= $stok ?></td>
+                                        <td>$ <?= $price ?></td>
+                                        <td><button type='submit' class='btn btn-outline-warning ms-3' name='edit'>Edit</button><button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button></td>
+                                        <!-- <td>$description</td> -->
+                                    </tr>
+                                </form>
+                        <?php
+                            }
+                        }
+                        ?>
                     </table>
                     <!-- PAGING -->
                     <div class="row py-3">
@@ -560,25 +615,6 @@ if (isset($_POST["submitProduk"])) {
             document.getElementsById("addStock").value = 0;
             document.getElementsById("addPrice").value = 0;
             document.getElementsById("addDescription").value = "";
-        }
-
-        function load() {
-            // 1. Inisialisai buat object dulu
-            r = new XMLHttpRequest();
-            search = document.getElementById("inputSearchAdmin").value;
-            // 2. Callback Function apa yang akan dikerjakan
-            // NB: Jangan menggunakan Arrow Function () => {} di sini
-            //     karena akan return undefined dan null
-            r.onreadystatechange = function() {
-                // Kalau dapat data dan status selesai > Lakukan sesuatu
-                if ((this.readyState == 4) && (this.status == 200)) {
-                    console.log("ajax ok!");
-                    document.getElementById("produkInfo").innerHTML = this.responseText;
-                }
-            }
-            // 3. Memanggil dan mengeksekusi AJAX
-            r.open('GET', 'infoProduk_ajax.php?search=' + search);
-            r.send();
         }
     </script>
 </body>
