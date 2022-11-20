@@ -213,6 +213,7 @@ if (isset($_POST["page0"])) {
         $_SESSION["pagingAdmin"][4]["page"] -= 2;
     }
     // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
 }
 if (isset($_POST["page1"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
@@ -224,10 +225,12 @@ if (isset($_POST["page1"])) {
         $_SESSION["pagingAdmin"][4]["page"]--;
     }
     // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
 }
 if (isset($_POST["page2"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
     // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
 }
 if (isset($_POST["page3"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
@@ -239,6 +242,7 @@ if (isset($_POST["page3"])) {
         $_SESSION["pagingAdmin"][4]["page"]++;
     }
     // alert($_SESSION["pageSekarang"]);
+    header("Location: #collections");
 }
 if (isset($_POST["page4"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
@@ -256,7 +260,7 @@ if (isset($_POST["page4"])) {
         $_SESSION["pagingAdmin"][4]["page"] += 1;
     }
     // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
+    header("Location: #collections");
 }
 if (isset($_POST["pageSekarangMin1"])) {
     if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageAdminSekarang"] != 1) {
@@ -270,7 +274,7 @@ if (isset($_POST["pageSekarangMin1"])) {
         $_SESSION["pageAdminSekarang"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
+    header("Location: #collections");
 }
 if (isset($_POST["pageSekarangPlus1"])) {
     if ($maks <= 4) {
@@ -290,7 +294,7 @@ if (isset($_POST["pageSekarangPlus1"])) {
         }
     }
     // alert($_SESSION["pageSekarang"]);
-    // header("Location: #collections");
+    header("Location: #collections");
 }
 if (isset($_POST["pagePertama"])) {
     $_SESSION["pageAdminSekarang"] = 1;
@@ -299,6 +303,7 @@ if (isset($_POST["pagePertama"])) {
     $_SESSION["pagingAdmin"][2]["page"] = 3;
     $_SESSION["pagingAdmin"][3]["page"] = 4;
     $_SESSION["pagingAdmin"][4]["page"] = 5;
+    header("Location: #collections");
 }
 if (isset($_POST["pageTerakhir"])) {
     $maks = (int)$maks;
@@ -308,6 +313,7 @@ if (isset($_POST["pageTerakhir"])) {
     $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
     $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
     $_SESSION["pagingAdmin"][4]["page"] = $maks;
+    header("Location: #collections");
 }
 ?>
 
