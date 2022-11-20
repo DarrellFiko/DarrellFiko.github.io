@@ -1005,7 +1005,7 @@ if (isset($_POST["addToCart"])) {
                                     </div>
 
                                     <!-- MAILER -->
-                                    <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
+                                    <!-- <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
                                         <div class="row my-5 d-flex justify-content-center">
                                             <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
                                                 <h1 class="text-light">Review</h1>
@@ -1033,7 +1033,7 @@ if (isset($_POST["addToCart"])) {
                                                 <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -1044,29 +1044,83 @@ if (isset($_POST["addToCart"])) {
         }
     } else {
         ?>
-        <div class="" style="margin-left: 40px;">
-            <div class="row d-flex justify-content-evenly">
-                <div class="col-8 text-center mt-4 pb-5 d-flex">
+        <div class="bgGradient" style="margin-left: 40px;">
+            <div class="row pt-5 d-flex justify-content-evenly mx-3">
+                <div class="col-12 col-xl-7 text-center mt-4 pb-5 d-flex me-3">
                     <div class="row d-flex justify-content-center glass pt-4">
                         <div class="col-12 my-3">
                             <h1 class="text-success">Cart</h1>
                         </div>
-                        <div class="col-11">
+                        <div class="col-12">
                             <div class="row d-flex justify-content-center" id="listCart" onload="loadCart()">
 
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 text-center mt-4 pb-5 d-flex justify-content-center">
-                    <div class="row d-flex justify-content-center glass pt-4 w-100">
-                        <div class="col-12 my-3">
-                            <h2 class="text-success">Shipping Detail</h2>
-                        </div>
-                        <div class="col-11">
+                <?php
+                if($_SESSION["login"]){
+                    $idUser = $_SESSION['idUser'];
+                    $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
+                    $user = $stmt->fetch_assoc();
+                    ?>
+                    <div class="col-8 col-xl-4 text-center mt-4 pb-5">
+                        <div class="row d-flex justify-content-center glass py-4 w-100 px-2">
+                            <div class="col-12 my-4">
+                                <h2 class="text-success">Shipping Detail</h2>
+                            </div>
+                            <div class="col-12">
+                                <form action="" method="post">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="text" class="form-control" placeholder="Name" name="nameUser" id="nameUser" value="<?=$user['username']?>">
+                                                <label for="nameUser">Name</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="email" class="form-control" placeholder="Email" name="emailUser" id="emailUser" value="<?=$user['email']?>">
+                                                <label for="emailUser">Email</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="text" class="form-control" placeholder="Phone Number" name="phoneUser" id="phoneUser" value="<?=$user['nomor_telepon']?>">
+                                                <label for="phoneUser">Phone Number</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form-floating mb-3 w-100">
+                                                <input type="text" class="form-control" placeholder="Address" name="addressUser" id="addressUser" value="<?=$user['alamat']?>">
+                                                <label for="addressUser">Address</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <?php
+                }else{
+                    ?>
+                    <div class="col-8 col-xl-4 text-center mt-4">
+                        <div class="row d-flex justify-content-center w-100" style="background-image: url('asset/shipping.jpg'); background-repeat: no-repeat;background-size: cover;">
+                            <div class="glass2 d-flex align-items-center justify-content-center text-dark" style="height: 66vh;">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h1>Login First To</h1>
+                                    </div>
+                                    <div class="col-12">
+                                        <h1>Confirm Your Data</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     <?php

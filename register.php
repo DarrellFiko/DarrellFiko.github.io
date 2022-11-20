@@ -95,11 +95,11 @@ if (isset($_POST["back"])) {
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
-                                        <input type="text" name="alamat" class="form-control form-control-lg" placeholder="Alamat" />
+                                        <input type="text" name="alamat" class="form-control form-control-lg" placeholder="Address" />
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
-                                        <input type="text" name="noTelp" class="form-control form-control-lg" placeholder="Nomor Telepon" />
+                                        <input type="text" name="noTelp" class="form-control form-control-lg" placeholder="Phone Number" />
                                     </div>
 
                                     <div class="form-outline form-white mb-4">
