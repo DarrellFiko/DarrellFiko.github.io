@@ -1044,23 +1044,30 @@ if (isset($_POST["addToCart"])) {
         }
     } else {
         ?>
-        <div class="" style="margin-left: 60px;">
-            <div class="d-flex justify-content-center">
-                <div class="container text-center mt-4 pb-5">
+        <div class="" style="margin-left: 40px;">
+            <div class="row d-flex justify-content-evenly">
+                <div class="col-8 text-center mt-4 pb-5 d-flex">
                     <div class="row d-flex justify-content-center glass pt-4">
                         <div class="col-12 my-3">
                             <h1 class="text-success">Cart</h1>
                         </div>
-                        <div class="col-10">
+                        <div class="col-11">
                             <div class="row d-flex justify-content-center" id="listCart" onload="loadCart()">
 
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-4 text-center mt-4 pb-5 d-flex justify-content-center">
+                    <div class="row d-flex justify-content-center glass pt-4 w-100">
+                        <div class="col-12 my-3">
+                            <h2 class="text-success">Shipping Detail</h2>
+                        </div>
+                        <div class="col-11">
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        </div>
         </div>
     <?php
     }
@@ -1128,7 +1135,7 @@ if (isset($_POST["addToCart"])) {
             r.open('GET', 'cart_ajax.php?id=' + id + '&quantity=' + quantity);
             r.send();
 
-            document.location.href = 'index.php';
+            // document.location.href = 'index.php';
 
         }
 
