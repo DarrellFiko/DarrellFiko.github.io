@@ -5,10 +5,12 @@ $key = $_GET["search"];
 
 if ($key == "") {
     // Semua
-    $products = query("SELECT * FROM produk");
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    // $_SESSION["dataAdmin"] = $products;
 } else {
     // Filter
-    $products = query("SELECT * FROM produk WHERE name_produk LIKE '%" . $key . "%'");
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk WHERE name_produk LIKE '%" . $key . "%'");
+    // $_SESSION["dataAdmin"] = $products;
 }
 
 echo "<tr>";
@@ -23,7 +25,7 @@ echo "<th scope='col'>Action</th>";
 echo "<!-- <th>Deskription Produk</th> -->";
 echo "</tr>";
 $temp = 0;
-foreach ($products as $product) {
+foreach ($_SESSION["dataAdmin"] as $product) {
     $id = $product["id_produk"];
     $name = $product["name_produk"];
     $id_brand = $product["id_brand"];

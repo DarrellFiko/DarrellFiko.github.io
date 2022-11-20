@@ -66,10 +66,10 @@ if (isset($_POST["page4"])) {
         $_SESSION["pagingAdmin"][4]["page"] += 1;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
 }
 if (isset($_POST["pageSekarangMin1"])) {
-    if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageSekarang"] != 1) {
+    if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageAdminSekarang"] != 1) {
         $_SESSION["pageAdminSekarang"]--;
         $_SESSION["pagingAdmin"][0]["page"]--;
         $_SESSION["pagingAdmin"][1]["page"]--;
@@ -80,15 +80,15 @@ if (isset($_POST["pageSekarangMin1"])) {
         $_SESSION["pageAdminSekarang"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
 }
 if (isset($_POST["pageSekarangPlus1"])) {
     if ($maks <= 4) {
-        if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageSekarang"] < $maks - 1) {
+        if ($_SESSION["pagingAdmin"][$maks - 2]["page"] <= $maks && $_SESSION["pageAdminSekarang"] < $maks - 1) {
             $_SESSION["pageAdminSekarang"]++;
         }
     } else {
-        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageSekarang"] != $maks) {
+        if ($_SESSION["pagingAdmin"][4]["page"] < $maks - 1 && $_SESSION["pageAdminSekarang"] != $maks) {
             $_SESSION["pageAdminSekarang"]++;
             $_SESSION["pagingAdmin"][0]["page"]++;
             $_SESSION["pagingAdmin"][1]["page"]++;
@@ -100,7 +100,7 @@ if (isset($_POST["pageSekarangPlus1"])) {
         }
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
 }
 if (isset($_POST["pagePertama"])) {
     $_SESSION["pageAdminSekarang"] = 1;
@@ -436,29 +436,27 @@ if (isset($_POST["submitProduk"])) {
                     </div>
                     <div class="col-12">
                         <?php
-                        if (($_SESSION["pageAdminSekarang"]) * 30 < $_SESSION["productCount"]) {
+                        if (($_SESSION["pageAdminSekarang"]) * 30 < count($_SESSION["dataAdmin"])) {
                         ?>
-                            <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
+                            <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
                         <?php
                         } else {
                         ?>
-                            <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
+                            <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
 
                         <?php
                         }
                         ?>
                     </div>
                     <div class="col-12">
-                        <form class="d-flex" role="search" method="POST">
-                            <div class="row">
-                                <div class="col-11">
-                                    <input class="form-control me-2" type="Search" placeholder="Search" aria-label="Search" name="inputSearch" id="inputSearch" onkeypress="load()">
-                                </div>
-                                <div class="col-1">
-                                    <button class="btn btn-outline-success" type="button" name="search" onclick="load()">Search</button>
-                                </div>
+                        <div class="row">
+                            <div class="col-11">
+                                <input class="form-control me-2" type="text" placeholder="Search" name="inputSearchAdmin" id="inputSearchAdmin">
                             </div>
-                        </form>
+                            <div class="col-1">
+                                <button class="btn btn-outline-success" type="button" name="inputSearchAdmin" onclick="load()">Search</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-12 text-dark">
                         <hr style="font-weight: bold; color: black;">
@@ -494,28 +492,28 @@ if (isset($_POST["submitProduk"])) {
                                             <li class="page-item"><button type="submit" name="page0" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][0]["page"] ?></button></li>
                                         </div>
                                         <?php
-                                        if (($_SESSION["productCount"] / 30) > 1) {
+                                        if ((count($_SESSION["dataAdmin"]) / 30) > 1) {
                                         ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
                                                 <li class="page-item"><button type="submit" name="page1" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][1]["page"] ?></button></li>
                                             </div>
                                         <?php
                                         }
-                                        if (($_SESSION["productCount"] / 30) > 2) {
+                                        if ((count($_SESSION["dataAdmin"]) / 30) > 2) {
                                         ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
                                                 <li class="page-item"><button type="submit" name="page2" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][2]["page"] ?></button></li>
                                             </div>
                                         <?php
                                         }
-                                        if (($_SESSION["productCount"] / 30) > 3) {
+                                        if ((count($_SESSION["dataAdmin"]) / 30) > 3) {
                                         ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
                                                 <li class="page-item"><button type="submit" name="page3" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][3]["page"] ?></button></li>
                                             </div>
                                         <?php
                                         }
-                                        if (($_SESSION["productCount"] / 30) > 4) {
+                                        if ((count($_SESSION["dataAdmin"]) / 30) > 4) {
                                         ?>
                                             <div class="col-1 col-xl-1 d-flex justify-content-center">
                                                 <li class="page-item"><button type="submit" name="page4" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][4]["page"] ?></button></li>
@@ -567,7 +565,7 @@ if (isset($_POST["submitProduk"])) {
         function load() {
             // 1. Inisialisai buat object dulu
             r = new XMLHttpRequest();
-            search = document.getElementById("inputSearch").value;
+            search = document.getElementById("inputSearchAdmin").value;
             // 2. Callback Function apa yang akan dikerjakan
             // NB: Jangan menggunakan Arrow Function () => {} di sini
             //     karena akan return undefined dan null
