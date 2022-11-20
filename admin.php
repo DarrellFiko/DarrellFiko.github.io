@@ -19,7 +19,7 @@ if (isset($_POST["btnSearchAdmin"])) {
     $_SESSION["adminSearch"] = $_POST["inputSearchAdmin"];
 
     $_SESSION["dataAdmin"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["adminSearch"] . "%' ORDER BY produk.id_produk");
-    resetPaging();
+    resetPagingAdmin();
     header("Location: #collections");
 }
 

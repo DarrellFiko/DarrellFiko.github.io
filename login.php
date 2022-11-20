@@ -18,6 +18,8 @@ if (isset($_POST["login"])) {
         alert("Semua Field Harus Terisi!");
         //buat user
     }else if($username == "admin" && $password == "admin123"){
+        $_SESSION["dataAdmin"] = [];
+        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
         header("Location: admin.php");
     } else {
         foreach ($users as $user) {
