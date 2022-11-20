@@ -84,10 +84,3 @@ echo "<input type='hidden' name='loginValue' id='loginValue' value='$loginValue'
 echo "<button type='button' name='checkOutBtn' id='checkOutBtn' class='btn btn-outline-dark fs-4' onclick='transaksi()'>Check Out</button>";
 echo "</form>";
 echo "</div>";
-
-?>
-<style>
-    img {
-        width: fit-content;
-    }
-</style>
