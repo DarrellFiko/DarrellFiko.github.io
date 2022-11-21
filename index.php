@@ -1044,6 +1044,7 @@ if (isset($_POST["addToCart"])) {
         }
     } else {
         ?>
+        <!-- Cart -->
         <div class="bgGradient min-vh-100" style="margin-left: 40px;">
             <div class="row pt-5 d-flex justify-content-evenly mx-3">
                 <div class="col-12 col-xl-7 text-center mt-4 pb-5 d-flex me-3">
@@ -1059,11 +1060,11 @@ if (isset($_POST["addToCart"])) {
                     </div>
                 </div>
                 <?php
-                if($_SESSION["login"]){
+                if ($_SESSION["login"]) {
                     $idUser = $_SESSION['idUser'];
                     $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
                     $user = $stmt->fetch_assoc();
-                    ?>
+                ?>
                     <div class="col-8 col-xl-4 text-center mt-4 pb-5">
                         <div class="row d-flex justify-content-center glass py-4 w-100 px-2">
                             <div class="col-12 my-4">
@@ -1074,25 +1075,25 @@ if (isset($_POST["addToCart"])) {
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-floating mb-3 w-100">
-                                                <input type="text" class="form-control" placeholder="Name" name="nameUser" id="nameUser" value="<?=$user['username']?>">
+                                                <input type="text" class="form-control" placeholder="Name" name="nameUser" id="nameUser" value="<?= $user['username'] ?>">
                                                 <label for="nameUser">Name</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating mb-3 w-100">
-                                                <input type="email" class="form-control" placeholder="Email" name="emailUser" id="emailUser" value="<?=$user['email']?>">
+                                                <input type="email" class="form-control" placeholder="Email" name="emailUser" id="emailUser" value="<?= $user['email'] ?>">
                                                 <label for="emailUser">Email</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating mb-3 w-100">
-                                                <input type="text" class="form-control" placeholder="Phone Number" name="phoneUser" id="phoneUser" value="<?=$user['nomor_telepon']?>">
+                                                <input type="text" class="form-control" placeholder="Phone Number" name="phoneUser" id="phoneUser" value="<?= $user['nomor_telepon'] ?>">
                                                 <label for="phoneUser">Phone Number</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating mb-3 w-100">
-                                                <input type="text" class="form-control" placeholder="Address" name="addressUser" id="addressUser" value="<?=$user['alamat']?>">
+                                                <input type="text" class="form-control" placeholder="Address" name="addressUser" id="addressUser" value="<?= $user['alamat'] ?>">
                                                 <label for="addressUser">Address</label>
                                             </div>
                                         </div>
@@ -1101,9 +1102,9 @@ if (isset($_POST["addToCart"])) {
                             </div>
                         </div>
                     </div>
-                    <?php
-                }else{
-                    ?>
+                <?php
+                } else {
+                ?>
                     <div class="col-8 col-xl-4 text-center mt-4">
                         <div class="row glass d-flex justify-content-center w-100" style="background-image: url('asset/shipping.jpg'); background-repeat: no-repeat;background-size: cover;">
                             <div class="glass2 d-flex align-items-center justify-content-center text-dark" style="height: 66vh;">
@@ -1118,7 +1119,7 @@ if (isset($_POST["addToCart"])) {
                             </div>
                         </div>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
             </div>
@@ -1189,7 +1190,7 @@ if (isset($_POST["addToCart"])) {
             r.open('GET', 'cart_ajax.php?id=' + id + '&quantity=' + quantity);
             r.send();
 
-            // document.location.href = 'index.php';
+            document.location.href = 'index.php';
 
         }
 
