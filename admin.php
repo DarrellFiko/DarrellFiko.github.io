@@ -480,7 +480,7 @@ if (isset($_POST["pageTerakhir"])) {
         
         <form action="" method="post">
             <div class="container">
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col-12 d-flex justify-content-center align-items-center">
                         <select name="pilihData" class="me-3" id="pilihData" style="width: 12vw; height: 5vh;" value="<?=$_SESSION["data"]?>">
                             <option value="produk" style="width: 12vw; height: 5vh;">Product</option>
