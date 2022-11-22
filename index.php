@@ -52,6 +52,8 @@ if ($ctr == 0) {
     $nota = "NOTA" . str_pad($number, 46, '0', STR_PAD_LEFT);
 }
 
+$_SESSION["nomorNota"] = $nota;
+
 // Optional
 $item_details = [];
 
@@ -83,37 +85,28 @@ $transaction_details = array(
     'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
 );
 
-// Optional
-$billing_address = array(
-    'first_name'    => "Andri",
-    'last_name'     => "Litani",
-    'address'       => "Mangga 20",
-    'city'          => "Jakarta",
-    'postal_code'   => "16602",
-    'phone'         => "081122334455",
-    'country_code'  => 'IDN'
-);
+// // Optional
+// $billing_address = array(
+//     'name'    => $user["full_name"],
+//     'address'       => $user["alamat"],
+//     'phone'         => $user["nomor_telepon"],
+// );
 
-// Optional
-$shipping_address = array(
-    'first_name'    => "Obet",
-    'last_name'     => "Supriadi",
-    'address'       => "Manggis 90",
-    'city'          => "Jakarta",
-    'postal_code'   => "16601",
-    'phone'         => "08113366345",
-    'country_code'  => 'IDN'
-);
+// // Optional
+// $shipping_address = array(
+//     'name'    => $user["full_name"],
+//     'address'       => $user["alamat"],
+//     'phone'         => $user["nomor_telepon"],
+// );
 
-// Optional
-$customer_details = array(
-    'first_name'    => "Andri",
-    'last_name'     => "Litani",
-    'email'         => "andri@litani.com",
-    'phone'         => "081122334455",
-    'billing_address'  => $billing_address,
-    'shipping_address' => $shipping_address
-);
+// // Optional
+// $customer_details = array(
+//     'name'    => $user["full_name"],
+//     'email'         => $user["email"],
+//     'phone'         => $user["nomor_telepon"],
+//     'billing_address'  => $billing_address,
+//     'shipping_address' => $shipping_address
+// );
 
 // Optional, remove this to display all available payment methods
 // $enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
@@ -122,7 +115,7 @@ $customer_details = array(
 $transaction = array(
     // 'enabled_payments' => $enable_payments,
     'transaction_details' => $transaction_details,
-    'customer_details' => $customer_details,
+    // 'customer_details' => $customer_details,
     'item_details' => $item_details,
 );
 
@@ -146,7 +139,6 @@ function printExampleWarningMessage()
         die();
     }
 }
-
 
 // 
 
@@ -536,12 +528,12 @@ if (isset($_POST["addToCart"])) {
                 onSuccess: function(result) {
                     /* You may add your own js here, this is just example */
                     // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
-                    window.location.href = "thankyou.php";
+                    window.location.href = "thankyou_v2.php";
                 },
                 // Optional
                 onPending: function(result) {
                     /* You may add your own js here, this is just example */
-                    document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                    // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
                 },
                 // Optional
                 onError: function(result) {

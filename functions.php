@@ -147,6 +147,39 @@ function insertProduk($data)
     return mysqli_affected_rows($conn);
 }
 
+function insertHtrans($data)
+{
+    global $conn;
+
+    // DATA
+    $nota_jual = $data["nota_jual"];
+    $tanggal = $data["tanggal"];
+    $id_user = $data["id_user"];
+    $subtotal = $data["subtotal"];
+
+    $query = "INSERT INTO htrans (nota_jual,tanggal,id_user,subtotal) VALUES ('$nota_jual', '$tanggal', '$id_user', '$subtotal')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function insertDtrans($data)
+{
+    global $conn;
+
+    // DATA
+    $nota_jual = $data["nota_jual"];
+    $id_produk = $data["id_produk"];
+    $quantity = $data["quantity"];
+
+    $query = "INSERT INTO dtrans (nota_jual,id_produk,quantity) VALUES ('$nota_jual', '$id_produk', '$quantity')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 // UPDATE
 
 function update($data)
