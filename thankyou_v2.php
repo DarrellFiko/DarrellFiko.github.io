@@ -37,7 +37,6 @@ if (insertHtrans($data) > 0) {
         ];
 
         if (insertDtrans($data) > 0) {
-            alert("dtrans sukses");
         } else {
             alert("dtrans gagal");
         }
