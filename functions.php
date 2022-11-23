@@ -140,9 +140,10 @@ function insertProduk($data)
         $image_produk = $value["image_produk"];
         $description_produk = $value["description_produk"];
         $status_produk = $value["status_produk"];
-    
+
+        alert($name_produk);
         $query = "INSERT INTO produk (name_produk,id_brand,id_kategori,stok_produk,price_produk,image_produk,description_produk,status_produk) VALUES ('$name_produk', '$id_brand', '$id_kategori', '$stok_produk', '$price_produk', '$image_produk','$description_produk','$status_produk')";
-    
+
         mysqli_query($conn, $query);
     }
 
