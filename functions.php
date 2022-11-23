@@ -131,18 +131,20 @@ function insertProduk($data)
     global $conn;
 
     // DATA
-    $name_produk = $data["name_produk"];
-    $id_brand = $data["id_brand"];
-    $id_kategori = $data["id_kategori"];
-    $stok_produk = $data["stok_produk"];
-    $price_produk = $data["price_produk"];
-    $image_produk = $data["image_produk"];
-    $description_produk = $data["description_produk"];
-    $status_produk = $data["status_produk"];
-
-    $query = "INSERT INTO produk (name_produk,id_brand,id_kategori,stok_produk,price_produk,image_produk,description_produk,status_produk) VALUES ('$name_produk', '$id_brand', '$id_kategori', '$stok_produk', '$price_produk', '$image_produk','$description_produk','$status_produk')";
-
-    mysqli_query($conn, $query);
+    foreach ($data as $key => $value) {
+        $name_produk = $value["name_produk"];
+        $id_brand = $value["id_brand"];
+        $id_kategori = $value["id_kategori"];
+        $stok_produk = $value["stok_produk"];
+        $price_produk = $value["price_produk"];
+        $image_produk = $value["image_produk"];
+        $description_produk = $value["description_produk"];
+        $status_produk = $value["status_produk"];
+    
+        $query = "INSERT INTO produk (name_produk,id_brand,id_kategori,stok_produk,price_produk,image_produk,description_produk,status_produk) VALUES ('$name_produk', '$id_brand', '$id_kategori', '$stok_produk', '$price_produk', '$image_produk','$description_produk','$status_produk')";
+    
+        mysqli_query($conn, $query);
+    }
 
     return mysqli_affected_rows($conn);
 }

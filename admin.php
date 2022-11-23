@@ -4,10 +4,14 @@ require("functions.php");
 if (isset($_POST["logout"])) {
     header("Location: index.php");
     $_SESSION["data"] = "produk";
+    $_SESSION["jumlahInput"] = 1;
 }
 
 if (!isset($_SESSION["data"])) {
     $_SESSION["data"] = "produk";
+}
+if (!isset($_SESSION["jumlahInput"])) {
+    $_SESSION["jumlahInput"] = 1;
 }
 
 if (!isset($_SESSION["dataAdmin"])) {
@@ -155,90 +159,100 @@ if (isset($_POST["delete"])) {
 if (isset($_POST["submitProduk"])) {
     $safe = true;
 
-    $nameProduk = $_POST["addName"];
-    $brandProduk = $_POST["addProdukBrand"];
-    $categoryProduk = $_POST["addProdukKategori"];
-    $stockProduk = $_POST["addStock"];
-    $priceProduk = $_POST["addPrice"];
-    $descriptionProduk = $_POST["addDescription"];
-
-    if ($nameProduk == "" || $brandProduk == "" || $categoryProduk == "" || $stockProduk == "" || $priceProduk == "" || $descriptionProduk == "") {
-        $safe = false;
-    } else {
-        $target_dir = "asset/product/";
-        $target_file = $target_dir . basename($_FILES["addImage"]["name"]);
-        $uploadOk = true;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        $check = getimagesize($_FILES["addImage"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = true;
-        } else {
-            $uploadOk = false;
-            alert("File is not an image.");
-        }
-
-        // Check if file already exists
-        if (file_exists($target_file) && $uploadOk == true) {
-            $uploadOk = false;
-            alert("Sorry, file already exists.");
-        }
-
-        // Check file size
-        if ($_FILES["addImage"]["size"] > 10000000 && $uploadOk == true) {
-            $uploadOk = false;
-            alert("Sorry, your file is too large.");
-        }
-
-        // Allow certain file formats
-        if ($imageFileType != "jpg" && $uploadOk == true) {
-            $uploadOk = false;
-            alert("Sorry, only JPG files are allowed.");
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == false) {
+    
+    for ($i=0; $i < $_SESSION["jumlahInput"]; $i++) { 
+        $nameProduk = $_POST["addName".$i];
+        $brandProduk = $_POST["addProdukBrand".$i];
+        $categoryProduk = $_POST["addProdukKategori".$i];
+        $stockProduk = $_POST["addStock".$i];
+        $priceProduk = $_POST["addPrice".$i];
+        $descriptionProduk = $_POST["addDescription".$i];
+        
+        if ($nameProduk == "" || $brandProduk == "" || $categoryProduk == "" || $stockProduk == "" || $priceProduk == "" || $descriptionProduk == "") {
             $safe = false;
         } else {
-            if (move_uploaded_file($_FILES["addImage"]["tmp_name"], $target_file)) {
-                $safe = true;
+            $target_dir = "asset/product/";
+            $target_file = $target_dir . basename($_FILES["addImage".$i]["name"]);
+            $uploadOk = true;
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+            // Check if image file is a actual image or fake image
+            $check = getimagesize($_FILES["addImage".$i]["tmp_name"]);
+            if ($check !== false) {
+                $uploadOk = true;
             } else {
-                alert("Sorry, there was an error uploading your file.");
-                $safe = false;
+                $uploadOk = false;
+                alert("File is not an image.");
             }
+    
+            // Check if file already exists
+            if (file_exists($target_file) && $uploadOk == true) {
+                $uploadOk = false;
+                alert("Sorry, file already exists.");
+            }
+    
+            // Check file size
+            if ($_FILES["addImage".$i]["size"] > 10000000 && $uploadOk == true) {
+                $uploadOk = false;
+                alert("Sorry, your file is too large.");
+            }
+    
+            // Allow certain file formats
+            if ($imageFileType != "jpg" && $uploadOk == true) {
+                $uploadOk = false;
+                alert("Sorry, only JPG files are allowed.");
+            }
+    
+            // Check if $uploadOk is set to 0 by an error
+            if ($uploadOk == false) {
+                $safe = false;
+            } else {
+                if (move_uploaded_file($_FILES["addImage".$i]["tmp_name"], $target_file)) {
+                    $safe = true;
+                } else {
+                    alert("Sorry, there was an error uploading your file.");
+                    $safe = false;
+                }
+            }
+        }
+
+        if ($safe) {
+            $path = $target_dir . htmlspecialchars(basename($_FILES["addImage"]["name"]));
+    
+            $brands = query("SELECT * FROM brand");
+            foreach ($brands as $key => $value) {
+                if ($brandProduk == $value["name_brand"]) {
+                    $idBrand = $value["id_brand"];
+                }
+            }
+    
+            $categories = query("SELECT * FROM kategori");
+            foreach ($categories as $key => $value) {
+                if ($categoryProduk == $value["name_kategori"]) {
+                    $idCategory = $value["id_kategori"];
+                }
+            }
+    
+            $data = [
+                "name_produk" => $nameProduk,
+                "id_brand" => $idBrand,
+                "id_kategori" => $idCategory,
+                "stok_produk" => $stockProduk,
+                "price_produk" => $priceProduk,
+                "image_produk" => $path,
+                "description_produk" => $descriptionProduk,
+                "status_produk" => 1
+            ];
+    
+            $insertData = [];
+            array_push($insertData, $data);
         }
     }
 
-    if ($safe) {
-        $path = $target_dir . htmlspecialchars(basename($_FILES["addImage"]["name"]));
 
-        $brands = query("SELECT * FROM brand");
-        foreach ($brands as $key => $value) {
-            if ($brandProduk == $value["name_brand"]) {
-                $idBrand = $value["id_brand"];
-            }
-        }
 
-        $categories = query("SELECT * FROM kategori");
-        foreach ($categories as $key => $value) {
-            if ($categoryProduk == $value["name_kategori"]) {
-                $idCategory = $value["id_kategori"];
-            }
-        }
-
-        $data = [
-            "name_produk" => $nameProduk,
-            "id_brand" => $idBrand,
-            "id_kategori" => $idCategory,
-            "stok_produk" => $stockProduk,
-            "price_produk" => $priceProduk,
-            "image_produk" => $path,
-            "description_produk" => $descriptionProduk,
-            "status_produk" => 1
-        ];
-
-        insertProduk($data);
+    if($safe){
+        insertProduk($insertData);
 
         alert("Add Product Success!");
     } else {
@@ -361,6 +375,12 @@ if (isset($_POST["pageTerakhir"])) {
     $_SESSION["pagingAdmin"][4]["page"] = $maks;
     header("Location: #collections");
 }
+
+if(isset($_POST["go"])){
+    $_SESSION["jumlahInput"] = $_POST["jumlahInput"];
+    header("Location: #addProduk");
+    // alert($_SESSION["jumlahInput"]);
+}
 ?>
 
 <!DOCTYPE html>
@@ -392,59 +412,73 @@ if (isset($_POST["pageTerakhir"])) {
                 </div>
                 <!-- Add Product -->
                 <form action="" method="post" enctype="multipart/form-data">
-                    <div class="col-12 border border-2 p-5 mb-5">
+                    <div class="col-12 border border-2 p-5 mb-5" id="addProduk">
                         <div class="col-12 text-success">
                             <h1>Add Product</h1>
                         </div>
-                        <div class="col-12 mt-4">
-                            <div class="form-floating mb-3 w-100">
-                                <input type="text" class="form-control" placeholder="Name Product" name="addName" id="addName">
-                                <label for="addName">Name Product</label>
-                            </div>
+                        <div class="col-12 d-flex align-items-center justify-content-center mt-3">
+                            <form action="" method="post">
+                                <input type="number" name="jumlahInput" id="" style="width: 6vw; height: 5vh;" min="1" value="<?=$_SESSION["jumlahInput"]?>"><button type="submit" class="btn btn-outline-dark fs-5 d-flex align-items-center justify-content-center ms-3" style="width: 4vw; height: 5vh;" name="go">Go</button>
+                            </form>
                         </div>
-                        <div class="col-12 mt-4">
-                            <div class="row">
-                                <div class="col-6 col-xl-3 d-flex justify-content-start align-items-center" style="font-size: 20px;">
-                                    Brand : <select name="addProdukBrand" class="ms-3" id="addProdukBrand" style="width: 7vw; height: 5vh;">
-                                        <?php
-                                        $tempBrand = query("SELECT * FROM brand");
-                                        foreach ($tempBrand as $key => $value) {
-                                        ?>
-                                            <option value="<?= $value["name_brand"] ?>" style="width: 7vw; height: 5vh;"><?= $value["name_brand"] ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-6 col-xl-3 d-flex justify-content-start align-items-center" style="font-size: 20px;">
-                                    Categories : <select name="addProdukKategori" class="ms-3" id="addProdukKategori" style="width: 7vw; height: 5vh;">
-                                        <?php
-                                        $tempBrand = query("SELECT * FROM kategori");
-                                        foreach ($tempBrand as $key => $value) {
-                                        ?>
-                                            <option value="<?= $value["name_kategori"] ?>" style="width: 8vw; height: 5vh;"> <?= $value["name_kategori"] ?></option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="col-6 col-xl-3 text-start d-flex justify-content-center align-items-center" style="font-size: 20px;">
-                                    Stock : <input type="number" onclick="" class="mx-3" style="width: 7vw; height: 5vh;" name="addStock" id="addStock" min="1">
-                                </div>
-                                <div class="col-6 col-xl-3 d-flex justify-content-end align-items-center" style="font-size: 20px;">
-                                    Price : $ <input type="number" step="0.01" onclick="" class="mx-3" style="width: 8vw; height: 5vh;" name="addPrice" id="addPrice" min="0">
+                        <?php
+                        for ($i=0; $i < $_SESSION["jumlahInput"]; $i++) { 
+                            ?>
+                            <div class="col-12 mt-4">
+                                <div class="form-floating mb-3 w-100">
+                                    <input type="text" class="form-control" placeholder="Name Product" name="addName<?=$i?>" id="addName<?=$i?>">
+                                    <label for="addName">Name Product</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-12 d-flex justify-content-start pt-4" style="font-size: 20px;">
-                            Image (.jpg): <input type="file" name="addImage" id="" class="ms-3">
-                        </div>
-                        <div class="col-12 pt-4 d-flex justify-content-start">
-                            <div class="form-floating mb-3 w-100">
-                                <textarea class="form-control" placeholder="Description Product" style="height: 20vh" aria-label="With textarea" name="addDescription" id="addDescription"></textarea>
-                                <label for="addDescription">Description Product</label>
+                            <div class="col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-6 col-xl-3 d-flex justify-content-start align-items-center" style="font-size: 20px;">
+                                        Brand : <select name="addProdukBrand<?=$i?>" class="ms-3" id="addProdukBrand<?=$i?>" style="width: 7vw; height: 5vh;">
+                                            <?php
+                                            $tempBrand = query("SELECT * FROM brand");
+                                            foreach ($tempBrand as $key => $value) {
+                                            ?>
+                                                <option value="<?= $value["name_brand"] ?>" style="width: 7vw; height: 5vh;"><?= $value["name_brand"] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 col-xl-3 d-flex justify-content-start align-items-center" style="font-size: 20px;">
+                                        Categories : <select name="addProdukKategori<?=$i?>" class="ms-3" id="addProdukKategori<?=$i?>" style="width: 7vw; height: 5vh;">
+                                            <?php
+                                            $tempBrand = query("SELECT * FROM kategori");
+                                            foreach ($tempBrand as $key => $value) {
+                                            ?>
+                                                <option value="<?= $value["name_kategori"] ?>" style="width: 8vw; height: 5vh;"> <?= $value["name_kategori"] ?></option>
+                                            <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 col-xl-3 text-start d-flex justify-content-center align-items-center" style="font-size: 20px;">
+                                        Stock : <input type="number" onclick="" class="mx-3" style="width: 7vw; height: 5vh;" name="addStock<?=$i?>" id="addStock" min="1">
+                                    </div>
+                                    <div class="col-6 col-xl-3 d-flex justify-content-end align-items-center" style="font-size: 20px;">
+                                        Price : $ <input type="number" step="0.01" onclick="" class="mx-3" style="width: 8vw; height: 5vh;" name="addPrice<?=$i?>" id="addPrice" min="0">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                            <div class="col-12 d-flex justify-content-start pt-4" style="font-size: 20px;">
+                                Image (.jpg): <input type="file" name="addImage<?=$i?>" id="" class="ms-3">
+                            </div>
+                            <div class="col-12 pt-4 d-flex justify-content-start">
+                                <div class="form-floating mb-3 w-100">
+                                    <textarea class="form-control" placeholder="Description Product" style="height: 20vh" aria-label="With textarea" name="addDescription<?=$i?>" id="addDescription"<?=$i?>></textarea>
+                                    <label for="addDescription">Description Product</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <?php
+                        }
+                        ?>
                         <div class="col-12 pt-3 d-flex justify-content-end">
                             <button type="submit" class="btn btn-outline-success py-2 px-5 me-3" name="submitProduk" onclick="">Add Product</button>
                             <button type="submit" class="btn btn-outline-success py-2 px-5" name="clear" onclick="clearForm();">Clear</button>
