@@ -153,7 +153,8 @@ if (isset($_POST["delete"])) {
 
     alert("Delete Product Success!");
 
-    echo "<script> document.location.href = 'admin.php'; </script>";
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    echo "<script> document.location.href = 'admin.php#collection'; </script>";
 }
 
 if (isset($_POST["submitProduk"])) {
@@ -256,6 +257,8 @@ if (isset($_POST["submitProduk"])) {
         alert("Add Product Failed!");
         unlink($path);
     }
+
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 
