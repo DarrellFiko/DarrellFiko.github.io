@@ -120,6 +120,7 @@ if (isset($_POST["submitProduk"])) {
     } else {
         alert("Update Product Failed!");
     }
+    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 ?>
