@@ -2,9 +2,10 @@
 require("functions.php");
 
 if (isset($_POST["logout"])) {
-    header("Location: index.php");
     $_SESSION["data"] = "produk";
     $_SESSION["jumlahInput"] = 1;
+    resetPagingAdmin();
+    header("Location: index.php");
 }
 
 if (!isset($_SESSION["data"])) {
