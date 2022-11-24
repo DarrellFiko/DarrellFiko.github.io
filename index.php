@@ -734,15 +734,21 @@ if (isset($_POST["addToCart"])) {
                                 </div>
                                 <div class="col-12">
                                     <?php
-                                    if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
-                                    ?>
-                                        <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
-
-                                    <?php
+                                    if(count($_SESSION["listProduk"])==0){
+                                        ?>
+                                        <h5>Result 0 - 0 of 0</h5>
+                                        <?php
+                                    }else{
+                                        if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
+                                        ?>
+                                            <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
+    
+                                        <?php
+                                        }
                                     }
                                     ?>
                                 </div>
@@ -910,7 +916,7 @@ if (isset($_POST["addToCart"])) {
         } else {
             $_SESSION["masukDetail"] = false;
         ?>
-            <form action="" method="post">
+            <form action="" method="post" class="mb-0">
                 <input type="hidden" name="cartPassID" value="<?= $curID ?>">
                 <div class="container-fluid bgGradient">
                     <div class="" style="margin-left: 60px;">

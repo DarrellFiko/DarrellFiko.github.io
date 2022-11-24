@@ -562,14 +562,20 @@ if (isset($_POST["go"])) {
                             </div>
                             <div class="col-12">
                                 <?php
-                                if (($_SESSION["pageAdminSekarang"]) * 30 < count($_SESSION["dataAdmin"])) {
-                                ?>
-                                    <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
-                                <?php
-                                } else {
-                                ?>
-                                    <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
-                                <?php
+                                if(count($_SESSION["dataAdmin"])==0){
+                                    ?>
+                                    <h5>Result 0 - 0 of 0</h5>
+                                    <?php
+                                }else{
+                                    if (($_SESSION["pageAdminSekarang"]) * 30 < count($_SESSION["dataAdmin"])) {
+                                    ?>
+                                        <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
+                                    <?php
+                                    }
                                 }
                                 ?>
                             </div>
