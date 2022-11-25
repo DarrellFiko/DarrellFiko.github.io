@@ -38,9 +38,12 @@ if (isset($_POST["choose"])) {
     } else if ($data == "htrans") {
         $_SESSION["data"] = "htrans";
         $_SESSION["dataAdmin"] = query("SELECT * FROM htrans");
-    } else {
+    } else if ($data == "dtrans"){
         $_SESSION["data"] = "dtrans";
         $_SESSION["dataAdmin"] = query("SELECT * FROM dtrans");
+    }else{
+        $_SESSION["data"] = "user";
+        $_SESSION["dataAdmin"] = query("SELECT * FROM user");
     }
     resetPagingAdmin();
     header("Location: #collections");
@@ -138,26 +141,59 @@ if (isset($_POST["edit"])) {
     header("Location: editData.php");
 }
 
-if (isset($_POST["delete"])) {
+if (isset($_POST["activate"])) {
     $id = $_POST["idData"];
 
-    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id'");
-    foreach ($tempProduk as $key => $value) {
-        $dir = $value["image_produk"];
+    // $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id'");
+    // foreach ($tempProduk as $key => $value) {
+    //     $dir = $value["image_produk"];
+    // }
+
+    // if (file_exists($dir)) {
+    //     unlink($dir);
+    // }
+
+    // deleteProduk($id);
+    if($_SESSION["data"] == "produk"){
+        $query = "UPDATE produk SET status_produk = '1' WHERE id_produk = '$id'";
+        mysqli_query($conn, $query);
+        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    }else if($_SESSION["data"] == "user"){
+        $query = "UPDATE user SET status_user = '1' WHERE id_user = '$id'";
+        mysqli_query($conn, $query);
+        $_SESSION["dataAdmin"] = query("SELECT * FROM user");
     }
 
-    if (file_exists($dir)) {
-        unlink($dir);
-    }
-
-    deleteProduk($id);
-
-    alert("Delete Product Success!");
-
-    $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    alert("Activate Product Success!");
     echo "<script> document.location.href = 'admin.php#collection'; </script>";
 }
+if (isset($_POST["deactivate"])) {
+    $id = $_POST["idData"];
 
+    // $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id'");
+    // foreach ($tempProduk as $key => $value) {
+    //     $dir = $value["image_produk"];
+    // }
+
+    // if (file_exists($dir)) {
+    //     unlink($dir);
+    // }
+
+    // deleteProduk($id);
+    if($_SESSION["data"] == "produk"){
+        $query = "UPDATE produk SET status_produk = '0' WHERE id_produk = '$id'";
+        mysqli_query($conn, $query);
+        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    }else if($_SESSION["data"] == "user"){
+        $query = "UPDATE user SET status_user = '0' WHERE id_user = '$id'";
+        mysqli_query($conn, $query);
+        $_SESSION["dataAdmin"] = query("SELECT * FROM user");
+    }
+
+    alert("Deactivate Product Success!");
+
+    echo "<script> document.location.href = 'admin.php#collection'; </script>";
+}
 if (isset($_POST["submitProduk"])) {
     $safe = true;
 
@@ -399,7 +435,7 @@ if (isset($_POST["go"])) {
 
 <body>
     <!-- Input -->
-    <div class="bgGradient">
+    <div class="bgGradient min-vh-100">
         <div class="d-flex justify-content-center">
             <div class="container bg-light text-center p-5 my-5 glass">
                 <div class="row d-flex justify-content-start mb-5">
@@ -542,6 +578,7 @@ if (isset($_POST["go"])) {
                             <option value="produk" style="width: 12vw; height: 5vh;">Product</option>
                             <option value="htrans" style="width: 12vw; height: 5vh;">Header Transaction</option>
                             <option value="dtrans" style="width: 12vw; height: 5vh;">Detail Transaction</option>
+                            <option value="user" style="width: 12vw; height: 5vh;">User</option>
                         </select>
                         <button type="submit" class="btn btn-outline-dark fs-5" style="width: 6vw; height: 5vh;" name="choose">Choose</button>
                     </div>
@@ -553,12 +590,12 @@ if (isset($_POST["go"])) {
         <?php
         if ($_SESSION["data"] == "produk") {
         ?>
-            <form action="" method="post">
+            <form action="" method="post" class="mb-0">
                 <div class="d-flex justify-content-center" id="collections">
                     <div class="container bg-light text-center p-5 mb-5 mt-1 glass">
                         <div class="row d-flex justify-content-center">
                             <div class="col-12">
-                                <h1>Product Data</h1>
+                                <h1>Products Data</h1>
                             </div>
                             <div class="col-12">
                                 <?php
@@ -603,6 +640,7 @@ if (isset($_POST["go"])) {
                                     <th scope='col'>Category Produk</th>
                                     <th scope='col'>Stok Produk</th>
                                     <th scope='col'>Price Produk</th>
+                                    <th scope='col'>Status</th>
                                     <th scope='col'>Action</th>
                                     <!-- <th>Deskription Produk</th> -->
                                 </tr>
@@ -617,10 +655,11 @@ if (isset($_POST["go"])) {
                                     $price = $product["price_produk"];
                                     $description = $product["description_produk"];
                                     $image = $product["image_produk"];
+                                    $status = $product["status_produk"];
                                     $temp++;
                                     if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
                                 ?>
-                                        <form action="" method="post">
+                                        <form action="" method="post" class="mb-0">
                                             <input type='hidden' name='idData' value='<?= $id ?>'>
                                             <tr>
                                                 <td><?= $id ?></td>
@@ -637,9 +676,21 @@ if (isset($_POST["go"])) {
                                                 <td><?= $kategori["name_kategori"] ?></td>
                                                 <td><?= $stok ?></td>
                                                 <td>$ <?= $price ?></td>
+                                                <td><?= $status ?></td>
                                                 <td>
-                                                    <button type='submit' class='btn btn-outline-warning ms-3' name='edit'>Edit</button>
-                                                    <button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button>
+                                                    <button type='submit' class='btn btn-outline-warning p-1' name='edit'>Edit</button>
+                                                    <?php
+                                                    if($status==0){
+                                                        ?>
+                                                        <button type='submit' class='btn btn-outline-success p-1' name='activate'>Activate</button>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <button type='submit' class='btn btn-outline-danger p-1' name='deactivate'>Deactivate</button>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <!-- <button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button> -->
                                                 </td>
                                                 <!-- <td>$description</td> -->
                                             </tr>
@@ -896,7 +947,7 @@ if (isset($_POST["go"])) {
                 </div>
             </form>
         <?php
-        } else {
+        } else if ($_SESSION["data"] == "dtrans") {
         ?>
             <form action="" method="post">
                 <div class="d-flex justify-content-center" id="collections">
@@ -1050,6 +1101,190 @@ if (isset($_POST["go"])) {
                 </div>
             </form>
         <?php
+        }else{
+            ?>
+            <form action="" method="post" >
+                <div class="d-flex justify-content-center" id="collections">
+                    <div class="container bg-light text-center p-5 mb-5 mt-1 glass">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-12">
+                                <h1>Users Data</h1>
+                            </div>
+                            <div class="col-12">
+                                <?php
+                                if (($_SESSION["pageAdminSekarang"]) * 30 < count($_SESSION["dataAdmin"])) {
+                                ?>
+                                    <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
+                                <?php
+                                } else {
+                                ?>
+                                    <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="input-group mb-3">
+                                        <div class="col-11">
+                                            <input class="form-control me-2" type="text" placeholder="Search" name="inputSearchAdmin" id="inputSearchAdmin">
+                                        </div>
+                                        <div class="col-1">
+                                            <button class="btn btn-outline-success" type="submit" name="btnSearchAdmin">Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-dark">
+                                <hr style="font-weight: bold; color: black;">
+                            </div>
+                            <table class="table" id="produkInfo">
+                                <tr>
+                                    <!-- <th>Image Produk</th> -->
+                                    <th scope='col' class="text-start">ID User</th>
+                                    <th scope='col' class="text-start">Username </th>
+                                    <th scope='col' class="text-start">Full Name</th>
+                                    <th scope='col' class="text-start">Email</th>
+                                    <th scope='col' class="text-start">Address</th>
+                                    <th scope='col' class="text-start">Phone Number</th>
+                                    <th scope='col' class="text-start">Password</th>
+                                    <th scope='col' class="text-start">Status</th>
+                                    <th scope='col' class="text-start">Action</th>
+                                </tr>
+                                <?php
+                                $temp = 0;
+                                foreach ($_SESSION["dataAdmin"] as $users) {
+                                    $id = $users["id_user"];
+                                    $username = $users["username"];
+                                    $fullname = $users["full_name"];
+                                    $email = $users["email"];
+                                    $address = $users["alamat"];
+                                    $telp = $users["nomor_telepon"];
+                                    $password = $users["password"];
+                                    // $status = $users["status"];
+                                    $temp++;
+                                    if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
+                                ?>
+                                        <form action="" method="post">
+                                            <input type='hidden' name='idData' value='<?= $id ?>'>
+                                            <tr>
+                                                <td class="text-start"><?= $id ?></td>
+                                                <td class="text-start"><?= $username ?></td>
+                                                <td class="text-start"><?= $fullname ?></td>
+                                                <td class="text-start"><?= $email ?></td>
+                                                <td class="text-start"><?= $address ?></td>
+                                                <td class="text-start"><?= $telp ?></td>
+                                                <td class="text-start"><?= $password ?></td>
+                                                <!-- <td class="text-start"><?= $status ?></td> -->
+                                                <td></td>
+                                                <?php
+                                                if($status==0){
+                                                    ?>
+                                                    <td><button type='submit' class='btn btn-outline-success p-1' name='activate'>Activate</button></td>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                    <td><button type='submit' class='btn btn-outline-danger p-1' name='deactivate'>Deactivate</button></td>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </tr>
+                                        </form>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </table>
+                            <!-- PAGING -->
+                            <div class="row py-3">
+                                <form action="" method="post">
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <ul class="pagination d-flex align-items-center justify-content-center img-fluid">
+                                            <div class="row d-flex justify-content-center rounded-pill border border-2 text-dark px-2">
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                    <li class="page-item">
+                                                        <button type="submit" class="btn text-dark border border-0" name="pageSekarangMin1" aria-label="Previous">
+                                                            <span aria-hidden="true">&laquo;</span>
+                                                        </button>
+                                                    </li>
+                                                </div>
+                                                <?php
+                                                $adaSatu = false;
+                                                if ($_SESSION["pageAdminSekarang"] > 3 && $_SESSION["pagingAdmin"][0]["page"] != 1) {
+                                                    $adaSatu = true;
+                                                ?>
+                                                    <div class="col-5 col-xl-2 d-flex justify-content-center">
+                                                        <li class="page-item text-dark"><button type="submit" name="pagePertama" class="btn text-dark border border-0">1</button><span class="text-dark"> . . . </span></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                    <li class="page-item"><button type="submit" name="page0" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][0]["page"] ?></button></li>
+                                                </div>
+                                                <?php
+                                                if ((count($_SESSION["dataAdmin"]) / 30) > 1) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page1" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][1]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if ((count($_SESSION["dataAdmin"]) / 30) > 2) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page2" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][2]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if ((count($_SESSION["dataAdmin"]) / 30) > 3) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center me-2">
+                                                        <li class="page-item"><button type="submit" name="page3" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][3]["page"] ?></button></li>
+                                                    </div>
+                                                <?php
+                                                }
+                                                if ((count($_SESSION["dataAdmin"]) / 30) > 4) {
+                                                ?>
+                                                    <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                        <li class="page-item"><button type="submit" name="page4" class="btn text-dark border border-0"><?= $_SESSION["pagingAdmin"][4]["page"] ?></button></li>
+                                                    </div>
+                                                    <?php
+                                                }
+                                                if ($_SESSION["pageAdminSekarang"] < $maks - 3 && $_SESSION["pagingAdmin"][4]["page"] != (int)$maks) {
+                                                    if ($adaSatu) {
+                                                    ?>
+                                                        <div class="col-5 col-xl-2">
+                                                            <li class="page-item text-dark"><span class="text-dark"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-dark border border-0"><?= (int)$maks ?></button></li>
+                                                        </div>
+                                                    <?php
+                                                    } else {
+                                                    ?>
+                                                        <div class="col-5 col-xl-3">
+                                                            <li class="page-item text-dark"><span class="text-dark"> . . . </span><button type="submit" name="pageTerakhir" class="btn text-dark border border-0"><?= (int)$maks ?></button></li>
+                                                        </div>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                                <div class="col-1 col-xl-1 d-flex justify-content-center">
+                                                    <button type="submit" class="btn text-dark border border-0" name="pageSekarangPlus1" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <h5 class="text-dark">Page <?= $_SESSION["pageAdminSekarang"] ?> of <?= (int)$maks ?></h5>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <?php
         }
         ?>
     </div>
