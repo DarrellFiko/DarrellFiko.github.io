@@ -107,6 +107,7 @@ if (isset($_POST["submitBrand"])) {
         insertBrand($brandBaru);
         alert("Add Brand Success!");
     }
+    $_SESSION["data"] = "produk";
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 if (isset($_POST["submitKategori"])) {
@@ -135,6 +136,7 @@ if (isset($_POST["submitKategori"])) {
         insertKategori($KategoriBaru);
         alert("Add Categories Success!");
     }
+    $_SESSION["data"] = "produk";
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
 
@@ -162,13 +164,14 @@ if (isset($_POST["activate"])) {
         $query = "UPDATE produk SET status_produk = '1' WHERE id_produk = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+        alert("Activate Product Success!");
     } else if ($_SESSION["data"] == "user") {
         $query = "UPDATE user SET status_user = '1' WHERE id_user = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
+        alert("Activate User Success!");
     }
 
-    alert("Activate Product Success!");
     echo "<script> document.location.href = 'admin.php#collections'; </script>";
 }
 if (isset($_POST["deactivate"])) {
@@ -188,13 +191,14 @@ if (isset($_POST["deactivate"])) {
         $query = "UPDATE produk SET status_produk = '0' WHERE id_produk = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+        alert("Deactivate Product Success!");
     } else if ($_SESSION["data"] == "user") {
         $query = "UPDATE user SET status_user = '0' WHERE id_user = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
+        alert("Activate User Success!");
     }
 
-    alert("Deactivate Product Success!");
 
     echo "<script> document.location.href = 'admin.php#collections'; </script>";
 }
@@ -298,7 +302,7 @@ if (isset($_POST["submitProduk"])) {
         alert("Add Product Failed!");
         unlink($path);
     }
-
+    $_SESSION["data"] = "produk";
     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
     echo "<script> document.location.href = 'admin.php'; </script>";
 }
@@ -1120,7 +1124,7 @@ if (isset($_POST["go"])) {
         <?php
         } else {
         ?>
-            <form action="" method="post">
+            <form action="" method="post" class="mb-0">
                 <div class="d-flex justify-content-center" id="collections">
                     <div class="container bg-light text-center p-5 mb-5 mt-1 glass">
                         <div class="row d-flex justify-content-center">
@@ -1178,11 +1182,11 @@ if (isset($_POST["go"])) {
                                     $address = $users["alamat"];
                                     $telp = $users["nomor_telepon"];
                                     $password = $users["password"];
-                                    // $status = $users["status"];
+                                    $status = $users["status_user"];
                                     $temp++;
                                     if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
                                 ?>
-                                        <form action="" method="post">
+                                        <form action="" method="post" class="mb-0">
                                             <input type='hidden' name='idData' value='<?= $id ?>'>
                                             <tr>
                                                 <td class="text-start"><?= $id ?></td>
@@ -1192,8 +1196,17 @@ if (isset($_POST["go"])) {
                                                 <td class="text-start"><?= $address ?></td>
                                                 <td class="text-start"><?= $telp ?></td>
                                                 <td class="text-start"><?= $password ?></td>
-                                                <!-- <td class="text-start"><?= $status ?></td> -->
-                                                <td></td>
+                                                <?php
+                                                if ($status == 1) {
+                                                ?>
+                                                    <td><i class="fa-sharp fa-solid fa-circle-check text-success"></i></td>
+                                                <?php
+                                                } else if ($status == 0) {
+                                                ?>
+                                                    <td><i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i></td>
+                                                <?php
+                                                }
+                                                ?>
                                                 <?php
                                                 if ($status == 0) {
                                                 ?>
