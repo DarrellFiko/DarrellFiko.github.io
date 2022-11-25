@@ -1,23 +1,29 @@
 <?php
-    require("functions.php");
+require("functions.php");
 
-    if (isset($_POST["login"])) {
+if (!isset($_SESSION["authAdmin"])) {
+    $_SESSION["authAdmin"] = false;
+}
 
-        $password = $_POST["password"];
-        //buat admin
-        if ($password == "admin123") {
-            header("Location: admin.php");
-        } else {
-            alert("Wrong password!");
-        }
+if (isset($_POST["login"])) {
+
+    $password = $_POST["password"];
+    //buat admin
+    if ($password == "admin123") {
+        $_SESSION["authAdmin"] = true;
+        header("Location: admin.php");
+    } else {
+        alert("Wrong password!");
     }
+}
 
-    if (isset($_POST["back"])) {
-        header("Location: index.php");
-    }
+if (isset($_POST["back"])) {
+    header("Location: index.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,8 +32,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="min-vh-100 bgGradient pt-5">
+    <div class="min-vh-100 bgGradient pt-5">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -52,4 +59,5 @@
         </div>
     </div>
 </body>
+
 </html>

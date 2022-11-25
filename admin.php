@@ -1,6 +1,12 @@
 <?php
 require("functions.php");
 
+if (isset($_SESSION["authAdmin"])) {
+    if ($_SESSION["authAdmin"] == false) {
+        header("Location: loginAdmin.php");
+    }
+}
+
 if (isset($_POST["logout"])) {
     $_SESSION["data"] = "produk";
     $_SESSION["jumlahInput"] = 1;
@@ -9,6 +15,7 @@ if (isset($_POST["logout"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
 
+    $_SESSION["authAdmin"] = false;
     header("Location: index.php");
 }
 
