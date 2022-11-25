@@ -175,8 +175,29 @@ if (!isset($_SESSION["cbBrand"])) {
         ];
         array_push($_SESSION["cbBrand"], $pageBaru);
     }
+} else {
+    $_SESSION["cbBrand"] = [];
+
+    $brands = query("SELECT * FROM brand ORDER BY name_brand");
+    foreach ($brands as $brand) {
+        $pageBaru = [
+            "brand" => $brand["name_brand"]
+        ];
+        array_push($_SESSION["cbBrand"], $pageBaru);
+    }
 }
+
 if (!isset($_SESSION["cbCategories"])) {
+    $_SESSION["cbCategories"] = [];
+
+    $categories = query("SELECT * FROM kategori ORDER BY name_kategori");
+    foreach ($categories as $kategori) {
+        $pageBaru = [
+            "categories" => $kategori["name_kategori"]
+        ];
+        array_push($_SESSION["cbCategories"], $pageBaru);
+    }
+} else {
     $_SESSION["cbCategories"] = [];
 
     $categories = query("SELECT * FROM kategori ORDER BY name_kategori");

@@ -10,17 +10,14 @@ if (isset($_POST["login"])) {
 
     $exist = false;
     //buat admin
-    if ($username == "admin" && $password == "nimda") {
-        $safe = false;
-        header("Location: adminHome.php");
-    } else if ($username == "" || $password == "") {
+    if ($username == "" || $password == "") {
         $safe = false;
         alert("Semua Field Harus Terisi!");
         //buat user
-    }else if($username == "admin" && $password == "admin123"){
-        $_SESSION["dataAdmin"] = [];
-        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-        header("Location: admin.php");
+    // }else if($username == "admin" && $password == "admin123"){
+    //     $_SESSION["dataAdmin"] = [];
+    //     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+    //     header("Location: admin.php");
     } else {
         foreach ($users as $user) {
             if ($username == $user["username"] || $username == $user["email"]) {
