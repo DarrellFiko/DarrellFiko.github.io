@@ -197,6 +197,23 @@ function update($data)
     return mysqli_affected_rows($conn);
 }
 
+function updateUser($data)
+{
+    global $conn;
+
+    $id_user = $data["id_user"];
+    $full_name = $data["full_name"];
+    $email = $data["email"];
+    $nomor_telepon = $data["nomor_telepon"];
+    $alamat = $data["alamat"];
+
+    $query = "UPDATE user SET full_name = '$full_name', email = '$email', nomor_telepon = '$nomor_telepon', alamat = '$alamat' WHERE id_user = '$id_user'";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 function updateProduk($data)
 {
     global $conn;
@@ -213,6 +230,21 @@ function updateProduk($data)
     $status_produk = $data["status_produk"];
 
     $query = "UPDATE produk SET name_produk = '$name_produk',id_brand = '$id_brand',id_kategori = '$id_kategori',stok_produk = '$stok_produk',price_produk = '$price_produk',image_produk = '$image_produk',description_produk = '$description_produk',status_produk = '$status_produk' WHERE id_produk = '$id_produk'";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function updateStokProduk($data)
+{
+    global $conn;
+
+    // DATA
+    $id_produk = $data["id_produk"];
+    $stok_produk = $data["stok_produk"];
+
+    $query = "UPDATE produk SET stok_produk = '$stok_produk' WHERE id_produk = '$id_produk'";
 
     mysqli_query($conn, $query);
 

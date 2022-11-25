@@ -45,7 +45,25 @@ if (insertHtrans($data) > 0) {
     alert("htrans gagal");
 }
 
+// update stok
+foreach ($carts as $key => $value) {
+    $id_produk = $value["id_produk"];
+    $quantity_produk = $value["quantity_produk"];
 
+    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id_produk'");
+    foreach ($tempProduk as $key => $value) {
+        $stok = $value["stok_produk"];
+    }
+
+    $finalStok = $stok - $quantity_produk;
+
+    $data = [
+        "id_produk" => $id_produk,
+        "stok_produk" => $finalStok
+    ];
+
+    updateStokProduk($data);
+}
 
 ?>
 
@@ -120,8 +138,11 @@ if (insertHtrans($data) > 0) {
                                     <tbody>
                                         <?php
                                         $subtotal = 0;
+                                        $no = 0;
                                         foreach ($_SESSION["keranjang"] as $i => $key) {
-                                            $no = $i + 1;
+                                            if ($key["quantity_produk"] > 0) {
+                                                $no += 1;
+                                            }
                                             $name = $key["name_produk"];
                                             $price = $key["price_produk"];
                                             $quantity = $key["quantity_produk"];

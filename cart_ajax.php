@@ -39,6 +39,12 @@ foreach ($_SESSION["keranjang"] as $i => $key) {
     $quantity = $key["quantity_produk"];
     $totalHarga = $price * $quantity;
     $subtotalCart += $totalHarga;
+    $idProduk = $key["id_produk"];
+
+    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$idProduk'");
+    foreach ($tempProduk as $key => $value) {
+        $stok = $value["stok_produk"];
+    }
 
     echo "<div class='col-10 pb-3'>";
     echo "<div class='card mb-3'>";
@@ -54,7 +60,7 @@ foreach ($_SESSION["keranjang"] as $i => $key) {
     echo "Price : $ " . $price;
     echo "</div>";
     echo "<div class='col-3 text-start d-flex justify-content-center'>";
-    echo "<input type='number' onchange='updateCart(" . $i . ")' class='mx-3' style='width: 60px' name='quantity' id='quantity" . $i . "' min='0' value='$quantity'>";
+    echo "<input type='number' onchange='updateCart(" . $i . ")' class='mx-3' style='width: 60px' name='quantity' id='quantity" . $i . "' min='0' max='$stok' value='$quantity'>";
     echo "</div>";
     echo "<div id='totalHargaCart" . $i . "' class='col-5 d-flex align-items-center fw-bold'>";
     echo "Total Price : $ " . $totalHarga;

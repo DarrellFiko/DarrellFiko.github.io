@@ -85,33 +85,47 @@ $transaction_details = array(
     'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
 );
 
-// // Optional
-// $billing_address = array(
-//     'name'    => $user["full_name"],
-//     'address'       => $user["alamat"],
-//     'phone'         => $user["nomor_telepon"],
-// );
+if ($_SESSION["login"] == true) {
+    $idUser = $_SESSION['idUser'];
+    $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
+    $user = $stmt->fetch_assoc();
 
-// // Optional
-// $shipping_address = array(
-//     'name'    => $user["full_name"],
-//     'address'       => $user["alamat"],
-//     'phone'         => $user["nomor_telepon"],
-// );
-
-// // Optional
-// $customer_details = array(
-//     'name'    => $user["full_name"],
-//     'email'         => $user["email"],
-//     'phone'         => $user["nomor_telepon"],
-//     'billing_address'  => $billing_address,
-//     'shipping_address' => $shipping_address
-// );
+    $alamat = $user["alamat"];
+    $nomor_telepon = $user["nomor_telepon"];
+    $full_name = $user["full_name"];
+    $email = $user["email"];
+} else {
+    $alamat = "";
+    $nomor_telepon = "";
+    $full_name = "";
+    $email = "";
+}
 
 // Optional, remove this to display all available payment methods
 // $enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
 
 // Fill transaction details
+// Optional
+// $shipping_address = array(
+//     'first_name'    => "",
+//     'last_name'     => "",
+//     'address'       => $alamat,
+//     'city'          => "",
+//     'postal_code'   => "",
+//     'phone'         => $nomor_telepon,
+//     'country_code'  => ''
+// );
+
+// // Optional
+// $customer_details = array(
+//     'first_name'    => $full_name,
+//     'last_name'     => "",
+//     'email'         => $email,
+//     'phone'         => $nomor_telepon,
+//     // 'billing_address'  => $billing_address,
+//     'shipping_address' => $shipping_address
+// );
+
 $transaction = array(
     // 'enabled_payments' => $enable_payments,
     'transaction_details' => $transaction_details,
@@ -161,7 +175,23 @@ if (!isset($_SESSION["masukCart"])) {
     $_SESSION["masukCart"] = false;
 }
 
+if (isset($_POST["btnSaveDataUser"])) {
+    $tempIdUser = $_SESSION['idUser'];
+    $fullName = $_POST["nameUser"];
+    $email = $_POST["emailUser"];
+    $nomor_telepon = $_POST["phoneUser"];
+    $alamat = $_POST["addressUser"];
 
+    $data = [
+        "id_user" => $tempIdUser,
+        "full_name" => $fullName,
+        "email" => $email,
+        "nomor_telepon" => $nomor_telepon,
+        "alamat" => $alamat
+    ];
+
+    updateUser($data);
+}
 
 
 // ARRAY UNTUK CHECKBOX BRAND DAN CATEGORY
@@ -217,7 +247,7 @@ if (!isset($_SESSION["listProduk"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
 }
-    
+
 // alert($tempCount);
 
 if (!isset($_SESSION["brand"])) {
@@ -521,20 +551,6 @@ if (isset($_POST["addToCart"])) {
 </head>
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="<?php echo Config::$clientKey; ?>"></script>
 <script>
-    function submit() {
-        nama = document.getElementsByName("name")[0].value;
-        email = document.getElementsByName("email")[0].value;
-        teks = document.getElementsByName("textarea")[0].value;
-        const xhttp = new XMLHttpRequest();
-        xhttp.onload = function() {
-            document.getElementsByName("name")[0].value = "";
-            document.getElementsByName("email")[0].value = "";
-            document.getElementsByName("textarea")[0].value = "";
-        }
-        xhttp.open("GET", "Mailer/Mailer/emailku.php?nama=" + nama + "&email=" + email + "&teks=" + teks);
-        xhttp.send();
-    }
-
     function clearForm() {
         document.getElementsByName("name")[0].value = "";
         document.getElementsByName("email")[0].value = "";
@@ -625,7 +641,7 @@ if (isset($_POST["addToCart"])) {
     <div style="margin-top:70px">
         <!-- Div kiri buat scroll -->
         <div class="d-flex align-items-center justify-content-center">
-            <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2" onclick="openNav()">
+            <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2 border-0" onclick="openNav()">
                 <h2><img src="asset/arrow_kanan.png" alt="" width="25" height="25"></h2>
             </button>
         </div>
@@ -756,11 +772,11 @@ if (isset($_POST["addToCart"])) {
                                 </div>
                                 <div class="col-12">
                                     <?php
-                                    if(count($_SESSION["listProduk"])==0){
-                                        ?>
+                                    if (count($_SESSION["listProduk"]) == 0) {
+                                    ?>
                                         <h5>Result 0 - 0 of 0</h5>
                                         <?php
-                                    }else{
+                                    } else {
                                         if (($_SESSION["pageSekarang"]) * 30 < $_SESSION["productCount"]) {
                                         ?>
                                             <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageSekarang"]) * 30 ?> of <?= $_SESSION["productCount"] ?></h5>
@@ -768,8 +784,8 @@ if (isset($_POST["addToCart"])) {
                                         } else {
                                         ?>
                                             <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
-    
-                                        <?php
+
+                                    <?php
                                         }
                                     }
                                     ?>
@@ -898,38 +914,6 @@ if (isset($_POST["addToCart"])) {
                                     </form>
                                 </div>
                             </div>
-
-
-                            <!-- MAILER -->
-                            <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                                <div class="row my-5 d-flex justify-content-center">
-                                    <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                        <h1 class="text-light">Contact Us</h1>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                                            <label for="floatingInput">Name</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                                            <label for="floatingInput">Email address</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                        <div class="form-floating mb-3 w-100">
-                                            <textarea class="form-control" id="floatingInput" placeholder="Message" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                            <label for="floatingInput">Message</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                                        <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                                        <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -985,8 +969,10 @@ if (isset($_POST["addToCart"])) {
                                                                 $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
                                                             }
                                                         }
+                                                        $stok = $produkDetail[0]["stok_produk"];
                                                         ?>
-                                                        <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" value=<?= $cekJumlah ?>>
+                                                        <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
+                                                        <?= $stok ?> Remaining.
                                                     </div>
                                                 </div>
                                             </div>
@@ -1025,37 +1011,6 @@ if (isset($_POST["addToCart"])) {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- MAILER -->
-                                    <!-- <div id="mailer" class="container bgContactGradient rounded-5 pt-3" style="margin-top: 5vh">
-                                        <div class="row my-5 d-flex justify-content-center">
-                                            <div class="col-10 px-5 pt-2 pb-3 d-flex bg-transparent justify-content-start rounded-top">
-                                                <h1 class="text-light">Review</h1>
-                                            </div>
-                                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                                <div class="form-floating mb-3 w-100">
-                                                    <input type="text" class="form-control" id="floatingInput" placeholder="Name" name="name">
-                                                    <label for="floatingInput">Name</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                                <div class="form-floating mb-3 w-100">
-                                                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-                                                    <label for="floatingInput">Email address</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-10 px-5 d-flex bg-transparent justify-content-start">
-                                                <div class="form-floating mb-3 w-100">
-                                                    <textarea class="form-control" id="floatingInput" placeholder="Your Review" style="height: 20vh" aria-label="With textarea" name="textarea"></textarea>
-                                                    <label for="floatingInput">Your Review</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-10 pt-3 pb-5 px-5 bg-transparent d-flex justify-content-start rounded-bottom">
-                                                <button type="submit" class="btn btn-outline-light me-3" name="submit" onclick="submit();">Submit</button>
-                                                <button type="submit" class="btn btn-outline-light" name="clear" onclick="clearForm();">Clear</button>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -1067,7 +1022,7 @@ if (isset($_POST["addToCart"])) {
     } else {
         ?>
         <!-- Cart -->
-        <div class="bgGradient min-vh-100" style="margin-left: 40px;">
+        <div class="bgGradient min-vh-100" style="margin-left: 30px;">
             <div class="row pt-5 d-flex justify-content-evenly mx-3">
                 <div class="col-12 col-xl-7 text-center mt-4 pb-5 d-flex me-3">
                     <div class="row d-flex justify-content-center glass pt-4">
@@ -1097,7 +1052,7 @@ if (isset($_POST["addToCart"])) {
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form-floating mb-3 w-100">
-                                                <input type="text" class="form-control" placeholder="Name" name="nameUser" id="nameUser" value="<?= $user['username'] ?>">
+                                                <input type="text" class="form-control" placeholder="Name" name="nameUser" id="nameUser" value="<?= $user['full_name'] ?>">
                                                 <label for="nameUser">Name</label>
                                             </div>
                                         </div>
@@ -1118,6 +1073,11 @@ if (isset($_POST["addToCart"])) {
                                                 <input type="text" class="form-control" placeholder="Address" name="addressUser" id="addressUser" value="<?= $user['alamat'] ?>">
                                                 <label for="addressUser">Address</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="row me-3">
+                                        <div class="saveDataUser d-flex justify-content-end">
+                                            <button name="btnSaveDataUser" class="btn btn-outline-dark">Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -1149,7 +1109,71 @@ if (isset($_POST["addToCart"])) {
     <?php
     }
     ?>
-    <!-- test -->
+
+    <!-- Footer -->
+    <section class="container-fluid d-flex bg-dark justify-content-center isifot text-light" style="width:100%;" id="footer">
+        <div class="row ftr p-3" style="width: 100%; ">
+            <div class="over d-flex justify-content-center" style="margin-left: 1vw; margin-right:5vw">
+                <div class="col-6 col-lg-3" style="margin: 0.1vw;">
+                    <a class="nav-link text-white" href="#" style="display: flex;">
+                        <img src="asset/logo_toko.png" class="gambar" style="width: 3vw; height:3vw; margin-right: 10px" alt="" srcset="">
+                        <h2 style="margin: 0.3vw;">
+                            Sport Station
+                        </h2>
+                    </a>
+                    <div class="des ms-5">
+                        <p style="font-size: 1vw;margin-left: 10px">Jl. Ahmad Yani No.233<br>
+                            Surabaya, Indonesia</p>
+                        <p style="font-size: 0.7vw; margin-left: 10px">Payment By Midtrans</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" style="margin: 0.5vw;font-size: 1.3vw; color:dark;">
+                    <p>Our Contacts</p>
+                    <div class="des">
+                        <p style="font-size: 1vw;">Email : soccersportstation@gmail.com</p>
+                        <p style="font-size: 1vw;">Phone : (888) 8888888</p>
+                        <p style="font-size: 1vw;">Mobile : 8888888888</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2 ms-4" style="margin: 0.5vw; font-size: 1.3vw; color:dark;">
+                    <p>Company</p>
+                    <div class="des">
+                        <p style="font-size: 1vw;">About Us</p>
+                        <p style="font-size: 1vw;">Blog</p>
+                        <p style="font-size: 1vw;">Careers</p>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" style="margin: 0.5vw;font-size: 1.3vw; color:dark;">
+                    <p>Subscribe our Sport Station</p>
+                    <div class="des">
+                        <div class="row">
+                            <div class="col-1 text-start me-2">
+                                <i class="fa-brands fa-facebook"></i>
+                            </div>
+                            <div class="col-1 text-start me-2">
+                                <i class="fa-brands fa-instagram"></i>
+                            </div>
+                            <div class="col-1 text-start me-2">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </div>
+                            <div class="col-1 text-start me-2">
+                                <i class="fa-brands fa-twitter"></i>
+                            </div>
+                            <div class="col-1 text-start me-2">
+                                <i class="fa-brands fa-youtube"></i>
+                            </div>
+                        </div>
+                        <div class="row mt-5">
+                            <div class="col-12">
+                                <p style="font-size: 1vw;">Copyright © 2022 SoccerPro. All Rights Reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
     <!-- script buat open scroll yang dikiri -->
@@ -1195,7 +1219,13 @@ if (isset($_POST["addToCart"])) {
         function updateCart(id) {
             idx = parseInt(id);
             quantity = document.getElementById("quantity" + idx).value;
+            max = document.getElementById("quantity" + idx).max;
             quantity = parseInt(quantity);
+            max = parseInt(max);
+
+            if (quantity > max) {
+                quantity = max;
+            }
 
             r = new XMLHttpRequest();
             // 2. Callback Function apa yang akan dikerjakan
