@@ -5,6 +5,10 @@ if (isset($_POST["logout"])) {
     $_SESSION["data"] = "produk";
     $_SESSION["jumlahInput"] = 1;
     resetPagingAdmin();
+
+    $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+
     header("Location: index.php");
 }
 
@@ -38,10 +42,10 @@ if (isset($_POST["choose"])) {
     } else if ($data == "htrans") {
         $_SESSION["data"] = "htrans";
         $_SESSION["dataAdmin"] = query("SELECT * FROM htrans");
-    } else if ($data == "dtrans"){
+    } else if ($data == "dtrans") {
         $_SESSION["data"] = "dtrans";
         $_SESSION["dataAdmin"] = query("SELECT * FROM dtrans");
-    }else{
+    } else {
         $_SESSION["data"] = "user";
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
     }
@@ -154,18 +158,18 @@ if (isset($_POST["activate"])) {
     // }
 
     // deleteProduk($id);
-    if($_SESSION["data"] == "produk"){
+    if ($_SESSION["data"] == "produk") {
         $query = "UPDATE produk SET status_produk = '1' WHERE id_produk = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-    }else if($_SESSION["data"] == "user"){
+    } else if ($_SESSION["data"] == "user") {
         $query = "UPDATE user SET status_user = '1' WHERE id_user = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
     }
 
     alert("Activate Product Success!");
-    echo "<script> document.location.href = 'admin.php#collection'; </script>";
+    echo "<script> document.location.href = 'admin.php#collections'; </script>";
 }
 if (isset($_POST["deactivate"])) {
     $id = $_POST["idData"];
@@ -180,11 +184,11 @@ if (isset($_POST["deactivate"])) {
     // }
 
     // deleteProduk($id);
-    if($_SESSION["data"] == "produk"){
+    if ($_SESSION["data"] == "produk") {
         $query = "UPDATE produk SET status_produk = '0' WHERE id_produk = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-    }else if($_SESSION["data"] == "user"){
+    } else if ($_SESSION["data"] == "user") {
         $query = "UPDATE user SET status_user = '0' WHERE id_user = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
@@ -192,7 +196,7 @@ if (isset($_POST["deactivate"])) {
 
     alert("Deactivate Product Success!");
 
-    echo "<script> document.location.href = 'admin.php#collection'; </script>";
+    echo "<script> document.location.href = 'admin.php#collections'; </script>";
 }
 if (isset($_POST["submitProduk"])) {
     $safe = true;
@@ -431,6 +435,8 @@ if (isset($_POST["go"])) {
     <title>Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
@@ -599,11 +605,11 @@ if (isset($_POST["go"])) {
                             </div>
                             <div class="col-12">
                                 <?php
-                                if(count($_SESSION["dataAdmin"])==0){
-                                    ?>
+                                if (count($_SESSION["dataAdmin"]) == 0) {
+                                ?>
                                     <h5>Result 0 - 0 of 0</h5>
                                     <?php
-                                }else{
+                                } else {
                                     if (($_SESSION["pageAdminSekarang"]) * 30 < count($_SESSION["dataAdmin"])) {
                                     ?>
                                         <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= ($_SESSION["pageAdminSekarang"]) * 30 ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
@@ -611,7 +617,7 @@ if (isset($_POST["go"])) {
                                     } else {
                                     ?>
                                         <h5>Result <?= ($_SESSION["pageAdminSekarang"] - 1) * 30 + 1 ?> - <?= count($_SESSION["dataAdmin"]) ?> of <?= count($_SESSION["dataAdmin"]) ?></h5>
-                                    <?php
+                                <?php
                                     }
                                 }
                                 ?>
@@ -631,7 +637,7 @@ if (isset($_POST["go"])) {
                             <div class="col-12 text-dark">
                                 <hr style="font-weight: bold; color: black;">
                             </div>
-                            <table class="table" id="produkInfo">
+                            <table class="table">
                                 <tr>
                                     <!-- <th>Image Produk</th> -->
                                     <th scope='col'>ID Produk</th>
@@ -676,18 +682,29 @@ if (isset($_POST["go"])) {
                                                 <td><?= $kategori["name_kategori"] ?></td>
                                                 <td><?= $stok ?></td>
                                                 <td>$ <?= $price ?></td>
-                                                <td><?= $status ?></td>
+                                                <?php
+                                                if ($status == 1) {
+                                                ?>
+                                                    <td><i class="fa-sharp fa-solid fa-circle-check text-success"></i></td>
+                                                <?php
+                                                } else if ($status == 0) {
+                                                ?>
+                                                    <td><i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i></td>
+                                                <?php
+                                                }
+                                                ?>
+
                                                 <td>
                                                     <button type='submit' class='btn btn-outline-warning p-1' name='edit'>Edit</button>
                                                     <?php
-                                                    if($status==0){
-                                                        ?>
+                                                    if ($status == 0) {
+                                                    ?>
                                                         <button type='submit' class='btn btn-outline-success p-1' name='activate'>Activate</button>
-                                                        <?php
-                                                    }else{
-                                                        ?>
+                                                    <?php
+                                                    } else {
+                                                    ?>
                                                         <button type='submit' class='btn btn-outline-danger p-1' name='deactivate'>Deactivate</button>
-                                                        <?php
+                                                    <?php
                                                     }
                                                     ?>
                                                     <!-- <button type='submit' class='btn btn-outline-danger mx-3' name='delete'>Delete</button> -->
@@ -1101,9 +1118,9 @@ if (isset($_POST["go"])) {
                 </div>
             </form>
         <?php
-        }else{
-            ?>
-            <form action="" method="post" >
+        } else {
+        ?>
+            <form action="" method="post">
                 <div class="d-flex justify-content-center" id="collections">
                     <div class="container bg-light text-center p-5 mb-5 mt-1 glass">
                         <div class="row d-flex justify-content-center">
@@ -1178,14 +1195,14 @@ if (isset($_POST["go"])) {
                                                 <!-- <td class="text-start"><?= $status ?></td> -->
                                                 <td></td>
                                                 <?php
-                                                if($status==0){
-                                                    ?>
+                                                if ($status == 0) {
+                                                ?>
                                                     <td><button type='submit' class='btn btn-outline-success p-1' name='activate'>Activate</button></td>
-                                                    <?php
-                                                }else{
-                                                    ?>
+                                                <?php
+                                                } else {
+                                                ?>
                                                     <td><button type='submit' class='btn btn-outline-danger p-1' name='deactivate'>Deactivate</button></td>
-                                                    <?php
+                                                <?php
                                                 }
                                                 ?>
                                             </tr>
@@ -1284,7 +1301,7 @@ if (isset($_POST["go"])) {
                     </div>
                 </div>
             </form>
-            <?php
+        <?php
         }
         ?>
     </div>

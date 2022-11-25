@@ -214,9 +214,10 @@ if (!isset($_SESSION["productCount"])) {
 }
 if (!isset($_SESSION["listProduk"])) {
     $_SESSION["listProduk"] = [];
-    $_SESSION["listProduk"] = query("SELECT * FROM produk");
+    $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
 }
+    
 // alert($tempCount);
 
 if (!isset($_SESSION["brand"])) {
@@ -239,7 +240,7 @@ if (isset($_POST["search"])) {
 
     $_SESSION["input"] = $_POST["input"];
 
-    $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%' ORDER BY produk.id_produk");
+    $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.status_produk = '1' AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%' ORDER BY produk.id_produk");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     resetPaging();
     header("Location: #collections");
@@ -414,7 +415,7 @@ if (isset($_POST["btnFilter"])) {
 
     if (count($brandFilter) > 0 || count($kategoriFilter) > 0) {
 
-        $query = 'SELECT * FROM produk WHERE';
+        $query = "SELECT * FROM produk WHERE status_produk = '1' AND";
 
         for ($i = 0; $i < count($brandFilter); $i++) {
             $filter = $brandFilter[$i];
@@ -451,7 +452,7 @@ if (isset($_POST["btnFilter"])) {
         resetPaging();
         header("Location: #collections");
     } else {
-        $_SESSION["listProduk"] = query("SELECT * FROM produk");
+        $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
         $_SESSION["productCount"] = count($_SESSION["listProduk"]);
         resetPaging();
         header("Location: #collections");
