@@ -794,11 +794,11 @@ if (isset($_POST["history"])) {
     </div>
 
     <?php
-    if($_SESSION["history"]==false){
+    if ($_SESSION["history"] == false) {
         if ($_SESSION["masukCart"] == false) {
             # code...
             if ($_SESSION["masukDetail"] == false) {
-        ?>
+    ?>
                 <div class="container-fluid bgGradient">
                     <div class="d-flex justify-content-center" style="padding-top: 4vh;">
                         <!-- carousel -->
@@ -847,7 +847,7 @@ if (isset($_POST["history"])) {
                         </div> -->
                         <!-- Container for the image gallery -->
                         <div class="containerr">
-    
+
                             <!-- Full-width images with number text -->
                             <div class="mySlides">
                                 <div class="numbertext m-3">1 / 6</div>
@@ -855,53 +855,53 @@ if (isset($_POST["history"])) {
                                     <button type="submit" class="border border-0 bg-transparent" name="c1"><img src="asset/c1.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <div class="mySlides">
                                 <div class="numbertext m-3">2 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c2"><img src="asset/c2.webp" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <div class="mySlides">
                                 <div class="numbertext m-3">3 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c3"><img src="asset/c3.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <div class="mySlides">
                                 <div class="numbertext m-3">4 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c4"><img src="asset/c4.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <div class="mySlides">
                                 <div class="numbertext m-3">5 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c5"><img src="asset/c5.png" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <div class="mySlides">
                                 <div class="numbertext m-3"> 6 / 6 </div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c6"><img src="asset/c6.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
-    
+
                             <!-- Next and previous buttons -->
-                            <a class="prev" style="margin-left: 3vw;" onclick="plusSlides(-1)">&#10094;</a>
-                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-    
+                            <a class="prev text-info text-decoration-none glass" style="margin-left: 3vw;" onclick="plusSlides(-1)">&#10094;</a>
+                            <a class="next text-info text-decoration-none glass" onclick="plusSlides(1)">&#10095;</a>
+
                         </div>
                         <!-- tutup carousel -->
                     </div>
-    
+
                     <!-- untuk paging -->
                     <div id="collections" class="pt-5"></div>
-    
+
                     <div class="" style="margin-left: 60px;">
                         <div class="d-flex justify-content-center">
                             <div class="container text-center mt-4 pb-5">
@@ -924,7 +924,7 @@ if (isset($_POST["history"])) {
                                             } else {
                                             ?>
                                                 <h5>Result <?= ($_SESSION["pageSekarang"] - 1) * 30 + 1 ?> - <?= $_SESSION["productCount"] ?> of <?= $_SESSION["productCount"] ?></h5>
-    
+
                                         <?php
                                             }
                                         }
@@ -1171,7 +1171,7 @@ if (isset($_POST["history"])) {
                             </div>
                             <div class="col-12">
                                 <div class="row d-flex justify-content-center" id="listCart" onload="loadCart()">
-    
+
                                 </div>
                             </div>
                         </div>
@@ -1248,11 +1248,11 @@ if (isset($_POST["history"])) {
             </div>
         <?php
         }
-    }else{
+    } else {
         ?>
         <div class="bgGradient min-vh-100" style="margin-left: 30px;">
         </div>
-        <?php
+    <?php
     }
     ?>
 
@@ -1442,25 +1442,29 @@ if (isset($_POST["history"])) {
 
         // Next/previous controls
         function plusSlides(n) {
-        showSlides(slideIndex += n);
+            showSlides(slideIndex += n);
         }
 
         function showSlides(n) {
-        let i;
-        let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("demo");
-        let captionText = document.getElementById("caption");
-        if (n > slides.length) {slideIndex = 1}
-        if (n < 1) {slideIndex = slides.length}
-        for (i = 0; i < slides.length; i++) {
-            slides[i].style.display = "none";
-        }
-        for (i = 0; i < dots.length; i++) {
-            dots[i].className = dots[i].className.replace(" active", "");
-        }
-        slides[slideIndex-1].style.display = "block";
-        dots[slideIndex-1].className += " active";
-        captionText.innerHTML = dots[slideIndex-1].alt;
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("demo");
+            let captionText = document.getElementById("caption");
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+            captionText.innerHTML = dots[slideIndex - 1].alt;
         }
     </script>
 </body>
