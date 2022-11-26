@@ -1249,7 +1249,49 @@ if (isset($_POST["history"])) {
         }
     } else {
         ?>
-        <div class="bgGradient min-vh-100" style="margin-left: 30px;">
+        <!-- history -->
+        <div class="bgGradient d-flex justify-content-center" style="margin-left: 30px; min-height: 65vh;">
+            <div class="container glass my-5">
+                <?php
+                for ($i=0; $i < 2; $i++) { 
+                    $image = "asset/product/1.jpg";
+                    $nota = "NOTA0000000000000000000000000000000000000000000001";
+                    $date = "10-12-2022";
+                    $nama_product = "adidas Predator Absolute FG - The Comeback";
+                    $quantity = "5";
+                    $total = "$300";
+                    ?>
+                    <div class="row bg-light rounded">
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                            <img src="<?=$image?>" alt="" style="width: 10vw;">
+                        </div>
+                        <div class="col-10 m-3 d-flex align-items-center">
+                            <div class="row">
+                                <div class="col-8 text-start">
+                                    <h5><?=$nota?></h5>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <p><?=$date?></p>
+                                </div>
+                                <div class="col-4 text-start">
+                                    <p><?=$nama_product?></p>    
+                                </div>
+                                <div class="col-4 text-start">
+                                    <p><?=$quantity?></p> 
+                                </div>
+                                <div class="col-4 text-end">
+                                    <p><?=$total?></p> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 bg-success text-center my-3">
+                            <h5>Success</h5>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
         </div>
     <?php
     }
