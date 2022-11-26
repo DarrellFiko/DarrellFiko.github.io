@@ -40,6 +40,7 @@ if (!isset($_SESSION["login"])) {
 if (isset($_POST["logout"])) {
     $_SESSION["login"] = false;
     $_SESSION["history"] = false;
+    $_SESSION["tempId"] = -1;
 }
 
 $htrans = query("SELECT * FROM htrans");
@@ -151,11 +152,14 @@ if (!isset($_SESSION["masukDetail"])) {
 if (!isset($_SESSION["tempIdDetail"])) {
     $_SESSION["tempIdDetail"] = -1;
 }
-
+if (!isset($_SESSION["tempId"])) {
+    $_SESSION["tempId"] = -1;
+}
 if (isset($_POST["cart"])) {
     $_SESSION["masukCart"] = true;
     $_SESSION["masukDetail"] = false;
     $_SESSION["history"] = false;
+    $_SESSION["tempId"] = -1;
 }
 if (!isset($_SESSION["masukCart"])) {
     $_SESSION["masukCart"] = false;
@@ -189,6 +193,7 @@ if ($_SESSION["masukCart"] == true) {
     } else {
         $_SESSION["keranjang"] = [];
     }
+    $_SESSION["tempId"] = -1;
 }
 
 if (isset($_POST["btnSaveDataUser"])) {
@@ -291,6 +296,7 @@ if (isset($_POST["search"])) {
     resetPaging();
     header("Location: #collections");
     $_SESSION["masukCart"] = false;
+    $_SESSION["tempId"] = -1;
 }
 
 //PAGING
@@ -411,6 +417,7 @@ if (isset($_POST["back"])) {
     $_SESSION["masukDetail"] = false;
     $_SESSION["masukCart"] = false;
     header("Location: #collections");
+    $_SESSION["tempId"] = -1;
 }
 if (isset($_POST["resetAwal"])) {
     $_SESSION["history"] = false;
@@ -420,25 +427,30 @@ if (isset($_POST["resetAwal"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     header("Location: #collections");
+    $_SESSION["tempId"] = -1;
 }
 if (isset($_POST["c1"])) {
     $_SESSION["masukDetail"] = true;
     $id = 145;
+    $_SESSION["tempId"] = $id;
     $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
 }
 if (isset($_POST["c2"])) {
     $_SESSION["masukDetail"] = true;
     $id = 281;
+    $_SESSION["tempId"] = $id;
     $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
 }
 if (isset($_POST["c3"])) {
     $_SESSION["masukDetail"] = true;
     $id = 1125;
+    $_SESSION["tempId"] = $id;
     $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
 }
 if (isset($_POST["c4"])) {
     $_SESSION["masukDetail"] = true;
     $id = 160;
+    $_SESSION["tempId"] = $id;
     $produkDetail = query("SELECT * FROM produk WHERE id_produk = '$id'");
 }
 if (isset($_POST["c5"])) {
@@ -547,11 +559,17 @@ if (isset($_POST["btnFilter"])) {
     }
     $_SESSION["masukCart"] = false;
     $_SESSION["history"] = false;
+    $_SESSION["tempId"] = -1;
 }
 
 if (isset($_POST["addToCart"])) {
     $_SESSION["masukDetail"] = false;
-    $tempId = $_POST["cartPassID"];
+    if($_SESSION["tempId"]==-1){
+        $tempId = $_POST["cartPassID"];
+    }else{
+        $tempId = $_SESSION["tempId"];
+    }
+    alert($tempId);
     $tempQuantity = $_POST["quantity"];
     // alert("Berhasil menambahkan ke keranjang!");
 
@@ -586,10 +604,12 @@ if (isset($_POST["addToCart"])) {
     } else {
         $_SESSION["keranjang"] = [];
     }
+    $_SESSION["tempId"] = -1;
 }
 
 if (isset($_POST["history"])) {
     $_SESSION["history"] = true;
+    $_SESSION["tempId"] = -1;
 }
 
 if (isset($_POST["btnInvoice"])) {
