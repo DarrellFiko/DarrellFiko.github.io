@@ -62,11 +62,11 @@ if (isset($_POST["choose"])) {
 if (isset($_POST["report"])) {
     $data = $_POST["pilihData"];
     if ($data == "produk") {
-        // alert("laporanProduk");
         header("Location: laporanProduk.php");
     } else if ($data == "htrans") {
     } else if ($data == "dtrans") {
     } else {
+        header("Location: laporanUser.php");
     }
     resetPagingAdmin();
     // header("Location: #collections");
