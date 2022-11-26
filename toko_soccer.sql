@@ -1,51 +1,150 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 26, 2022 at 04:10 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 7.4.29
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `toko_soccer`
+--
 CREATE DATABASE IF NOT EXISTS `toko_soccer` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `toko_soccer`;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brand`
+--
+
 DROP TABLE IF EXISTS `brand`;
-CREATE TABLE IF NOT EXISTS `brand` (
+CREATE TABLE `brand` (
   `id_brand` varchar(10) NOT NULL,
-  `name_brand` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_brand`)
+  `name_brand` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `brand`
+--
 
 INSERT INTO `brand` (`id_brand`, `name_brand`) VALUES
 ('BRN001', 'Adidas'),
 ('BRN002', 'Nike'),
 ('BRN003', 'Puma');
 
-DROP TABLE IF EXISTS `dtrans`;
-CREATE TABLE IF NOT EXISTS `dtrans` (
-  `nota_jual` varchar(50) NOT NULL,
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+DROP TABLE IF EXISTS `cart`;
+CREATE TABLE `cart` (
+  `id_user` int(50) NOT NULL,
   `id_produk` int(255) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  KEY `nota_jual` (`nota_jual`),
-  KEY `id_produk` (`id_produk`)
+  `image_produk` text NOT NULL,
+  `name_produk` varchar(255) NOT NULL,
+  `price_produk` double NOT NULL,
+  `quantity_produk` int(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `dtrans`
+--
+
+DROP TABLE IF EXISTS `dtrans`;
+CREATE TABLE `dtrans` (
+  `nota_jual` varchar(50) NOT NULL,
+  `id_produk` int(255) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `dtrans`
+--
+
+INSERT INTO `dtrans` (`nota_jual`, `id_produk`, `quantity`) VALUES
+('NOTA0000000000000000000000000000000000000000000001', 1, 1),
+('NOTA0000000000000000000000000000000000000000000001', 1452, 1),
+('NOTA0000000000000000000000000000000000000000000002', 280, 1),
+('NOTA0000000000000000000000000000000000000000000002', 354, 1),
+('NOTA0000000000000000000000000000000000000000000002', 1500, 1),
+('NOTA0000000000000000000000000000000000000000000003', 1, 1),
+('NOTA0000000000000000000000000000000000000000000003', 305, 1),
+('NOTA0000000000000000000000000000000000000000000004', 1, 1),
+('NOTA0000000000000000000000000000000000000000000004', 2, 1),
+('NOTA0000000000000000000000000000000000000000000005', 939, 1),
+('NOTA0000000000000000000000000000000000000000000006', 1, 2),
+('NOTA0000000000000000000000000000000000000000000007', 1, 1),
+('NOTA0000000000000000000000000000000000000000000008', 1, 1),
+('NOTA0000000000000000000000000000000000000000000009', 3, 1),
+('NOTA0000000000000000000000000000000000000000000010', 1, 1),
+('NOTA0000000000000000000000000000000000000000000011', 2, 1),
+('NOTA0000000000000000000000000000000000000000000011', 4, 1),
+('NOTA0000000000000000000000000000000000000000000012', 2, 1),
+('NOTA0000000000000000000000000000000000000000000012', 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `htrans`
+--
+
 DROP TABLE IF EXISTS `htrans`;
-CREATE TABLE IF NOT EXISTS `htrans` (
+CREATE TABLE `htrans` (
   `nota_jual` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
   `id_user` int(50) NOT NULL,
-  `subtotal` int(128) NOT NULL,
-  PRIMARY KEY (`nota_jual`)
+  `subtotal` int(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `htrans`
+--
+
+INSERT INTO `htrans` (`nota_jual`, `tanggal`, `id_user`, `subtotal`) VALUES
+('NOTA0000000000000000000000000000000000000000000001', '2022-11-22', 1, 382),
+('NOTA0000000000000000000000000000000000000000000002', '2022-11-22', 2, 305),
+('NOTA0000000000000000000000000000000000000000000003', '2022-11-23', 1, 380),
+('NOTA0000000000000000000000000000000000000000000004', '2022-11-23', 1, 640),
+('NOTA0000000000000000000000000000000000000000000005', '2022-11-23', 2, 105),
+('NOTA0000000000000000000000000000000000000000000006', '2022-11-23', 1, 700),
+('NOTA0000000000000000000000000000000000000000000007', '2022-11-25', 1, 350),
+('NOTA0000000000000000000000000000000000000000000008', '2022-11-25', 1, 350),
+('NOTA0000000000000000000000000000000000000000000009', '2022-11-25', 1, 280),
+('NOTA0000000000000000000000000000000000000000000010', '2022-11-25', 1, 350),
+('NOTA0000000000000000000000000000000000000000000011', '2022-11-25', 1, 540),
+('NOTA0000000000000000000000000000000000000000000012', '2022-11-25', 1, 540);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori`
+--
+
 DROP TABLE IF EXISTS `kategori`;
-CREATE TABLE IF NOT EXISTS `kategori` (
+CREATE TABLE `kategori` (
   `id_kategori` varchar(10) NOT NULL,
-  `name_kategori` varchar(255) NOT NULL,
-  PRIMARY KEY (`id_kategori`)
+  `name_kategori` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kategori`
+--
 
 INSERT INTO `kategori` (`id_kategori`, `name_kategori`) VALUES
 ('KTG001', 'Ball'),
@@ -54,9 +153,15 @@ INSERT INTO `kategori` (`id_kategori`, `name_kategori`) VALUES
 ('KTG004', 'Shin Guard'),
 ('KTG005', 'Shoes');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `produk`
+--
+
 DROP TABLE IF EXISTS `produk`;
-CREATE TABLE IF NOT EXISTS `produk` (
-  `id_produk` int(255) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `produk` (
+  `id_produk` int(255) NOT NULL,
   `name_produk` varchar(255) NOT NULL,
   `id_brand` varchar(10) NOT NULL,
   `id_kategori` varchar(10) NOT NULL,
@@ -64,17 +169,18 @@ CREATE TABLE IF NOT EXISTS `produk` (
   `price_produk` double NOT NULL,
   `image_produk` text NOT NULL,
   `description_produk` text NOT NULL,
-  `status_produk` int(1) NOT NULL,
-  PRIMARY KEY (`id_produk`),
-  KEY `id_brand` (`id_brand`),
-  KEY `id_kategori` (`id_kategori`)
-) ENGINE=InnoDB AUTO_INCREMENT=1504 DEFAULT CHARSET=utf8mb4;
+  `status_produk` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `produk`
+--
 
 INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `stok_produk`, `price_produk`, `image_produk`, `description_produk`, `status_produk`) VALUES
-(1, 'adidas Predator Absolute FG &#8211; The Comeback', 'BRN001', 'KTG005', 46, 349.99, 'asset/product/1.jpg', ' The Comeback Predator Absolute Firm Ground Cleats Lace up and channel your inner Zidane with this redesigned adidas Predator! Football fans know that 2006 was a crazy year in football, the infamous Zidane head butt, a crazy tournament final, and some of the most iconic players to ever hit the pitch were concluding their legendary careers. This crazy year gave us the beautiful gold Predators to the pitch and saw Zidane rocking them throughout the entire tournament. These boots gave us some of the most iconic moments in football and live in infamy in the world of football. Designed with the same bold and iconic gold upper, you\'ll be hitting the pitch like a legend all season long. Don\'t worry, these boots kept all the bold aspects of the design that you fell in love with, but now features updated features to make sure these boots are more legendary than ever. Finishing off the boots are sleek and crisp white details that mimic the original boots, pushing you into the future of football legend than ever. If you love classic adidas soccer shoes then these redesigned classic boots are the perfect pair for you. Engineered with both the classic technology of the \'06 boots and the updated tech of the Predator Edge, you\'ll be lacing up some of the most powerful boots to ever hit the pitch. Starting off with the upper of these classic boots, we get that sweet and soft leather finish that makes undeniable control and power easier than ever. Even the classic fold-over tongue is making it\'s reappearance to make sure you have the lockdown feeling with each and every wear. Curved SL rubber elements pair with the soft leather upper to give you an exact recreation of the boots that Zidane wore in the \'06 tournament and that same bold and iconic touch. In order to give you the best possible touch and ultimate stability all season, adidas has engineered these classic boots with the Predator Edge soleplate. Lacing up like a legend has never been so easy than with the record Predator Absolute. Shop yours today! ', 1),
-(2, 'adidas Leather Predator Edge 94+ FG &#8211; Control Legacy', 'BRN001', 'KTG005', 49, 289.99, 'asset/product/2.jpg', ' Control Legacy Predator Edge 94+ Firm Ground Cleats The past meets the future in the latest adidas Predator Edge soccer cleats. A design inspired by the most legendary boots to ever hit the pitch, you\'ll have everyone thinking you belong in a league of your own. The \'94 Predators changed the game of football and football boot design forever. These Control Legacy Predator Edge boots take on the look and feeling of the classic \'94 Predators but with a new and more modern look. Starting off with the black upper, that mimics the same base as the historic boots. Further bringing the old to the new are the three stripes that appear on the boots in the same design as those illustrious boots of the \'90s. A black, red, and white color way throws us all the way back to the Predator\'s humble beginnings but makes a powerful statement. Worn by the most iconic legends of the game, you\'ll be ready to take on any pitch this season. adidas soccer cleats are some of the most iconic and legendary cleats to ever hit the pitch. The Predator is one of the most well-known boots in all of football history and there\'s no better way to celebrate its illustrious history than with a remake of the iconic boots. Just like the original \'94 Predators, these boots feature the iconic power facet and facet frame that work to redistribute your weight for more powerful strikes on the ball. Similar to the boots of \'94, these boots feature rubber ridges that are known as control zones to ensure that your touch as silky smooth as the legends that wore the boots before you. A laceless design features a Primeknit collar that keeps your feet locked into the boots and ready to take off. The best part of these remade boots? The same soft leather that were on the boots of the past are now on the all new Predator Edge boots. Giving you more give and a more comfortable feeling, these remade boots are perfect for dominating the pitch this season. Don\'t wait, grab your pair before they\'re gone! ', 1),
-(3, 'adidas X Speedportal+ FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 5, 279.99, 'asset/product/3.jpg', ' Alrihla Pack adidas X Speedportal+ Firm Ground Cleats Create some of the game\'s most impossible moments with these adidas X Speedportal soccer cleats! The latest X Speedportal from the Alrihla pack launches you into the game\'s biggest tournament at full speed with a look and feeling for the game\'s biggest tournament. Inspired by the long and powerful journey, the latest X Speedportal has been designed with a new and bold look that gives you the most legendary pair of cleats yet. These bold new cleats feature a clear aqua upper that gives you an unmatched look. Finished with bold rainbow iridescent details on the upper for a more bold and legendary look, you\'ll prove you\'re the most powerful and skilled player on the pitch this season. The legendary branding on these cleats makes way for you and the world\'s greatest players to have the most unmatched and bold look on the field. Unleashing the power of Lionel Messi and some of the tournament\'s biggest stars has never looked or felt so good. The X Speedportal + features all the greatest in speed cleat technology so you can dribble past the opposition like Messi does on a daily basis. Featuring a laceless design, the X Speedportal + offers that lock down feeling you need to be faster and more powerful than ever. A PRIMEKNIT upper hugs your feet perfectly for that snug lockdown fit that keeps you speedy and comfortable all season long. Built with a Speedskin upper, a raised and grippy pattern gives you that silky smooth and buttery touch that you\'ve always been waiting for. Instant reactions and creativity have never been easier than with the full-length Carbitex plate on the outsole that quickly snaps you back into place for the most dynamic movement. A carbon heel lock offers more dynamic support for multidirectional traction and movements on the field. Not sure if the X Speedportal is then right pair of cleats for you? Check out the Predator Edge or Copa Sense and grab that perfect pair of cleats today! ', 1),
-(4, 'adidas X Speedportal.1 FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 34, 249.99, 'asset/product/4.jpg', ' Alrihla Pack X Speedportal.1 Firm Ground adidas Soccer Cleats Power yourself through the toughest moments of the game with the X Speedportal soccer cleats! Alrihla, otherwise known as the journey, is designed to inspire the greatest players in the game to glory this season. A bold new design offers you the most iconic and legendary look so you can be the envy of all your teammates and opponents this season. The latest X Speedportal from the Alrihla pack is inspired by the bold journey the world\'s greatest players take to get the game\'s biggest tournament, an incredible design looks to inspire you and the game\'s biggest legends to victory this season. A beautiful rainbow iridescent pattern spans the middle toe of the upper for a legendary and beautiful look. Paired perfectly with the rainbow pattern is a clear aqua color that spans the entire upper of the cleats for a bold yet refined looking pair of cleats. Step into legendary status with these bold and powerful adidas soccer cleats! Designed with the latest technology for speed cleats, the X Speedportal.1 offers you a feeling that will keep you powering past even the toughest opponents. A Speedskin upper features a textured and raised pattern gives you the silky smooth touch that will have your opponents shaking in their boots. This Speedskin upper pairs with a secure PRIMEKNIT lockdown in the upper to ensure your foot is locked down and stable in the cleats. A lightweight Speedframe outsole is designed with a carbon fiber plate that reacts and quickly snaps you back into place during the quickest and most dynamic moments of the match. An all new carbon fiber speed wing locks you into the boots and offers you unmatched multidirectional traction so you can cut quickly around even the game\'s toughest opponents. Grab the Alrihla pack X Speedportal.1 soccer cleats today and be the envy of your opponents! ', 1),
+(1, 'adidas Predator Absolute FG &#8211; The Comeback', 'BRN001', 'KTG005', 45, 349.99, 'asset/product/1.jpg', ' The Comeback Predator Absolute Firm Ground Cleats Lace up and channel your inner Zidane with this redesigned adidas Predator! Football fans know that 2006 was a crazy year in football, the infamous Zidane head butt, a crazy tournament final, and some of the most iconic players to ever hit the pitch were concluding their legendary careers. This crazy year gave us the beautiful gold Predators to the pitch and saw Zidane rocking them throughout the entire tournament. These boots gave us some of the most iconic moments in football and live in infamy in the world of football. Designed with the same bold and iconic gold upper, you\'ll be hitting the pitch like a legend all season long. Don\'t worry, these boots kept all the bold aspects of the design that you fell in love with, but now features updated features to make sure these boots are more legendary than ever. Finishing off the boots are sleek and crisp white details that mimic the original boots, pushing you into the future of football legend than ever. If you love classic adidas soccer shoes then these redesigned classic boots are the perfect pair for you. Engineered with both the classic technology of the \'06 boots and the updated tech of the Predator Edge, you\'ll be lacing up some of the most powerful boots to ever hit the pitch. Starting off with the upper of these classic boots, we get that sweet and soft leather finish that makes undeniable control and power easier than ever. Even the classic fold-over tongue is making it\'s reappearance to make sure you have the lockdown feeling with each and every wear. Curved SL rubber elements pair with the soft leather upper to give you an exact recreation of the boots that Zidane wore in the \'06 tournament and that same bold and iconic touch. In order to give you the best possible touch and ultimate stability all season, adidas has engineered these classic boots with the Predator Edge soleplate. Lacing up like a legend has never been so easy than with the record Predator Absolute. Shop yours today! ', 1),
+(2, 'adidas Leather Predator Edge 94+ FG &#8211; Control Legacy', 'BRN001', 'KTG005', 47, 289.99, 'asset/product/2.jpg', ' Control Legacy Predator Edge 94+ Firm Ground Cleats The past meets the future in the latest adidas Predator Edge soccer cleats. A design inspired by the most legendary boots to ever hit the pitch, you\'ll have everyone thinking you belong in a league of your own. The \'94 Predators changed the game of football and football boot design forever. These Control Legacy Predator Edge boots take on the look and feeling of the classic \'94 Predators but with a new and more modern look. Starting off with the black upper, that mimics the same base as the historic boots. Further bringing the old to the new are the three stripes that appear on the boots in the same design as those illustrious boots of the \'90s. A black, red, and white color way throws us all the way back to the Predator\'s humble beginnings but makes a powerful statement. Worn by the most iconic legends of the game, you\'ll be ready to take on any pitch this season. adidas soccer cleats are some of the most iconic and legendary cleats to ever hit the pitch. The Predator is one of the most well-known boots in all of football history and there\'s no better way to celebrate its illustrious history than with a remake of the iconic boots. Just like the original \'94 Predators, these boots feature the iconic power facet and facet frame that work to redistribute your weight for more powerful strikes on the ball. Similar to the boots of \'94, these boots feature rubber ridges that are known as control zones to ensure that your touch as silky smooth as the legends that wore the boots before you. A laceless design features a Primeknit collar that keeps your feet locked into the boots and ready to take off. The best part of these remade boots? The same soft leather that were on the boots of the past are now on the all new Predator Edge boots. Giving you more give and a more comfortable feeling, these remade boots are perfect for dominating the pitch this season. Don\'t wait, grab your pair before they\'re gone! ', 1),
+(3, 'adidas X Speedportal+ FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 3, 279.99, 'asset/product/3.jpg', ' Alrihla Pack adidas X Speedportal+ Firm Ground Cleats Create some of the game\'s most impossible moments with these adidas X Speedportal soccer cleats! The latest X Speedportal from the Alrihla pack launches you into the game\'s biggest tournament at full speed with a look and feeling for the game\'s biggest tournament. Inspired by the long and powerful journey, the latest X Speedportal has been designed with a new and bold look that gives you the most legendary pair of cleats yet. These bold new cleats feature a clear aqua upper that gives you an unmatched look. Finished with bold rainbow iridescent details on the upper for a more bold and legendary look, you\'ll prove you\'re the most powerful and skilled player on the pitch this season. The legendary branding on these cleats makes way for you and the world\'s greatest players to have the most unmatched and bold look on the field. Unleashing the power of Lionel Messi and some of the tournament\'s biggest stars has never looked or felt so good. The X Speedportal + features all the greatest in speed cleat technology so you can dribble past the opposition like Messi does on a daily basis. Featuring a laceless design, the X Speedportal + offers that lock down feeling you need to be faster and more powerful than ever. A PRIMEKNIT upper hugs your feet perfectly for that snug lockdown fit that keeps you speedy and comfortable all season long. Built with a Speedskin upper, a raised and grippy pattern gives you that silky smooth and buttery touch that you\'ve always been waiting for. Instant reactions and creativity have never been easier than with the full-length Carbitex plate on the outsole that quickly snaps you back into place for the most dynamic movement. A carbon heel lock offers more dynamic support for multidirectional traction and movements on the field. Not sure if the X Speedportal is then right pair of cleats for you? Check out the Predator Edge or Copa Sense and grab that perfect pair of cleats today! ', 1),
+(4, 'adidas X Speedportal.1 FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 32, 249.99, 'asset/product/4.jpg', ' Alrihla Pack X Speedportal.1 Firm Ground adidas Soccer Cleats Power yourself through the toughest moments of the game with the X Speedportal soccer cleats! Alrihla, otherwise known as the journey, is designed to inspire the greatest players in the game to glory this season. A bold new design offers you the most iconic and legendary look so you can be the envy of all your teammates and opponents this season. The latest X Speedportal from the Alrihla pack is inspired by the bold journey the world\'s greatest players take to get the game\'s biggest tournament, an incredible design looks to inspire you and the game\'s biggest legends to victory this season. A beautiful rainbow iridescent pattern spans the middle toe of the upper for a legendary and beautiful look. Paired perfectly with the rainbow pattern is a clear aqua color that spans the entire upper of the cleats for a bold yet refined looking pair of cleats. Step into legendary status with these bold and powerful adidas soccer cleats! Designed with the latest technology for speed cleats, the X Speedportal.1 offers you a feeling that will keep you powering past even the toughest opponents. A Speedskin upper features a textured and raised pattern gives you the silky smooth touch that will have your opponents shaking in their boots. This Speedskin upper pairs with a secure PRIMEKNIT lockdown in the upper to ensure your foot is locked down and stable in the cleats. A lightweight Speedframe outsole is designed with a carbon fiber plate that reacts and quickly snaps you back into place during the quickest and most dynamic moments of the match. An all new carbon fiber speed wing locks you into the boots and offers you unmatched multidirectional traction so you can cut quickly around even the game\'s toughest opponents. Grab the Alrihla pack X Speedportal.1 soccer cleats today and be the envy of your opponents! ', 1),
 (5, 'adidas Predator Edge+ FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 11, 279.99, 'asset/product/5.jpg', ' Al Rihla Pack adidas Predator Edge + Firm Ground Cleats Take yourself on the football journey of a lifetime with these adidas Predator Soccer Cleats! It\'s 2022, AKA one of the biggest years in the beautiful game, which means you\'ll need to gear up and get ready to take on the season. The journey to this historic season or Al Rihla in arabic, means that you\'ll need a pair of boots that are inspired by the journey to bring your nation home all the world\'s football glory. The Predator Edge boots are home to a sleek white upper and bold new details that\'ll have you turning heads on the way to the top. Sitting on the white upper of these boots are the signature there stripes with a rainbow color way that spans throughout the stripes. Not only do the stripes take on this bold rainbow look, the Al Rihla specks span the entire pair of boots. On the front toe of the upper, power blue fades perfectly into the sole plate as well the specks of color. Solar Yellow lines the knit tongue if the upper giving you an unmatched and bold look. Gearing up for the season starts with the most elite performing adidas soccer cleats in the game. Working from top to bottom of these boots, you\'ll have everything you need to gear up and get ready to be the most legendary player to hit the pitch this season. On the upper you\'ll get Zone Skin technology that takes raised rubber ridges working to give you more unmatched control and that freaky smooth touch that the game\'s most legendary players have. Working with this technology is  a two-piece PRIMEKNIT collar that works to keep your foot locked in and ready to take on the season. The laceless construction of these boots works to give you the most form fitting and comfortable boots ever. On the front toe of the boots is a high tech power facet that redistributes weight to the forefoot of the boots to give you the most powerful and fiercest strikes. The high quality firm ground outsole on these boots are perfect for the most elite players of the game and is meant to set you over the top. Get the boots everyone is talking about today! ', 1),
 (6, 'adidas Low Cut Predator Edge.1 FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 34, 249.99, 'asset/product/6.jpg', ' Low Cut Al Rihla Pack Predator Edge.1 Firm Ground Cleats Have your opponents shaking in their boots with these sweet adidas Predator Edge Soccer Cleats! If you know anything about football, you know that this is shaping up to be one of the most legendary seasons ever. With all your favorite players and teams making the journey (Al Rihla) to Qatar this season, you\'ll want to grab the same boots that they\'ll be rocking on the pitch this season. Home to a totally redesigned and bold look, the Al Rihla Pack Predators will make your competition think you belong with the pros this season. Starting off with a white upper, these boots are home to an incredible set of details that are meant to mimic all the personalities and cultures that are going to hit the pitch this season. These bold rainbow details start from the sole plate and move all the way to very top of the upper giving you the most iconic looking pair of boots that you\'ve ever had. The three stripes even get a make over spanning from the sole plate throughout the entire upper of the boots  with that multicolor look that is more iconic than ever. Unleashing the most elite powerful strikes and movements has never been easier with these adidas soccer cleats. Engineered with the technology that your favorite players are rocking this season, these boots will give you unmatched skill and control all season long. Starting off these low cut boots are home to a super adaptive PRIMEKNIT collar, your feet will stay locked in and ready to go in the moments the game needs it the most. Sitting on top of the bold new upper is adidas\' legendary Zone Skin control zones that are engineered with raised rubber ridges designed to give you the most unmatched touch and control even at the fastest speeds of the game. The boots are home to a firm ground outsole that is designed to give you the most elusive feeling boots while giving you unmatched stability and control. Sitting on this outsole is a power facet on the upper toe section that redistributes your weight forward to give you the most powerful strikes in the game. Lace up the secret to elite power and control today! &nbsp; ', 1),
 (7, 'adidas Predator Edge.1 FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 30, 249.99, 'asset/product/7.jpg', ' Al Rihla Pack Predator Edge.1 Firm Ground Cleats Give yourself the keys to success in these all new adidas soccer cleats! Shaping up to be one of the most legendary seasons in the history of the game, all your favorite players will be lacing up their all new bold and powerful boots. Inspired by the many different journeys that the biggest players have taken to get to Qatar this season, these new Predator Edge cleats are going to give you a look unlike any other this season. Every detail of these boots takes on a whole new meaning that works to give you a look that\'ll have you turning heads and breaking ankles all at once. Before we can get into the details of these boots we have to start with the sleek all white upper. Just like the ball that\'ll be hitting the pitch in Qatar,  these boots take on the same nautical details that represent the journey (Al Rihla). A multicolor design on the three stripes, soleplate, and sail specks offers you a more bold and iconic design that is perfect for the game\'s biggest fans. One of the most legendary cleats in the game has taken on some of the latest technology in the game to give you the most elite pair of boots ever. These adidas Predator Edge Soccer cleats give you the most stable yet powerful lockdown feeling this season, perfect for the biggest players in the game to gear up for greatness. Engineered with a power facet, your weight is redistributed to the forefoot of the boots to give you some of the fiercest strikes in the game. This power facet sits on top of a stable and strong firm ground outsole that works to keep you moving and ready to go in every moment of the game. An adaptive PRIMEKNIT collar locks your feet into the boots and makes sure you\'re ready for action this season. On top of the upper sits Zone Skin technology engineered with raised upper ribbing to give you a more precise and crisp touch even at the fastest speeds of the game. Take the pitch by storm this season in a pair of boots destined for the pros! ', 1),
@@ -1589,26 +1695,117 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (1502, 'PUMA Ultra Flex Shin Guards &#8211; Bluemazing &#038; Sunblaze w', 'BRN003', 'KTG004', 16, 24.99, 'asset/product/1502.jpg', ' ', 1),
 (1503, 'PUMA evo360 Protect Sleeve &#8211; Black', 'BRN003', 'KTG004', 21, 27.99, 'asset/product/1503.jpg', ' \r\n Puma evo360 Protect Sleeve   Puma evo360 Protect Sleeve Don\'t second guess the need for awesome Soccer Shin Guards ever ever! Getting smacked in the shins is no fun, we\'ve seen this happen over and over again and it can be the difference between loving or hating the beautiful game! It hits close to home seeing people hurt from wearing bad soccer protection and these sleeves are a great part of helping you stay covered!\r\n \r\n The Puma evo360 Protect Sleeve combines a bunch of excellent materials that give it the ability to function excellently with your guard and together they give you top notch protection. Soccer is a contact sport so Puma has given us a sleeve that ensures there\'s no slippage in your guard. Grab yours from SoccerPro right now and enjoy your game with full confidence.  ', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
-  `id_user` int(50) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user` (
+  `id_user` int(50) NOT NULL,
   `username` varchar(50) NOT NULL,
   `full_name` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
   `alamat` text NOT NULL,
   `nomor_telepon` varchar(13) NOT NULL,
   `password` varchar(25) NOT NULL,
-  PRIMARY KEY (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `status_user` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `user` (`id_user`, `username`, `full_name`, `email`, `alamat`, `nomor_telepon`, `password`) VALUES
-(1, 'agus', 'Agus', '1234@123', 'asd', '123', '123');
+--
+-- Dumping data for table `user`
+--
 
+INSERT INTO `user` (`id_user`, `username`, `full_name`, `email`, `alamat`, `nomor_telepon`, `password`, `status_user`) VALUES
+(1, 'agus', 'agus', '1234@123', 'asd', '123', '123', 1),
+(2, 'budi', 'Budi', '321@321', 'Bumi', '123123123', '123', 1);
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `brand`
+--
+ALTER TABLE `brand`
+  ADD PRIMARY KEY (`id_brand`);
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD KEY `id_produk` (`id_produk`);
+
+--
+-- Indexes for table `dtrans`
+--
+ALTER TABLE `dtrans`
+  ADD KEY `nota_jual` (`nota_jual`),
+  ADD KEY `id_produk` (`id_produk`);
+
+--
+-- Indexes for table `htrans`
+--
+ALTER TABLE `htrans`
+  ADD PRIMARY KEY (`nota_jual`);
+
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indexes for table `produk`
+--
+ALTER TABLE `produk`
+  ADD PRIMARY KEY (`id_produk`),
+  ADD KEY `id_brand` (`id_brand`),
+  ADD KEY `id_kategori` (`id_kategori`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `id_produk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1504;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`);
+
+--
+-- Constraints for table `dtrans`
+--
 ALTER TABLE `dtrans`
   ADD CONSTRAINT `dtrans_ibfk_1` FOREIGN KEY (`nota_jual`) REFERENCES `htrans` (`nota_jual`),
   ADD CONSTRAINT `dtrans_ibfk_2` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`);
 
+--
+-- Constraints for table `produk`
+--
 ALTER TABLE `produk`
   ADD CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_brand`) REFERENCES `brand` (`id_brand`),
   ADD CONSTRAINT `produk_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
