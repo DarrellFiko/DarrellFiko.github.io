@@ -59,7 +59,20 @@ if (isset($_POST["choose"])) {
     resetPagingAdmin();
     header("Location: #collections");
 }
-
+if (isset($_POST["report"])) {
+    $data = $_POST["pilihData"];
+    if ($data == "produk") {
+        
+    } else if ($data == "htrans") {
+        
+    } else if ($data == "dtrans") {
+        
+    } else {
+        
+    }
+    resetPagingAdmin();
+    header("Location: #collections");
+}
 //SEARCH
 if (isset($_POST["btnSearchAdmin"])) {
     $_SESSION["adminSearch"] = $_POST["inputSearchAdmin"];
@@ -597,7 +610,8 @@ if (isset($_POST["go"])) {
                             <option value="dtrans" style="width: 12vw; height: 5vh;">Detail Transaction</option>
                             <option value="user" style="width: 12vw; height: 5vh;">User</option>
                         </select>
-                        <button type="submit" class="btn btn-outline-dark fs-5" style="width: 6vw; height: 5vh;" name="choose">Choose</button>
+                        <button type="submit" class="btn btn-outline-dark fs-5 d-flex align-items-center me-3 text-center" style="width: 6vw; height: 5vh;" name="choose">Choose</button>
+                        <button type="submit" class="btn btn-outline-danger fs-5 d-flex align-items-center justify-content-center" style="width: 6vw; height: 5vh;" name="report">Report</button>
                     </div>
                 </div>
             </div>
