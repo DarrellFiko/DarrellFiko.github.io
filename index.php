@@ -167,17 +167,11 @@ if (isset($_POST["cart"])) {
     $_SESSION["masukCart"] = true;
     $_SESSION["masukDetail"] = false;
 }
-if (isset($_POST["back"])) {
-    $_SESSION["masukCart"] = false;
-    $_SESSION["masukDetail"] = false;
-}
 if (!isset($_SESSION["masukCart"])) {
     $_SESSION["masukCart"] = false;
 }
 
 if ($_SESSION["masukCart"] == true) {
-    alert("reload cart");
-
     if ($_SESSION["login"] == true) {
         $cartIdUser = $_SESSION["idUser"];
         if ($cartIdUser != "") {
@@ -425,9 +419,17 @@ if (isset($_POST["pageTerakhir"])) {
 
 if (isset($_POST["back"])) {
     $_SESSION["masukDetail"] = false;
+    $_SESSION["masukCart"] = false;
     header("Location: #collections");
 }
-
+if (isset($_POST["resetAwal"])) {
+    $_SESSION["masukDetail"] = false;
+    $_SESSION["masukCart"] = false;
+    $_SESSION["listProduk"] = [];
+    $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
+    $_SESSION["productCount"] = count($_SESSION["listProduk"]);
+    header("Location: #collections");
+}
 if (isset($_POST["c1"])) {
     $_SESSION["masukDetail"] = true;
     $id = 145;
@@ -657,9 +659,9 @@ if (isset($_POST["addToCart"])) {
     <nav class="bg-dark text-white fixed-top">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-2 col-lg-2 d-flex align-items-center">
-                    <form action="" method="post">
-                        <button class="navbar-brand bg-transparent border border-0" name="back" href="#">
+                <div class="col-2 col-lg-2 d-flex align-items-center py-3">
+                    <form class="m-0" action="" method="post">
+                        <button class="navbar-brand bg-transparent border border-0" name="resetAwal" href="#">
                             <img src="asset/logo_toko.png" alt="Logo" width="50" height="50" class="d-inline-block">
                         </button>
                     </form>
@@ -667,14 +669,25 @@ if (isset($_POST["addToCart"])) {
                         Sport Station
                     </div>
                 </div>
-                <div class="col-7 col-lg-8 py-3">
-                    <form class="d-flex" role="search" method="POST">
+                <div class="col-7 col-lg-8 d-flex align-items-center justify-content-center">
+                    <form class="d-flex m-0" role="search" method="POST" style="width: 100%;">
                         <input class="form-control me-2" type="Search" placeholder="Search" aria-label="Search" name="input">
                         <button class="btn btn-outline-light" type="submit" name="search">Search</button>
                     </form>
                 </div>
-                <div class="col-3 col-lg-2 d-flex justify-content-end py-3">
-                    <form action="" method="post">
+                <div class="col-3 col-lg-2 d-flex justify-content-end align-items-center">
+                    <?php
+                    if ($_SESSION["login"] == true) {
+                    ?>
+                        <form class=" m-0" action="" method="post">
+                            <button class="navbar-brand mx-2 bg-transparent border border-0" name="history" onclick="alert('history')">
+                                <i class=" fa-solid fa-clock-rotate-left fs-3 text-center pt-1" style="width: 35px; height: 35px;"></i>
+                            </button>
+                        </form>
+                    <?php
+                    }
+                    ?>
+                    <form class=" m-0" action="" method="post">
                         <button class="navbar-brand mx-2 bg-transparent border border-0" name="cart" onclick="loadCart()">
                             <img src="asset/keranjang.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                         </button>
@@ -688,7 +701,7 @@ if (isset($_POST["addToCart"])) {
                     <?php
                     } else {
                     ?>
-                        <form action="" method="post">
+                        <form class="m-0" action="" method="post">
                             <button class="navbar-brand mx-2 bg-transparent border border-0" name="logout">
                                 <img src="asset/logout.png" alt="Logo" width="35" height="35" class="d-inline-block align-text-top">
                             </button>
@@ -702,7 +715,7 @@ if (isset($_POST["addToCart"])) {
     </nav>
 
     <!-- SCROLL -->
-    <div style="margin-top:70px">
+    <div style="margin-top:78px">
         <!-- Div kiri buat scroll -->
         <div class="d-flex align-items-center justify-content-center">
             <button class="buttonCategories d-flex align-items-center justify-content-center text-white ps-2 border-0" onclick="openNav()">
