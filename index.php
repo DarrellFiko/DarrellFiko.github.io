@@ -845,55 +845,54 @@ if (isset($_POST["history"])) {
                             </div>
                             <div class="col-1"></div>
                         </div> -->
-                        <!-- Container for the image gallery -->
                         <div class="containerr">
 
                             <!-- Full-width images with number text -->
                             <div class="mySlides">
-                                <div class="numbertext m-3">1 / 6</div>
+                                <div class="numbertext m-3 rounded">1 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c1"><img src="asset/c1.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <div class="mySlides">
-                                <div class="numbertext m-3">2 / 6</div>
+                                <div class="numbertext m-3 rounded">2 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c2"><img src="asset/c2.webp" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <div class="mySlides">
-                                <div class="numbertext m-3">3 / 6</div>
+                                <div class="numbertext m-3 rounded">3 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c3"><img src="asset/c3.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <div class="mySlides">
-                                <div class="numbertext m-3">4 / 6</div>
+                                <div class="numbertext m-3 rounded">4 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c4"><img src="asset/c4.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <div class="mySlides">
-                                <div class="numbertext m-3">5 / 6</div>
+                                <div class="numbertext m-3 rounded">5 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c5"><img src="asset/c5.png" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <div class="mySlides">
-                                <div class="numbertext m-3"> 6 / 6 </div>
+                                <div class="numbertext m-3 rounded"> 6 / 6 </div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c6"><img src="asset/c6.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
                                 </form>
                             </div>
 
                             <!-- Next and previous buttons -->
-                            <a class="prev text-info text-decoration-none glass" style="margin-left: 3vw;" onclick="plusSlides(-1)">&#10094;</a>
-                            <a class="next text-info text-decoration-none glass" onclick="plusSlides(1)">&#10095;</a>
+                            <a class="prev text-info text-decoration-none glass rounded" style="margin-left: 3vw;background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(-1)">&#10094;</a>
+                            <a class="next text-info text-decoration-none glass rounded" style="background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(1)">&#10095;</a>
 
                         </div>
                         <!-- tutup carousel -->
