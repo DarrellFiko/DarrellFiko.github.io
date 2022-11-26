@@ -62,16 +62,14 @@ if (isset($_POST["choose"])) {
 if (isset($_POST["report"])) {
     $data = $_POST["pilihData"];
     if ($data == "produk") {
-        
+        // alert("laporanProduk");
+        header("Location: laporanProduk.php");
     } else if ($data == "htrans") {
-        
     } else if ($data == "dtrans") {
-        
     } else {
-        
     }
     resetPagingAdmin();
-    header("Location: #collections");
+    // header("Location: #collections");
 }
 //SEARCH
 if (isset($_POST["btnSearchAdmin"])) {
