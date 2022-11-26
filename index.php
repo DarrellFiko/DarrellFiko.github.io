@@ -565,9 +565,9 @@ if (isset($_POST["btnFilter"])) {
 
 if (isset($_POST["addToCart"])) {
     $_SESSION["masukDetail"] = false;
-    if($_SESSION["tempId"]==-1){
+    if ($_SESSION["tempId"] == -1) {
         $tempId = $_POST["cartPassID"];
-    }else{
+    } else {
         $tempId = $_SESSION["tempId"];
     }
     alert($tempId);
@@ -616,7 +616,7 @@ if (isset($_POST["history"])) {
 if (isset($_POST["btnInvoice"])) {
     $nota = $_POST["sentNota"];
     $_SESSION["invoiceNota"] = $nota;
-    
+
     header("Location: invoice.php");
 }
 
@@ -1267,7 +1267,7 @@ if (isset($_POST["btnInvoice"])) {
             <div class="container glass my-3 pt-3">
                 <?php
                 $idUser = $_SESSION["idUser"];
-                $htrans = query("SELECT * FROM htrans WHERE id_user = '$idUser'");
+                $htrans = query("SELECT * FROM htrans WHERE id_user = '$idUser' ORDER BY tanggal DESC");
                 foreach ($htrans as $key => $value) {
                     $nota = $value["nota_jual"];
                     $tempTanggal = $value["tanggal"];
