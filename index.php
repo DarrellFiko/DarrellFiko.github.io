@@ -90,22 +90,6 @@ $transaction_details = array(
     'gross_amount' => ceil($subtotal), // no decimal allowed for creditcard
 );
 
-if ($_SESSION["login"] == true) {
-    $idUser = $_SESSION['idUser'];
-    $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
-    $user = $stmt->fetch_assoc();
-
-    $alamat = $user["alamat"];
-    $nomor_telepon = $user["nomor_telepon"];
-    $full_name = $user["full_name"];
-    $email = $user["email"];
-} else {
-    $alamat = "";
-    $nomor_telepon = "";
-    $full_name = "";
-    $email = "";
-}
-
 // Optional, remove this to display all available payment methods
 // $enable_payments = array('credit_card', 'cimb_clicks', 'mandiri_clickpay');
 
@@ -603,9 +587,18 @@ if (isset($_POST["addToCart"])) {
         $_SESSION["keranjang"] = [];
     }
 }
+
 if (isset($_POST["history"])) {
     $_SESSION["history"] = true;
 }
+
+if (isset($_POST["btnInvoice"])) {
+    $nota = $_POST["sentNota"];
+    $_SESSION["invoiceNota"] = $nota;
+    
+    header("Location: invoice.php");
+}
+
 // var_dump($_SESSION["keranjang"]);
 ?>
 
@@ -845,10 +838,10 @@ if (isset($_POST["history"])) {
                             </div>
                             <div class="col-1"></div>
                         </div> -->
-                        <div class="containerr">
+                        <div class="containerr carousel slide">
 
                             <!-- Full-width images with number text -->
-                            <div class="mySlides">
+                            <div class=" mySlides">
                                 <div class="numbertext m-3 rounded">1 / 6</div>
                                 <form action="" method="post">
                                     <button type="submit" class="border border-0 bg-transparent" name="c1"><img src="asset/c1.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
@@ -893,10 +886,9 @@ if (isset($_POST["history"])) {
                             <!-- Next and previous buttons -->
                             <a class="prev text-info text-decoration-none glass rounded" style="margin-left: 3vw;background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(-1)">&#10094;</a>
                             <a class="next text-info text-decoration-none glass rounded" style="background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(1)">&#10095;</a>
-
                         </div>
-                        <!-- tutup carousel -->
                     </div>
+                    <!-- tutup carousel -->
 
                     <!-- untuk paging -->
                     <div id="collections" class="pt-5"></div>
@@ -1251,44 +1243,105 @@ if (isset($_POST["history"])) {
         ?>
         <!-- history -->
         <div class="bgGradient d-flex justify-content-center" style="margin-left: 30px; min-height: 65vh;">
-            <div class="container glass my-5">
+            <div class="container glass my-3 pt-3">
                 <?php
-                for ($i=0; $i < 2; $i++) { 
-                    $image = "asset/product/1.jpg";
-                    $nota = "NOTA0000000000000000000000000000000000000000000001";
-                    $date = "10-12-2022";
-                    $nama_product = "adidas Predator Absolute FG - The Comeback";
-                    $quantity = "5";
-                    $total = "$300";
-                    ?>
-                    <div class="row bg-light rounded">
-                        <div class="col-2 d-flex justify-content-center align-items-center">
-                            <img src="<?=$image?>" alt="" style="width: 10vw;">
-                        </div>
-                        <div class="col-10 m-3 d-flex align-items-center">
-                            <div class="row">
-                                <div class="col-8 text-start">
-                                    <h5><?=$nota?></h5>
+                $idUser = $_SESSION["idUser"];
+                $htrans = query("SELECT * FROM htrans WHERE id_user = '$idUser'");
+                foreach ($htrans as $key => $value) {
+                    $nota = $value["nota_jual"];
+                    $tempTanggal = $value["tanggal"];
+                    $time = strtotime($tempTanggal);
+                    $tanggal = date('d-m-Y', $time);
+                    $idUser = $value["id_user"];
+                    $subtotal = number_format($value["subtotal"] + 5, 2, ',', '.');
+
+                    $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$nota'");
+
+                ?>
+                    <div class="card">
+                        <div class="card-header">
+                            <span class="text-success fs-3 mt-3">Success</span>
+                            <div class="headerHistory d-flex align-item-center justify-content-between">
+                                <div class="headerKiri d-flex align-items-center">
+                                    <h5 class="me-3"><?= $tanggal ?>,</h5>
+                                    <h6 class="me-3"><?= $nota ?></h6>
                                 </div>
-                                <div class="col-4 text-end">
-                                    <p><?=$date?></p>
-                                </div>
-                                <div class="col-4 text-start">
-                                    <p><?=$nama_product?></p>    
-                                </div>
-                                <div class="col-4 text-start">
-                                    <p><?=$quantity?></p> 
-                                </div>
-                                <div class="col-4 text-end">
-                                    <p><?=$total?></p> 
+                                <div class="headerKanan d-flex align-items-center">
+                                    <h5 class="fw-bold">$ <?= $subtotal ?></h5>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 bg-success text-center my-3">
-                            <h5>Success</h5>
+                        <div class="card-body">
+                            <?php
+
+                            foreach ($dtrans as $key => $value) {
+                                $idProduk = $value["id_produk"];
+                                $quantity = $value["quantity"];
+
+                                $produk = query("SELECT * FROM produk WHERE id_produk = '$idProduk'");
+                                foreach ($produk as $key => $value) {
+                                    $nameProduk = $value["name_produk"];
+                                    $nameProduk = ucfirst($nameProduk);
+                                    $idBrand = $value["id_brand"];
+                                    $brand = query("SELECT * FROM brand WHERE id_brand = '$idBrand'");
+                                    foreach ($brand as $key => $valueBrand) {
+                                        $nameBrand = $valueBrand["name_brand"];
+                                    }
+                                    $idKategori = $value["id_kategori"];
+                                    $kategori = query("SELECT * FROM kategori WHERE id_kategori = '$idKategori'");
+                                    foreach ($kategori as $key => $valueKategori) {
+                                        $nameKategori = $valueKategori["name_kategori"];
+                                    }
+                                    $priceProduk = $value["price_produk"];
+                                    $imageProduk = $value["image_produk"];
+                                    $total = $quantity * $priceProduk;
+
+                            ?>
+                                    <div class="card mb-3" style="max-width: 100%;">
+                                        <div class="row">
+                                            <div class="col-md-2 d-flex align-items-center justify-content-center">
+                                                <img src="<?= $imageProduk ?>" class="img-fluid rounded-start" style="width: 50%;" alt="...">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="card-body">
+                                                    <h5 class="card-title"><?= $nameProduk ?></h5>
+                                                    <span class="card-text mt-1">Kategori: <?= $nameKategori ?> - </span>
+                                                    <span class="card-text">Brand: <?= $nameBrand ?></span> <br>
+                                                    <span class="card-text">Price: $ <?= $priceProduk ?> - </span>
+                                                    <span class="card-text">Quantity: <?= $quantity ?></span> <br>
+                                                    <div class="totalHarga d-flex align-items-center justify-content-end">
+                                                        <span class="card-text fw-bold">Total: $ <?= $total ?></span>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                            <?php
+                                }
+                            }
+                            ?>
+                            <div class="footerCart d-flex justify-content-between">
+                                <div class="footerKiri align-self-end ms-1">
+                                    <form class="m-0" action="" method="post">
+                                        <input type="hidden" name="sentNota" value="<?= $nota ?>">
+                                        <button class="btn btn-outline-dark" name="btnInvoice" id="btnInvoice">Invoice</button>
+                                    </form>
+                                </div>
+                                <div class="footerKanan">
+                                    <div class="subTotal d-flex align-items-center justify-content-end">
+                                        <span class="fs-5">Shipping Fee: $5</span>
+                                    </div>
+                                    <div class="subTotal d-flex align-items-center justify-content-end">
+                                        <span class="fs-4 fw-bold">Subtotal: $ <?= $subtotal ?></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <?php
+                    <hr>
+                <?php
                 }
                 ?>
             </div>

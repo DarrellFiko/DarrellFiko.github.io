@@ -5,66 +5,20 @@ $idUser = $_SESSION['idUser'];
 $stmt = $conn->query("SELECT * FROM user WHERE id_user='$idUser'");
 $user = $stmt->fetch_assoc();
 
-$carts = $_SESSION["keranjang"];
+$nota = $_SESSION["invoiceNota"];
 
-// insert to database
-$nota_jual = $_SESSION["nomorNota"];
-$tanggal = date('Y-m-d');
-$subtotal = 0;
-foreach ($_SESSION["keranjang"] as $i => $key) {
-    $price = $key["price_produk"];
-    $quantity = $key["quantity_produk"];
-    $totalHarga = $price * $quantity;
-    $subtotal += $totalHarga;
+$htrans = query("SELECT * FROM htrans WHERE nota_jual = '$nota'");
+foreach ($htrans as $key => $value) {
+    $tempTanggal = $value["tanggal"];
+    $time = strtotime($tempTanggal);
+    $tanggal = date('d/m/Y', $time);
+    $subtotal = $value["subtotal"] + 5;
 }
 
-$data = [
-    "nota_jual" => $nota_jual,
-    "tanggal" => $tanggal,
-    "id_user" => $idUser,
-    "subtotal" => $subtotal
-];
-
-if (insertHtrans($data) > 0) {
-    foreach ($_SESSION["keranjang"] as $key => $value) {
-        $id_produk = $value["id_produk"];
-        $quantity_produk = $value["quantity_produk"];
-
-        $data = [
-            "nota_jual" => $nota_jual,
-            "id_produk" => $id_produk,
-            "quantity" => $quantity_produk
-        ];
-
-        if (insertDtrans($data) > 0) {
-        }
-    }
-}
-
-// update stok
-foreach ($carts as $key => $value) {
-    $id_produk = $value["id_produk"];
-    $quantity_produk = $value["quantity_produk"];
-
-    $tempProduk = query("SELECT * FROM produk WHERE id_produk = '$id_produk'");
-    foreach ($tempProduk as $key => $value) {
-        $stok = $value["stok_produk"];
-    }
-
-    $finalStok = $stok - $quantity_produk;
-
-    $data = [
-        "id_produk" => $id_produk,
-        "stok_produk" => $finalStok
-    ];
-
-    updateStokProduk($data);
-}
+$dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$nota'");
 
 if (isset($_POST["btnBack"])) {
-    deleteCart($idUser);
-    $_SESSION["keranjang"] = [];
-
+    unset($_SESSION["invoiceNota"]);
     echo "<script>document.location.href = 'index.php'</script>";
 }
 
@@ -77,7 +31,7 @@ if (isset($_POST["btnBack"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You!</title>
+    <title>Invoice</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -126,8 +80,8 @@ if (isset($_POST["btnBack"])) {
                                         <div class="email mt-1"><a class="text-decoration-none text-dark" href="mailto:<?= $user["email"] ?>"><?= $user["email"] ?></a></div>
                                     </div>
                                     <div class="col invoice-details">
-                                        <h6 class="invoice-id">INVOICE <?= $_SESSION["nomorNota"] ?></h6>
-                                        <div class="date">Date of Invoice: <?= date('d/m/Y') ?></div>
+                                        <h6 class="invoice-id">INVOICE <?= $nota ?></h6>
+                                        <div class="date">Date of Invoice: <?= $tanggal ?></div>
                                     </div>
                                 </div>
                                 <table border="0" cellspacing="0" cellpadding="0">
@@ -144,13 +98,17 @@ if (isset($_POST["btnBack"])) {
                                         <?php
                                         $subtotal = 0;
                                         $no = 0;
-                                        foreach ($_SESSION["keranjang"] as $i => $key) {
-                                            if ($key["quantity_produk"] > 0) {
+                                        foreach ($dtrans as $i => $valueDtrans) {
+                                            if ($valueDtrans["quantity"] > 0) {
                                                 $no += 1;
                                             }
-                                            $name = $key["name_produk"];
-                                            $price = $key["price_produk"];
-                                            $quantity = $key["quantity_produk"];
+                                            $idProduk = $valueDtrans["id_produk"];
+                                            $produk = query("SELECT * FROM produk WHERE id_produk = '$idProduk'");
+                                            foreach ($produk as $key => $value) {
+                                                $name = $value["name_produk"];
+                                                $price = $value["price_produk"];
+                                            }
+                                            $quantity = $valueDtrans["quantity"];
                                             $totalHarga = $price * $quantity;
                                             $subtotal += $totalHarga;
 
@@ -167,18 +125,16 @@ if (isset($_POST["btnBack"])) {
                                         ?>
                                     </tbody>
                                     <tfoot>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2">Shipping Fee</td>
-                                                <td colspan="2"></td>
-                                                <td>$5</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">Subtotal</td>
-                                                <td colspan="2"></td>
-                                                <td>$ <?= ceil($subtotal) + 5 ?></td>
-                                            </tr>
-                                        </tfoot>
+                                        <tr>
+                                            <td colspan="2">Shipping Fee</td>
+                                            <td colspan="2"></td>
+                                            <td>$5</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">Subtotal</td>
+                                            <td colspan="2"></td>
+                                            <td>$ <?= ceil($subtotal)+5 ?></td>
+                                        </tr>
                                     </tfoot>
                                 </table>
                                 <div class="thanks mt-5">
