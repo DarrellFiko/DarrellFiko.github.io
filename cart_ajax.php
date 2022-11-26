@@ -90,3 +90,31 @@ echo "<input type='hidden' name='loginValue' id='loginValue' value='$loginValue'
 echo "<button type='button' name='checkOutBtn' id='checkOutBtn' class='btn btn-outline-dark fs-4' onclick='transaksi()'>Check Out</button>";
 echo "</form>";
 echo "</div>";
+
+// update cart Database
+if ($_SESSION["login"] == true) {
+    $idUser = $_SESSION["idUser"];
+
+    if (deleteCart($idUser) > 0) {
+        echo "<script>alert('delete')</script>";
+    }
+
+    foreach ($_SESSION["keranjang"] as $key => $value) {
+        $id_produk = $value["id_produk"];
+        $image_produk = $value["image_produk"];
+        $name_produk = $value["name_produk"];
+        $price_produk = $value["price_produk"];
+        $quantity_produk = $value["quantity_produk"];
+
+        $data = [
+            "id_user" => $idUser,
+            "id_produk" => $id_produk,
+            "image_produk" => $image_produk,
+            "name_produk" => $name_produk,
+            "price_produk" => $price_produk,
+            "quantity_produk" => $quantity_produk
+        ];
+
+        insertCart($data);
+    }
+}

@@ -35,6 +35,9 @@ if (!isset($_SESSION["login"])) {
 }
 if (isset($_POST["logout"])) {
     $_SESSION["login"] = false;
+    $_SESSION["masukCart"] = false;
+    $_SESSION["masukDetail"] = false;
+    $_SESSION["keranjang"] = [];
 }
 
 $htrans = query("SELECT * FROM htrans");
@@ -173,6 +176,36 @@ if (isset($_POST["back"])) {
 }
 if (!isset($_SESSION["masukCart"])) {
     $_SESSION["masukCart"] = false;
+}
+
+if ($_SESSION["masukCart"] == true) {
+    alert("reload cart");
+
+    if ($_SESSION["login"] == true) {
+        $cartIdUser = $_SESSION["idUser"];
+        if ($cartIdUser != "") {
+            $tempCart = query("SELECT * FROM cart WHERE id_user = '$cartIdUser'");
+
+            $_SESSION["keranjang"] = [];
+            foreach ($tempCart as $key => $value) {
+                $id_produk = $value["id_produk"];
+                $image_produk = $value["image_produk"];
+                $name_produk = $value["name_produk"];
+                $price_produk = $value["price_produk"];
+                $quantity_produk = $value["quantity_produk"];
+
+                $tempKeranjang = [
+                    "id_produk" => $id_produk,
+                    "image_produk" => $image_produk,
+                    "name_produk" => $name_produk,
+                    "price_produk" => $price_produk,
+                    "quantity_produk" => $quantity_produk
+                ];
+
+                array_push($_SESSION["keranjang"], $tempKeranjang);
+            }
+        }
+    }
 }
 
 if (isset($_POST["btnSaveDataUser"])) {
@@ -715,7 +748,7 @@ if (isset($_POST["addToCart"])) {
                     <!-- carousel -->
                     <div class="d-flex justify-content-center">
                         <div class="col-1"></div>
-                        <div class="col-10 my-5 ">
+                        <div class="col-9 my-5 ">
                             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                                 <div class="carousel-inner shadow ">
                                     <div class="carousel-item active" data-bs-interval="2000">

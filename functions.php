@@ -182,6 +182,24 @@ function insertDtrans($data)
     return mysqli_affected_rows($conn);
 }
 
+function insertCart($data)
+{
+    global $conn;
+
+    // DATA
+    $id_user = $data["id_user"];
+    $id_produk = $data["id_produk"];
+    $image_produk = $data["image_produk"];
+    $name_produk = $data["name_produk"];
+    $price_produk = $data["price_produk"];
+    $quantity_produk = $data["quantity_produk"];
+
+    $query = "INSERT INTO cart VALUES ('$id_user','$id_produk','$image_produk','$name_produk','$price_produk','$quantity_produk')";
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
 // UPDATE
 
 function update($data)
@@ -257,7 +275,7 @@ function delete($id)
 {
     global $conn;
 
-    $query = "DELETE FROM  WHERE = $id";
+    $query = "DELETE FROM  WHERE = '$id'";
 
     mysqli_query($conn, $query);
 
@@ -269,6 +287,17 @@ function deleteProduk($id)
     global $conn;
 
     $query = "DELETE FROM produk WHERE id_produk = '$id'";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function deleteCart($id)
+{
+    global $conn;
+
+    $query = "DELETE FROM cart WHERE id_user = '$id'";
 
     mysqli_query($conn, $query);
 
