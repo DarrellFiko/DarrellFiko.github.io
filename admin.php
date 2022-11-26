@@ -64,7 +64,9 @@ if (isset($_POST["report"])) {
     if ($data == "produk") {
         header("Location: laporanProduk.php");
     } else if ($data == "htrans") {
+        header("Location: laporanTransaksi.php");
     } else if ($data == "dtrans") {
+        header("Location: laporanTransaksi.php");
     } else {
         header("Location: laporanUser.php");
     }
