@@ -41,6 +41,7 @@ if (isset($_POST["logout"])) {
     $_SESSION["login"] = false;
     $_SESSION["history"] = false;
     $_SESSION["tempId"] = -1;
+    $_SESSION["keranjang"] = [];
 }
 
 $htrans = query("SELECT * FROM htrans");
@@ -191,7 +192,7 @@ if ($_SESSION["masukCart"] == true) {
             }
         }
     } else {
-        $_SESSION["keranjang"] = [];
+        // $_SESSION["keranjang"] = [];
     }
     $_SESSION["tempId"] = -1;
 }
