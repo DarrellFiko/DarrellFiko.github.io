@@ -35,9 +35,6 @@ if (!isset($_SESSION["login"])) {
 }
 if (isset($_POST["logout"])) {
     $_SESSION["login"] = false;
-    $_SESSION["masukCart"] = false;
-    $_SESSION["masukDetail"] = false;
-    $_SESSION["keranjang"] = [];
 }
 
 $htrans = query("SELECT * FROM htrans");
