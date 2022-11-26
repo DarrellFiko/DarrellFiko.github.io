@@ -202,6 +202,8 @@ if ($_SESSION["masukCart"] == true) {
                 array_push($_SESSION["keranjang"], $tempKeranjang);
             }
         }
+    } else {
+        $_SESSION["keranjang"] = [];
     }
 }
 
