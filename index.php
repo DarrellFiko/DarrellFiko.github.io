@@ -691,7 +691,7 @@ if (isset($_POST["btnInvoice"])) {
                         </button>
                     </form>
                     <div class="navbar-brand d-xl-inline d-none fs-5">
-                        Sport Station
+                        Soccer Champ
                     </div>
                 </div>
                 <div class="col-7 col-lg-8 d-flex align-items-center justify-content-center">
@@ -1084,18 +1084,66 @@ if (isset($_POST["btnInvoice"])) {
                                         <div class="col-12 text-center">
                                             <h1>Details</h1>
                                         </div>
-                                        <div class="col-12 col-xl-6 d-flex justify-content-start align-items-center">
+                                        <div class="col-12 d-flex justify-content-start align-items-center">
                                             <?php
                                             $image = $produkDetail[0]["image_produk"];
-                                            echo "<img src='$image' style='height: auto;' class='card-img-top border-0 img-size' alt='...'/>";
+                                            // echo "<img src='$image' style='height: auto;' class='card-img-top border-0 img-size' alt='...'/>";
                                             ?>
+                                            <div class="col-12">
+                                                <div class="img-zoom-container">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <img id="myimage" src="<?=$image?>" class="bg-dark">
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div id="myresult" class="img-zoom-result"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="img-zoom-container">
+                                                <img id="myimage" src="<?=$image?>" width="300" height="240">
+                                                <div id="myresult" class="img-zoom-result"></div>
+                                            </div> -->
                                         </div>
-                                        <div class="col-12 col-xl-6 px-5 py-5 d-flex align-items-center">
+                                        <div class="col-12 px-5 py-5 d-flex align-items-center">
                                             <div class="row">
                                                 <div class="col-12 text-dark text-start">
                                                     <h1><?= $produkDetail[0]["name_produk"] ?></h1>
                                                 </div>
-                                                <div class=" py-3 col-12 pb-4 text-danger text-start">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <h3>$</h3>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <h5>Quantity:</h5>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <?php
+                                                            $cekJumlah = 0;
+                                                            foreach ($_SESSION["keranjang"] as $i => $key) {
+                                                                if ($key["id_produk"] == $produkDetail[0]["id_produk"]) {
+                                                                    $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
+                                                                }
+                                                            }
+                                                            $stok = $produkDetail[0]["stok_produk"];
+                                                            ?>
+                                                            <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
+                                                            <?= $stok ?> Remaining.
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <h3>Total: $</h3>
+                                                        </div>
+                                                        <div class="col-2 text-danger">
+                                                            <h3 id="totalHarga"><?= $produkDetail[0]["price_produk"] * $cekJumlah ?></h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class=" py-3 col-12 pb-4 text-danger text-start">
                                                     <div class="row">
                                                         <div class="col-1">
                                                             <h3>$</h3>
@@ -1137,7 +1185,7 @@ if (isset($_POST["btnInvoice"])) {
                                                             <h3 id="totalHarga"><?= $produkDetail[0]["price_produk"] * $cekJumlah ?></h3>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-12 pb-4 text-start">
                                                     <div class="row">
                                                         <div class="col-6">
@@ -1379,7 +1427,7 @@ if (isset($_POST["btnInvoice"])) {
                     <a class="nav-link text-white" href="#" style="display: flex;">
                         <img src="asset/logo_toko.png" class="gambar" style="width: 3vw; height:3vw; margin-right: 10px" alt="" srcset="">
                         <h2 style="margin: 0.3vw;">
-                            Sport Station
+                            Soccer Champ
                         </h2>
                     </a>
                     <div class="des ms-5">
@@ -1391,7 +1439,7 @@ if (isset($_POST["btnInvoice"])) {
                 <div class="col-6 col-lg-3" style="margin: 0.5vw;font-size: 1.3vw; color:dark;">
                     <p>Our Contacts</p>
                     <div class="des">
-                        <p style="font-size: 1vw;">Email : soccersportstation@gmail.com</p>
+                        <p style="font-size: 1vw;">Email : soccerchampstore@gmail.com</p>
                         <p style="font-size: 1vw;">Phone : (888) 8888888</p>
                         <p style="font-size: 1vw;">Mobile : 8888888888</p>
                     </div>
@@ -1405,7 +1453,7 @@ if (isset($_POST["btnInvoice"])) {
                     </div>
                 </div>
                 <div class="col-6 col-lg-3" style="margin: 0.5vw;font-size: 1.3vw; color:dark;">
-                    <p>Subscribe our Sport Station</p>
+                    <p>Subscribe our Soccer Champ</p>
                     <div class="des">
                         <div class="row">
                             <div class="col-1 text-start me-2">
@@ -1552,6 +1600,8 @@ if (isset($_POST["btnInvoice"])) {
 
         }
 
+
+        // BIKIN CAROUSEL
         let slideIndex = 1;
         showSlides(slideIndex);
 
@@ -1581,6 +1631,65 @@ if (isset($_POST["btnInvoice"])) {
             dots[slideIndex - 1].className += " active";
             captionText.innerHTML = dots[slideIndex - 1].alt;
         }
+
+    </script>
+    <script>
+        function imageZoom(imgID, resultID) {
+            var img, lens, result, cx, cy;
+            img = document.getElementById(imgID);
+            result = document.getElementById(resultID);
+            /* Create lens: */
+            lens = document.createElement("DIV");
+            lens.setAttribute("class", "img-zoom-lens");
+            /* Insert lens: */
+            img.parentElement.insertBefore(lens, img);
+            /* Calculate the ratio between result DIV and lens: */
+            cx = result.offsetWidth / lens.offsetWidth;
+            cy = result.offsetHeight / lens.offsetHeight;
+            /* Set background properties for the result DIV */
+            result.style.backgroundImage = "url('" + img.src + "')";
+            result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+            /* Execute a function when someone moves the cursor over the image, or the lens: */
+            lens.addEventListener("mousemove", moveLens);
+            img.addEventListener("mousemove", moveLens);
+            /* And also for touch screens: */
+            lens.addEventListener("touchmove", moveLens);
+            img.addEventListener("touchmove", moveLens);
+            function moveLens(e) {
+                var pos, x, y;
+                /* Prevent any other actions that may occur when moving over the image */
+                e.preventDefault();
+                /* Get the cursor's x and y positions: */
+                pos = getCursorPos(e);
+                /* Calculate the position of the lens: */
+                x = pos.x - (lens.offsetWidth / 2);
+                y = pos.y - (lens.offsetHeight / 2);
+                /* Prevent the lens from being positioned outside the image: */
+                if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+                if (x < 0) {x = 0;}
+                if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+                if (y < 0) {y = 0;}
+                /* Set the position of the lens: */
+                lens.style.left = x + "px";
+                lens.style.top = y + "px";
+                /* Display what the lens "sees": */
+                result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+            }
+            function getCursorPos(e) {
+                var a, x = 0, y = 0;
+                e = e || window.event;
+                /* Get the x and y positions of the image: */
+                a = img.getBoundingClientRect();
+                /* Calculate the cursor's x and y coordinates, relative to the image: */
+                x = e.pageX - a.left;
+                y = e.pageY - a.top;
+                /* Consider any page scrolling: */
+                x = x - window.pageXOffset;
+                y = y - window.pageYOffset;
+                return {x : x, y : y};
+            }
+        }
+        imageZoom("myimage", "myresult");
     </script>
 </body>
 
