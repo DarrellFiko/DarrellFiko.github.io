@@ -1081,7 +1081,7 @@ if (isset($_POST["btnInvoice"])) {
                             <div class="d-flex justify-content-center">
                                 <div class="container text-center mt-4 py-5">
                                     <div class="row d-flex justify-content-center glass p-5" style="background-color: white;">
-                                        <div class="col-12 text-center">
+                                        <div class="col-12 text-center mb-4">
                                             <h1>Details</h1>
                                         </div>
                                         <div class="col-12 d-flex justify-content-start align-items-center">
@@ -1093,7 +1093,7 @@ if (isset($_POST["btnInvoice"])) {
                                                 <div class="img-zoom-container">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <img id="myimage" src="<?=$image?>" class="bg-dark">
+                                                            <img id="myimage" src="<?= $image ?>" class="bg-dark">
                                                         </div>
                                                         <div class="col-6">
                                                             <div id="myresult" class="img-zoom-result"></div>
@@ -1101,24 +1101,25 @@ if (isset($_POST["btnInvoice"])) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="img-zoom-container">
-                                                <img id="myimage" src="<?=$image?>" width="300" height="240">
-                                                <div id="myresult" class="img-zoom-result"></div>
-                                            </div> -->
                                         </div>
-                                        <div class="col-12 px-5 py-5 d-flex align-items-center">
-                                            <div class="row">
+                                        <div class="col-12 px-5 pt-5 d-flex flex-column align-items-start justify-content-center">
+                                            <div class="row" style="width: 100%;">
                                                 <div class="col-12 text-dark text-start">
                                                     <h1><?= $produkDetail[0]["name_produk"] ?></h1>
                                                 </div>
+                                            </div>
+                                            <div class="row" style="width: 100%;">
                                                 <div class="col-12">
+                                                    <div class="row d-flex align-items-start justify-content-start">
+                                                        <div class="col-1 d-flex justify-content-start">
+                                                            <h3 class="text-danger">$</h3>
+                                                        </div>
+                                                        <div class="col-2 d-flex justify-content-start p-0">
+                                                            <h3 class="text-danger" id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+                                                        </div>
+                                                        <hr class="mt-4">
+                                                    </div>
                                                     <div class="row">
-                                                        <div class="col-1">
-                                                            <h3>$</h3>
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
-                                                        </div>
                                                         <div class="col-1">
                                                             <h5>Quantity:</h5>
                                                         </div>
@@ -1135,59 +1136,18 @@ if (isset($_POST["btnInvoice"])) {
                                                             <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
                                                             <?= $stok ?> Remaining.
                                                         </div>
+                                                    </div>
+                                                    <div class="row mt-4 d-flex justify-content-start">
                                                         <div class="col-2">
-                                                            <h3>Total: $</h3>
+                                                            <h3 class="text-start">Total: $</h3>
                                                         </div>
-                                                        <div class="col-2 text-danger">
-                                                            <h3 id="totalHarga"><?= $produkDetail[0]["price_produk"] * $cekJumlah ?></h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class=" py-3 col-12 pb-4 text-danger text-start">
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <h3>$</h3>
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <h3 id="hargaProduk"><?= $produkDetail[0]["price_produk"] ?></h3>
+                                                        <div class="col-2 text-danger p-0" style="margin-left: -60px;">
+                                                            <h3 class="text-start" id="totalHarga"><?= number_format(($produkDetail[0]["price_produk"] * $cekJumlah), 2, '.', ',') ?></h3>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-12 pb-4 text-start">
-                                                    <hr>
-                                                </div>
-                                                <div class="col-12 pb-4">
-                                                    <div class="row">
-                                                        <div class="col-5 col-xl-1">
-                                                            <h5>Quantity:</h5>
-                                                        </div>
-                                                        <div class="col-5 col-xl-9">
-                                                            <?php
-                                                            $cekJumlah = 0;
-                                                            foreach ($_SESSION["keranjang"] as $i => $key) {
-                                                                if ($key["id_produk"] == $produkDetail[0]["id_produk"]) {
-                                                                    $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
-                                                                }
-                                                            }
-                                                            $stok = $produkDetail[0]["stok_produk"];
-                                                            ?>
-                                                            <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
-                                                            <?= $stok ?> Remaining.
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 pb-4 text-start">
-                                                    <div class="row">
-                                                        <div class="col-7 col-xl-3">
-                                                            <h3>Total: $</h3>
-                                                        </div>
-                                                        <div class="col-4 col-xl-7 text-danger">
-                                                            <h3 id="totalHarga"><?= $produkDetail[0]["price_produk"] * $cekJumlah ?></h3>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                <div class="col-12 pb-4 text-start">
-                                                    <div class="row">
+                                                <div class="col-5 pb-4 text-start mt-4">
+                                                    <div class="row d-flex flex-row align-items-center justify-content-start">
                                                         <div class="col-6">
                                                             <button type="submit" class="btn btn-success d-flex justify-content-center align-items-center" name="addToCart">ADD TO CART <img src="asset/keranjang.png" style="width: 30px; height:auto; margin-left:15px;" alt=""></button>
                                                         </div>
@@ -1201,7 +1161,7 @@ if (isset($_POST["btnInvoice"])) {
                                             </div>
                                         </div>
                                         <div class="col-12 py-5 text-start d-flex align-items-center">
-                                            <div class="row">
+                                            <div class="row" style="width: 100%;">
                                                 <div class="col-12">
                                                     <h3>Description : </h3>
                                                     <hr>
@@ -1322,7 +1282,7 @@ if (isset($_POST["btnInvoice"])) {
                     $time = strtotime($tempTanggal);
                     $tanggal = date('d-m-Y', $time);
                     $idUser = $value["id_user"];
-                    $subtotal = number_format($value["subtotal"] + 5, 2, ',', '.');
+                    $subtotal = number_format($value["subtotal"] + 5, 2, '.', ',');
 
                     $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$nota'");
 
@@ -1522,7 +1482,10 @@ if (isset($_POST["btnInvoice"])) {
             jumlah = parseFloat(tempJumlah);
             tempHarga = document.getElementById("hargaProduk").innerText;
             harga = parseFloat(tempHarga);
-            document.getElementById("totalHarga").innerText = tempJumlah * harga;
+            totalHarga = tempJumlah * harga;
+            const numberFormatter = Intl.NumberFormat('en-US');
+            totalHarga = numberFormatter.format(totalHarga);
+            document.getElementById("totalHarga").innerText = totalHarga;
         }
 
         function updateCart(id) {
@@ -1631,7 +1594,6 @@ if (isset($_POST["btnInvoice"])) {
             dots[slideIndex - 1].className += " active";
             captionText.innerHTML = dots[slideIndex - 1].alt;
         }
-
     </script>
     <script>
         function imageZoom(imgID, resultID) {
@@ -1655,6 +1617,7 @@ if (isset($_POST["btnInvoice"])) {
             /* And also for touch screens: */
             lens.addEventListener("touchmove", moveLens);
             img.addEventListener("touchmove", moveLens);
+
             function moveLens(e) {
                 var pos, x, y;
                 /* Prevent any other actions that may occur when moving over the image */
@@ -1665,18 +1628,28 @@ if (isset($_POST["btnInvoice"])) {
                 x = pos.x - (lens.offsetWidth / 2);
                 y = pos.y - (lens.offsetHeight / 2);
                 /* Prevent the lens from being positioned outside the image: */
-                if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
-                if (x < 0) {x = 0;}
-                if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
-                if (y < 0) {y = 0;}
+                if (x > img.width - lens.offsetWidth) {
+                    x = img.width - lens.offsetWidth;
+                }
+                if (x < 0) {
+                    x = 0;
+                }
+                if (y > img.height - lens.offsetHeight) {
+                    y = img.height - lens.offsetHeight;
+                }
+                if (y < 0) {
+                    y = 0;
+                }
                 /* Set the position of the lens: */
                 lens.style.left = x + "px";
                 lens.style.top = y + "px";
                 /* Display what the lens "sees": */
                 result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
             }
+
             function getCursorPos(e) {
-                var a, x = 0, y = 0;
+                var a, x = 0,
+                    y = 0;
                 e = e || window.event;
                 /* Get the x and y positions of the image: */
                 a = img.getBoundingClientRect();
@@ -1686,7 +1659,10 @@ if (isset($_POST["btnInvoice"])) {
                 /* Consider any page scrolling: */
                 x = x - window.pageXOffset;
                 y = y - window.pageYOffset;
-                return {x : x, y : y};
+                return {
+                    x: x,
+                    y: y
+                };
             }
         }
         imageZoom("myimage", "myresult");

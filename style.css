@@ -407,19 +407,19 @@
 /*  */
 .img-zoom-container {
 	position: relative;
-  }
-  
-  .img-zoom-lens {
+}
+
+.img-zoom-lens {
 	position: absolute;
 	border: 1px solid #d4d4d4;
 	/*set the size of the lens:*/
-	width: 10vw;
-	height: 20vh;
-  }
-  
-  .img-zoom-result {
+	width: 130px;
+	height: 130px;
+}
+
+.img-zoom-result {
 	border: 1px solid #d4d4d4;
 	/*set the size of the result div:*/
-	width: 35vw;
-	height: 65vh;
-  }
+	width: 550px;
+	height: 500px;
+}

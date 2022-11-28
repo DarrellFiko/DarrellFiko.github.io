@@ -108,12 +108,12 @@ if (isset($_POST["btnBack"])) {
                                     <div class="col company-details">
                                         <h2 class="name">
                                             <a class="text-decoration-none text-dark" target="_blank" href="destroy.php">
-                                                Sport Station
+                                                Soccer Champ
                                             </a>
                                         </h2>
-                                        <div>soccersportstation.com</div>
+                                        <div>soccerchamp.com</div>
                                         <div>(888) 8888888</div>
-                                        <div>soccersportstation@gmail.com</div>
+                                        <div>soccerchampstore@gmail.com</div>
                                     </div>
                                 </div>
                             </header>
