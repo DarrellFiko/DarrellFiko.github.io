@@ -261,8 +261,9 @@ function updateStokProduk($data)
     // DATA
     $id_produk = $data["id_produk"];
     $stok_produk = $data["stok_produk"];
+    $status_produk = $data["status_produk"];
 
-    $query = "UPDATE produk SET stok_produk = '$stok_produk' WHERE id_produk = '$id_produk'";
+    $query = "UPDATE produk SET stok_produk = '$stok_produk', status_produk = '$status_produk' WHERE id_produk = '$id_produk'";
 
     mysqli_query($conn, $query);
 

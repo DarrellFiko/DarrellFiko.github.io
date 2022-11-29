@@ -41,6 +41,13 @@ if (insertHtrans($data) > 0) {
     }
 }
 
+if (isset($_POST["btnBack"])) {
+    deleteCart($idUser);
+    $_SESSION["keranjang"] = [];
+
+    echo "<script>document.location.href = 'index.php'</script>";
+}
+
 // update stok
 foreach ($carts as $key => $value) {
     $id_produk = $value["id_produk"];
@@ -51,22 +58,25 @@ foreach ($carts as $key => $value) {
         $stok = $value["stok_produk"];
     }
 
+    alert($stok . " - " . $quantity_produk);
     $finalStok = $stok - $quantity_produk;
+
+    if ($finalStok <= 0) {
+        $status = "0";
+        $finalStok = 0;
+    } else {
+        $status = "1";
+    }
 
     $data = [
         "id_produk" => $id_produk,
-        "stok_produk" => $finalStok
+        "stok_produk" => $finalStok,
+        "status_produk" => $status
     ];
 
     updateStokProduk($data);
 }
 
-if (isset($_POST["btnBack"])) {
-    deleteCart($idUser);
-    $_SESSION["keranjang"] = [];
-
-    echo "<script>document.location.href = 'index.php'</script>";
-}
 
 ?>
 
