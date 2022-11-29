@@ -14,20 +14,24 @@ if (isset($_POST["login"])) {
         $safe = false;
         alert("Semua Field Harus Terisi!");
         //buat user
-    // }else if($username == "admin" && $password == "admin123"){
-    //     $_SESSION["dataAdmin"] = [];
-    //     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-    //     header("Location: admin.php");
+        // }else if($username == "admin" && $password == "admin123"){
+        //     $_SESSION["dataAdmin"] = [];
+        //     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
+        //     header("Location: admin.php");
     } else {
         foreach ($users as $user) {
             if ($username == $user["username"] || $username == $user["email"]) {
                 $exist = true;
-                if ($password == $user["password"]) {
+                if (password_verify($password, $user["password"]) && $user["status_user"] == "1") {
                     $_SESSION["login"] = true;
                     $_SESSION["idUser"] = $user["id_user"];
                     header("Location: index.php");
                 } else {
-                    alert("Wrong Password!");
+                    if (password_verify($password, $user["password"]) == false) {
+                        alert("Wrong Password!");
+                    } else if ($user["status_user"] == 0) {
+                        alert("Your Account Was Permanently Banned!");
+                    }
                 }
             }
         }

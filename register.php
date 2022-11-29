@@ -9,8 +9,8 @@ if (isset($_POST["register"])) {
     $email = $_POST["email"];
     $alamat = $_POST["alamat"];
     $telp = $_POST["noTelp"];
-    $password = $_POST["password"];
-    $confirmPassword = $_POST["confirmPassword"];
+    $password = mysqli_real_escape_string($conn, $_POST["password"]);
+    $confirmPassword = mysqli_real_escape_string($conn, $_POST["confirmPassword"]);
 
     if ($username == "" || $name == "" || $email == "" || $alamat == "" || $telp == "" || $password == "" || $confirmPassword == "") {
         $safe = false;
@@ -38,6 +38,10 @@ if (isset($_POST["register"])) {
 
     if ($safe) {
         alert("Register Successfull!");
+
+        $username = strtolower(stripslashes($username));
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
         $tempUser = [
             "username" => $username,
             "full_name" => $name,

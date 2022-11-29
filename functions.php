@@ -91,7 +91,7 @@ function insert($data, $table)
     $telp = $data["nomor_telepon"];
     $password = $data["password"];
 
-    $query = "INSERT INTO $table (username, full_name, email, alamat, nomor_telepon, password) VALUES ('$username', '$name', '$email', '$alamat', '$telp', '$password')";
+    $query = "INSERT INTO $table (username, full_name, email, alamat, nomor_telepon, password, status_user) VALUES ('$username', '$name', '$email', '$alamat', '$telp', '$password', '1')";
     mysqli_query($conn, $query);
 
     return mysqli_affected_rows($conn);
@@ -305,3 +305,4 @@ function deleteCart($id)
 }
 
 // ALTER TABLE produk AUTO_INCREMENT = 1504
+// ALTER TABLE user AUTO_INCREMENT = 1
