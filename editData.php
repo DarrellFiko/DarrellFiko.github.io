@@ -156,8 +156,8 @@ if (isset($_POST["submitProduk"])) {
                     </div>
                     <div class="col-12 mt-4">
                         <div class="form-floating mb-3 w-100">
-                            <input type="text" class="form-control" placeholder="Name Product" name="addName" id="addName" value="<?= $_SESSION["editData"]["name_produk"] ?>">
-                            <label for="addName">Name Product</label>
+                            <input type="text" class="form-control" placeholder="Product Name" name="addName" id="addName" value="<?= $_SESSION["editData"]["name_produk"] ?>">
+                            <label for="addName">Product Name</label>
                         </div>
                     </div>
                     <div class="col-12 mt-4">

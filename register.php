@@ -14,7 +14,7 @@ if (isset($_POST["register"])) {
 
     if ($username == "" || $name == "" || $email == "" || $alamat == "" || $telp == "" || $password == "" || $confirmPassword == "") {
         $safe = false;
-        alert("Semua Field Harus Terisi!");
+        alert("All fields must be filled!");
     } else if ($username == 'admin') {
         $safe = false;
         alert("Admin Can\'t be Used!");
@@ -28,11 +28,11 @@ if (isset($_POST["register"])) {
     foreach ($users as $user) {
         if ($username == $user["username"]) {
             $safe = false;
-            alert("Username Sudah Terdaftar!");
+            alert("Username Already Registered!");
         }
         if ($email == $user["email"]) {
             $safe = false;
-            alert("Email Sudah Terdaftar!");
+            alert("Email Already Registered!");
         }
     }
 

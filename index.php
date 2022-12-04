@@ -1125,7 +1125,7 @@ if (isset($_POST["btnInvoice"])) {
                                                         </div>
                                                         <div class="col-3">
                                                             <?php
-                                                            $cekJumlah = 0;
+                                                            $cekJumlah = 1;
                                                             foreach ($_SESSION["keranjang"] as $i => $key) {
                                                                 if ($key["id_produk"] == $produkDetail[0]["id_produk"]) {
                                                                     $cekJumlah = $_SESSION["keranjang"][$i]["quantity_produk"];
@@ -1133,7 +1133,7 @@ if (isset($_POST["btnInvoice"])) {
                                                             }
                                                             $stok = $produkDetail[0]["stok_produk"];
                                                             ?>
-                                                            <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="0" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
+                                                            <input type="number" onclick="updateTotalHarga();" class="mx-3" style="width: 60px" name="quantity" id="quantity" min="1" max="<?= $stok ?>" value=<?= $cekJumlah ?>>
                                                             <?= $stok ?> Remaining.
                                                         </div>
                                                     </div>

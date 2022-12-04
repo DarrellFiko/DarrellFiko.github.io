@@ -12,7 +12,7 @@ if (isset($_POST["login"])) {
     //buat admin
     if ($username == "" || $password == "") {
         $safe = false;
-        alert("Semua Field Harus Terisi!");
+        alert("All Fields Must Be Filled!");
         //buat user
         // }else if($username == "admin" && $password == "admin123"){
         //     $_SESSION["dataAdmin"] = [];
@@ -38,7 +38,7 @@ if (isset($_POST["login"])) {
     }
 
     if ($exist == false && $username != "" && $password != "") {
-        alert("User Tidak Terdaftar!");
+        alert("Unregistered User!");
     }
 }
 

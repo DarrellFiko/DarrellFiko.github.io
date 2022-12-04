@@ -5,6 +5,8 @@ if (isset($_SESSION["authAdmin"])) {
     if ($_SESSION["authAdmin"] == false) {
         header("Location: loginAdmin.php");
     }
+}else{
+    header("Location: loginAdmin.php");
 }
 
 if (isset($_POST["logout"])) {
@@ -494,8 +496,8 @@ if (isset($_POST["go"])) {
                         ?>
                             <div class="col-12 mt-4">
                                 <div class="form-floating mb-3 w-100">
-                                    <input type="text" class="form-control" placeholder="Name Product" name="addName<?= $i ?>" id="addName<?= $i ?>">
-                                    <label for="addName">Name Product</label>
+                                    <input type="text" class="form-control" placeholder="Product Name" name="addName<?= $i ?>" id="addName<?= $i ?>">
+                                    <label for="addName">Product Name</label>
                                 </div>
                             </div>
                             <div class="col-12 mt-4">
@@ -565,8 +567,8 @@ if (isset($_POST["go"])) {
                                     </div>
                                     <div class="col-8">
                                         <div class="form-floating mb-3 w-100">
-                                            <input type="text" class="form-control " placeholder="Name Brand" name="addBrand" id="addBrand">
-                                            <label for="addBrand">Name Brand</label>
+                                            <input type="text" class="form-control " placeholder="Brand Name" name="addBrand" id="addBrand">
+                                            <label for="addBrand">Brand Name</label>
                                         </div>
                                     </div>
                                     <div class="col-4">
@@ -580,16 +582,16 @@ if (isset($_POST["go"])) {
                             <form action="" method="post">
                                 <div class="row d-flex justify-content-center">
                                     <div class="col-12 mb-3 text-success">
-                                        <h1>Add Categories</h1>
+                                        <h1>Add Category</h1>
                                     </div>
                                     <div class="col-8">
                                         <div class="form-floating mb-3 w-100">
-                                            <input type="text" class="form-control" placeholder="Name Categories" name="addKategori" id="addKategori">
-                                            <label for="addKategori">Name Categories</label>
+                                            <input type="text" class="form-control" placeholder="Category Name" name="addKategori" id="addKategori">
+                                            <label for="addKategori">Category Name</label>
                                         </div>
                                     </div>
                                     <div class="col-4">
-                                        <button type="submit" class="btn btn-outline-success py-3" name="submitKategori" onclick="">Add Categories</button>
+                                        <button type="submit" class="btn btn-outline-success py-3" name="submitKategori" onclick="">Add Category</button>
                                     </div>
                                 </div>
                             </form>
