@@ -5,7 +5,7 @@ if (isset($_SESSION["authAdmin"])) {
     if ($_SESSION["authAdmin"] == false) {
         header("Location: loginAdmin.php");
     }
-}else{
+} else {
     header("Location: loginAdmin.php");
 }
 
@@ -612,11 +612,46 @@ if (isset($_POST["go"])) {
             <div class="container">
                 <div class="row mb-2">
                     <div class="col-12 d-flex justify-content-center align-items-center">
-                        <select name="pilihData" class="me-3" id="pilihData" style="width: 12vw; height: 5vh;" value="<?= $_SESSION["data"] ?>">
-                            <option value="produk" style="width: 12vw; height: 5vh;">Product</option>
-                            <option value="htrans" style="width: 12vw; height: 5vh;">Header Transaction</option>
-                            <option value="dtrans" style="width: 12vw; height: 5vh;">Detail Transaction</option>
-                            <option value="user" style="width: 12vw; height: 5vh;">User</option>
+                        <select name="pilihData" class="me-3" id="pilihData" style="width: 12vw; height: 5vh;">
+                            <?php
+                            $tempData = $_SESSION["data"];
+                            if ($tempData == "produk") {
+                            ?>
+                                <option value="produk" style="width: 12vw; height: 5vh;" selected>Product</option>
+                            <?php
+                            } else {
+                            ?>
+                                <option value="produk" style="width: 12vw; height: 5vh;">Product</option>
+                            <?php
+                            }
+                            if ($tempData == "htrans") {
+                            ?>
+                                <option value="htrans" style="width: 12vw; height: 5vh;" selected>Header Transaction</option>
+                            <?php
+                            } else {
+                            ?>
+                                <option value="htrans" style="width: 12vw; height: 5vh;">Header Transaction</option>
+                            <?php
+                            }
+                            if ($tempData == "dtrans") {
+                            ?>
+                                <option value="dtrans" style="width: 12vw; height: 5vh;" selected>Detail Transaction</option>
+                            <?php
+                            } else {
+                            ?>
+                                <option value="dtrans" style="width: 12vw; height: 5vh;">Detail Transaction</option>
+                            <?php
+                            }
+                            if ($tempData == "user") {
+                            ?>
+                                <option value="user" style="width: 12vw; height: 5vh;" selected>User</option>
+                            <?php
+                            } else {
+                            ?>
+                                <option value="user" style="width: 12vw; height: 5vh;">User</option>
+                            <?php
+                            }
+                            ?>
                         </select>
                         <button type="submit" class="btn btn-outline-dark fs-5 d-flex align-items-center me-3 text-center" style="width: 6vw; height: 5vh;" name="choose">Choose</button>
                         <button type="submit" class="btn btn-outline-danger fs-5 d-flex align-items-center justify-content-center" style="width: 6vw; height: 5vh;" name="report">Report</button>
