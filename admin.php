@@ -92,11 +92,17 @@ if (isset($_POST["btnSearchAdmin"])) {
         } else {
             $_SESSION["dataAdmin"] = query("SELECT * FROM htrans,user WHERE htrans.id_user = user.id_user AND (htrans.nota_jual LIKE '%$tempKey%' OR htrans.tanggal LIKE '%$tempKey%' OR htrans.id_user LIKE '%$tempKey%' OR user.full_name LIKE '%$tempKey%') ORDER BY htrans.nota_jual");
         }
-    } else {
+    } else if ($_SESSION["data"] == "dtrans") {
         if ($tempKey == "") {
             $_SESSION["dataAdmin"] = query("SELECT * FROM dtrans");
         } else {
             $_SESSION["dataAdmin"] = query("SELECT * FROM dtrans,produk WHERE dtrans.id_produk = produk.id_produk AND (dtrans.nota_jual LIKE '%$tempKey%' OR dtrans.id_produk LIKE '%$tempKey%' OR produk.name_produk LIKE '%$tempKey%') ORDER BY dtrans.nota_jual");
+        }
+    } else {
+        if ($tempKey == "") {
+            $_SESSION["dataAdmin"] = query("SELECT * FROM user");
+        } else {
+            $_SESSION["dataAdmin"] = query("SELECT * FROM user WHERE id_user LIKE '%$tempKey%' OR username LIKE '%$tempKey%' OR full_name LIKE '%$tempKey%' OR email LIKE '%$tempKey%' OR alamat LIKE '%$tempKey%' OR nomor_telepon LIKE '%$tempKey%' ORDER BY id_user");
         }
     }
     resetPagingAdmin();
