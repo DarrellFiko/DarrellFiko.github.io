@@ -1,81 +1,45 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 26, 2022 at 04:10 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Database: `toko_soccer`
---
 CREATE DATABASE IF NOT EXISTS `toko_soccer` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `toko_soccer`;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `brand`
---
-
 DROP TABLE IF EXISTS `brand`;
-CREATE TABLE `brand` (
+CREATE TABLE IF NOT EXISTS `brand` (
   `id_brand` varchar(10) NOT NULL,
-  `name_brand` varchar(255) NOT NULL
+  `name_brand` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_brand`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `brand`
---
 
 INSERT INTO `brand` (`id_brand`, `name_brand`) VALUES
 ('BRN001', 'Adidas'),
 ('BRN002', 'Nike'),
 ('BRN003', 'Puma');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `cart`
---
-
 DROP TABLE IF EXISTS `cart`;
-CREATE TABLE `cart` (
+CREATE TABLE IF NOT EXISTS `cart` (
   `id_user` int(50) NOT NULL,
   `id_produk` int(255) NOT NULL,
   `image_produk` text NOT NULL,
   `name_produk` varchar(255) NOT NULL,
   `price_produk` double NOT NULL,
-  `quantity_produk` int(64) NOT NULL
+  `quantity_produk` int(64) NOT NULL,
+  KEY `id_produk` (`id_produk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `dtrans`
---
 
 DROP TABLE IF EXISTS `dtrans`;
-CREATE TABLE `dtrans` (
+CREATE TABLE IF NOT EXISTS `dtrans` (
   `nota_jual` varchar(50) NOT NULL,
   `id_produk` int(255) NOT NULL,
-  `quantity` int(11) NOT NULL
+  `quantity` int(11) NOT NULL,
+  KEY `nota_jual` (`nota_jual`),
+  KEY `id_produk` (`id_produk`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `dtrans`
---
 
 INSERT INTO `dtrans` (`nota_jual`, `id_produk`, `quantity`) VALUES
 ('NOTA0000000000000000000000000000000000000000000001', 1, 1),
@@ -96,55 +60,58 @@ INSERT INTO `dtrans` (`nota_jual`, `id_produk`, `quantity`) VALUES
 ('NOTA0000000000000000000000000000000000000000000011', 2, 1),
 ('NOTA0000000000000000000000000000000000000000000011', 4, 1),
 ('NOTA0000000000000000000000000000000000000000000012', 2, 1),
-('NOTA0000000000000000000000000000000000000000000012', 4, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `htrans`
---
+('NOTA0000000000000000000000000000000000000000000012', 4, 1),
+('NOTA0000000000000000000000000000000000000000000013', 1, 2),
+('NOTA0000000000000000000000000000000000000000000013', 1484, 1),
+('NOTA0000000000000000000000000000000000000000000014', 1433, 1),
+('NOTA0000000000000000000000000000000000000000000015', 355, 1),
+('NOTA0000000000000000000000000000000000000000000015', 283, 1),
+('NOTA0000000000000000000000000000000000000000000016', 1, 1),
+('NOTA0000000000000000000000000000000000000000000017', 3, 3),
+('NOTA0000000000000000000000000000000000000000000018', 3, 3),
+('NOTA0000000000000000000000000000000000000000000019', 3, 3),
+('NOTA0000000000000000000000000000000000000000000020', 3, 3),
+('NOTA0000000000000000000000000000000000000000000021', 355, 1);
 
 DROP TABLE IF EXISTS `htrans`;
-CREATE TABLE `htrans` (
+CREATE TABLE IF NOT EXISTS `htrans` (
   `nota_jual` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
   `id_user` int(50) NOT NULL,
-  `subtotal` int(128) NOT NULL
+  `subtotal` int(128) NOT NULL,
+  `status_transaksi` varchar(1) NOT NULL,
+  PRIMARY KEY (`nota_jual`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `htrans`
---
-
-INSERT INTO `htrans` (`nota_jual`, `tanggal`, `id_user`, `subtotal`) VALUES
-('NOTA0000000000000000000000000000000000000000000001', '2022-11-22', 1, 382),
-('NOTA0000000000000000000000000000000000000000000002', '2022-11-22', 2, 305),
-('NOTA0000000000000000000000000000000000000000000003', '2022-11-23', 1, 380),
-('NOTA0000000000000000000000000000000000000000000004', '2022-11-23', 1, 640),
-('NOTA0000000000000000000000000000000000000000000005', '2022-11-23', 2, 105),
-('NOTA0000000000000000000000000000000000000000000006', '2022-11-23', 1, 700),
-('NOTA0000000000000000000000000000000000000000000007', '2022-11-25', 1, 350),
-('NOTA0000000000000000000000000000000000000000000008', '2022-11-25', 1, 350),
-('NOTA0000000000000000000000000000000000000000000009', '2022-11-25', 1, 280),
-('NOTA0000000000000000000000000000000000000000000010', '2022-11-25', 1, 350),
-('NOTA0000000000000000000000000000000000000000000011', '2022-11-25', 1, 540),
-('NOTA0000000000000000000000000000000000000000000012', '2022-11-25', 1, 540);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `kategori`
---
+INSERT INTO `htrans` (`nota_jual`, `tanggal`, `id_user`, `subtotal`, `status_transaksi`) VALUES
+('NOTA0000000000000000000000000000000000000000000001', '2022-11-22', 1, 382, '1'),
+('NOTA0000000000000000000000000000000000000000000002', '2022-11-22', 2, 305, '1'),
+('NOTA0000000000000000000000000000000000000000000003', '2022-11-23', 1, 380, '0'),
+('NOTA0000000000000000000000000000000000000000000004', '2022-11-23', 1, 640, '1'),
+('NOTA0000000000000000000000000000000000000000000005', '2022-11-23', 2, 105, '1'),
+('NOTA0000000000000000000000000000000000000000000006', '2022-11-23', 1, 700, '1'),
+('NOTA0000000000000000000000000000000000000000000007', '2022-11-25', 1, 350, '1'),
+('NOTA0000000000000000000000000000000000000000000008', '2022-11-25', 1, 350, '1'),
+('NOTA0000000000000000000000000000000000000000000009', '2022-11-25', 1, 280, '1'),
+('NOTA0000000000000000000000000000000000000000000010', '2022-11-25', 1, 350, '1'),
+('NOTA0000000000000000000000000000000000000000000011', '2022-11-25', 1, 540, '1'),
+('NOTA0000000000000000000000000000000000000000000012', '2022-11-25', 1, 540, '1'),
+('NOTA0000000000000000000000000000000000000000000013', '2022-11-26', 2, 730, '1'),
+('NOTA0000000000000000000000000000000000000000000014', '2022-11-26', 2, 150, '1'),
+('NOTA0000000000000000000000000000000000000000000015', '2022-11-26', 2, 160, '0'),
+('NOTA0000000000000000000000000000000000000000000016', '2022-11-28', 1, 350, '1'),
+('NOTA0000000000000000000000000000000000000000000017', '2022-11-29', 2, 840, '1'),
+('NOTA0000000000000000000000000000000000000000000018', '2022-11-29', 2, 840, '1'),
+('NOTA0000000000000000000000000000000000000000000019', '2022-11-29', 2, 840, '0'),
+('NOTA0000000000000000000000000000000000000000000020', '2022-11-29', 2, 840, '0'),
+('NOTA0000000000000000000000000000000000000000000021', '2022-12-05', 1, 120, '1');
 
 DROP TABLE IF EXISTS `kategori`;
-CREATE TABLE `kategori` (
+CREATE TABLE IF NOT EXISTS `kategori` (
   `id_kategori` varchar(10) NOT NULL,
-  `name_kategori` varchar(255) NOT NULL
+  `name_kategori` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_kategori`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `kategori`
---
 
 INSERT INTO `kategori` (`id_kategori`, `name_kategori`) VALUES
 ('KTG001', 'Ball'),
@@ -153,15 +120,9 @@ INSERT INTO `kategori` (`id_kategori`, `name_kategori`) VALUES
 ('KTG004', 'Shin Guard'),
 ('KTG005', 'Shoes');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `produk`
---
-
 DROP TABLE IF EXISTS `produk`;
-CREATE TABLE `produk` (
-  `id_produk` int(255) NOT NULL,
+CREATE TABLE IF NOT EXISTS `produk` (
+  `id_produk` int(255) NOT NULL AUTO_INCREMENT,
   `name_produk` varchar(255) NOT NULL,
   `id_brand` varchar(10) NOT NULL,
   `id_kategori` varchar(10) NOT NULL,
@@ -169,15 +130,14 @@ CREATE TABLE `produk` (
   `price_produk` double NOT NULL,
   `image_produk` text NOT NULL,
   `description_produk` text NOT NULL,
-  `status_produk` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `produk`
---
+  `status_produk` int(1) NOT NULL,
+  PRIMARY KEY (`id_produk`),
+  KEY `id_brand` (`id_brand`),
+  KEY `id_kategori` (`id_kategori`)
+) ENGINE=InnoDB AUTO_INCREMENT=1504 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `stok_produk`, `price_produk`, `image_produk`, `description_produk`, `status_produk`) VALUES
-(1, 'adidas Predator Absolute FG &#8211; The Comeback', 'BRN001', 'KTG005', 45, 349.99, 'asset/product/1.jpg', ' The Comeback Predator Absolute Firm Ground Cleats Lace up and channel your inner Zidane with this redesigned adidas Predator! Football fans know that 2006 was a crazy year in football, the infamous Zidane head butt, a crazy tournament final, and some of the most iconic players to ever hit the pitch were concluding their legendary careers. This crazy year gave us the beautiful gold Predators to the pitch and saw Zidane rocking them throughout the entire tournament. These boots gave us some of the most iconic moments in football and live in infamy in the world of football. Designed with the same bold and iconic gold upper, you\'ll be hitting the pitch like a legend all season long. Don\'t worry, these boots kept all the bold aspects of the design that you fell in love with, but now features updated features to make sure these boots are more legendary than ever. Finishing off the boots are sleek and crisp white details that mimic the original boots, pushing you into the future of football legend than ever. If you love classic adidas soccer shoes then these redesigned classic boots are the perfect pair for you. Engineered with both the classic technology of the \'06 boots and the updated tech of the Predator Edge, you\'ll be lacing up some of the most powerful boots to ever hit the pitch. Starting off with the upper of these classic boots, we get that sweet and soft leather finish that makes undeniable control and power easier than ever. Even the classic fold-over tongue is making it\'s reappearance to make sure you have the lockdown feeling with each and every wear. Curved SL rubber elements pair with the soft leather upper to give you an exact recreation of the boots that Zidane wore in the \'06 tournament and that same bold and iconic touch. In order to give you the best possible touch and ultimate stability all season, adidas has engineered these classic boots with the Predator Edge soleplate. Lacing up like a legend has never been so easy than with the record Predator Absolute. Shop yours today! ', 1),
+(1, 'adidas Predator Absolute FG &#8211; The Comeback', 'BRN001', 'KTG005', 39, 349.99, 'asset/product/1.jpg', ' The Comeback Predator Absolute Firm Ground Cleats Lace up and channel your inner Zidane with this redesigned adidas Predator! Football fans know that 2006 was a crazy year in football, the infamous Zidane head butt, a crazy tournament final, and some of the most iconic players to ever hit the pitch were concluding their legendary careers. This crazy year gave us the beautiful gold Predators to the pitch and saw Zidane rocking them throughout the entire tournament. These boots gave us some of the most iconic moments in football and live in infamy in the world of football. Designed with the same bold and iconic gold upper, you\'ll be hitting the pitch like a legend all season long. Don\'t worry, these boots kept all the bold aspects of the design that you fell in love with, but now features updated features to make sure these boots are more legendary than ever. Finishing off the boots are sleek and crisp white details that mimic the original boots, pushing you into the future of football legend than ever. If you love classic adidas soccer shoes then these redesigned classic boots are the perfect pair for you. Engineered with both the classic technology of the \'06 boots and the updated tech of the Predator Edge, you\'ll be lacing up some of the most powerful boots to ever hit the pitch. Starting off with the upper of these classic boots, we get that sweet and soft leather finish that makes undeniable control and power easier than ever. Even the classic fold-over tongue is making it\'s reappearance to make sure you have the lockdown feeling with each and every wear. Curved SL rubber elements pair with the soft leather upper to give you an exact recreation of the boots that Zidane wore in the \'06 tournament and that same bold and iconic touch. In order to give you the best possible touch and ultimate stability all season, adidas has engineered these classic boots with the Predator Edge soleplate. Lacing up like a legend has never been so easy than with the record Predator Absolute. Shop yours today! ', 1),
 (2, 'adidas Leather Predator Edge 94+ FG &#8211; Control Legacy', 'BRN001', 'KTG005', 47, 289.99, 'asset/product/2.jpg', ' Control Legacy Predator Edge 94+ Firm Ground Cleats The past meets the future in the latest adidas Predator Edge soccer cleats. A design inspired by the most legendary boots to ever hit the pitch, you\'ll have everyone thinking you belong in a league of your own. The \'94 Predators changed the game of football and football boot design forever. These Control Legacy Predator Edge boots take on the look and feeling of the classic \'94 Predators but with a new and more modern look. Starting off with the black upper, that mimics the same base as the historic boots. Further bringing the old to the new are the three stripes that appear on the boots in the same design as those illustrious boots of the \'90s. A black, red, and white color way throws us all the way back to the Predator\'s humble beginnings but makes a powerful statement. Worn by the most iconic legends of the game, you\'ll be ready to take on any pitch this season. adidas soccer cleats are some of the most iconic and legendary cleats to ever hit the pitch. The Predator is one of the most well-known boots in all of football history and there\'s no better way to celebrate its illustrious history than with a remake of the iconic boots. Just like the original \'94 Predators, these boots feature the iconic power facet and facet frame that work to redistribute your weight for more powerful strikes on the ball. Similar to the boots of \'94, these boots feature rubber ridges that are known as control zones to ensure that your touch as silky smooth as the legends that wore the boots before you. A laceless design features a Primeknit collar that keeps your feet locked into the boots and ready to take off. The best part of these remade boots? The same soft leather that were on the boots of the past are now on the all new Predator Edge boots. Giving you more give and a more comfortable feeling, these remade boots are perfect for dominating the pitch this season. Don\'t wait, grab your pair before they\'re gone! ', 1),
 (3, 'adidas X Speedportal+ FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 3, 279.99, 'asset/product/3.jpg', ' Alrihla Pack adidas X Speedportal+ Firm Ground Cleats Create some of the game\'s most impossible moments with these adidas X Speedportal soccer cleats! The latest X Speedportal from the Alrihla pack launches you into the game\'s biggest tournament at full speed with a look and feeling for the game\'s biggest tournament. Inspired by the long and powerful journey, the latest X Speedportal has been designed with a new and bold look that gives you the most legendary pair of cleats yet. These bold new cleats feature a clear aqua upper that gives you an unmatched look. Finished with bold rainbow iridescent details on the upper for a more bold and legendary look, you\'ll prove you\'re the most powerful and skilled player on the pitch this season. The legendary branding on these cleats makes way for you and the world\'s greatest players to have the most unmatched and bold look on the field. Unleashing the power of Lionel Messi and some of the tournament\'s biggest stars has never looked or felt so good. The X Speedportal + features all the greatest in speed cleat technology so you can dribble past the opposition like Messi does on a daily basis. Featuring a laceless design, the X Speedportal + offers that lock down feeling you need to be faster and more powerful than ever. A PRIMEKNIT upper hugs your feet perfectly for that snug lockdown fit that keeps you speedy and comfortable all season long. Built with a Speedskin upper, a raised and grippy pattern gives you that silky smooth and buttery touch that you\'ve always been waiting for. Instant reactions and creativity have never been easier than with the full-length Carbitex plate on the outsole that quickly snaps you back into place for the most dynamic movement. A carbon heel lock offers more dynamic support for multidirectional traction and movements on the field. Not sure if the X Speedportal is then right pair of cleats for you? Check out the Predator Edge or Copa Sense and grab that perfect pair of cleats today! ', 1),
 (4, 'adidas X Speedportal.1 FG &#8211; Al Rihla Pack', 'BRN001', 'KTG005', 32, 249.99, 'asset/product/4.jpg', ' Alrihla Pack X Speedportal.1 Firm Ground adidas Soccer Cleats Power yourself through the toughest moments of the game with the X Speedportal soccer cleats! Alrihla, otherwise known as the journey, is designed to inspire the greatest players in the game to glory this season. A bold new design offers you the most iconic and legendary look so you can be the envy of all your teammates and opponents this season. The latest X Speedportal from the Alrihla pack is inspired by the bold journey the world\'s greatest players take to get the game\'s biggest tournament, an incredible design looks to inspire you and the game\'s biggest legends to victory this season. A beautiful rainbow iridescent pattern spans the middle toe of the upper for a legendary and beautiful look. Paired perfectly with the rainbow pattern is a clear aqua color that spans the entire upper of the cleats for a bold yet refined looking pair of cleats. Step into legendary status with these bold and powerful adidas soccer cleats! Designed with the latest technology for speed cleats, the X Speedportal.1 offers you a feeling that will keep you powering past even the toughest opponents. A Speedskin upper features a textured and raised pattern gives you the silky smooth touch that will have your opponents shaking in their boots. This Speedskin upper pairs with a secure PRIMEKNIT lockdown in the upper to ensure your foot is locked down and stable in the cleats. A lightweight Speedframe outsole is designed with a carbon fiber plate that reacts and quickly snaps you back into place during the quickest and most dynamic moments of the match. An all new carbon fiber speed wing locks you into the boots and offers you unmatched multidirectional traction so you can cut quickly around even the game\'s toughest opponents. Grab the Alrihla pack X Speedportal.1 soccer cleats today and be the envy of your opponents! ', 1),
@@ -465,7 +425,7 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (280, 'adidas Finale 22 Pro Official Match Soccer Ball &#8211; White &#', 'BRN001', 'KTG001', 38, 169.99, 'asset/product/280.jpg', ' White &amp; Silver Metallic adidas Finale 22 Official Match Soccer Ball Be the star of the game with the all new Finale 22 Pro Match Ball. The Champions League is fast approaching and you\'ll want to be equipped with all the latest gear to prove your a soccer expert. The latest ball from adidas will serve as the match ball for the group stage of the Champions League so stars like Salah, Messi, and Haaland will be using this ball on their quest for glory. This unique match ball was inspired by the darkest depths of the universe to help your favorite players shine on the field. The all new ball features a new look and all the best technology. The vibrant graphics are paired with a 100% polyurethane upper that offers more control and precision than any ball before it. The thermally bonded and seamless surface wrap around a high-grade butyl bladder ensuring the ball stays pumped up for multiple uses. This ball has been tested for quality and perfection and it has certainly passed the test. The match ball is FIFA quality certified meaning that this ball is perfect for the stars of the game and their elite performance. The aesthetically pleasing design pairs with the best technology for an undeniable feeling of control and power. If you\'re still looking for a high quality soccer ball, check out the selection of adidas soccer balls SoccerPro has to offer today! ', 1),
 (281, 'adidas World Cup Rihla Pro Official Match Soccer Ball &#8211; 20', 'BRN001', 'KTG001', 4, 164.99, 'asset/product/281.jpg', ' World Cup 2022 Al Rihla Pro Match Ball Every four years the world sits back in excitement for the launch of an adidas soccer ball with new, cutting edge technology. Introducing the Official Pro Match Ball of the FIFA World Cup 2022. This adidas Al Rihla has been named the official ball for the Cup in Qatar. The main inspiration for the color scheme of this ball was drawn from the unique and bright colors of the Qatari Flag. Within the design you\'ll also find the FIFA Logo in black, as well as \"FOOTBALL IS\" initiatives in different languages around the ball. This Pro Match Ball also features 20 panels that were inspired by the sand dunes. One of the key pieces of technology within this World Cup Ball is the SPEEDSHELL. This feature works to increase the speed of flight and rotation aimed to achieve prime aerodynamics for a perfect shot each time. Ready to cheer on your favorite team? Check out the World Cup Training Ball &amp; Shop all Premium National Team Soccer Jerseys right here at SoccerPro.com! ', 1),
 (282, 'adidas World Cup Rihla Competition Match Soccer Ball &#8211; 202', 'BRN001', 'KTG001', 18, 59.99, 'asset/product/282.jpg', ' Competition Match Ball World Cup 2022 Al Rihla Say hello to the Competition Match Ball for the FIFA Winter World Cup 2022. This adidas Al Rihla has been named the official ball for the Cup in Qatar. \r\n\r\n This Match Ball also features 20 panels that were inspired by the sand dunes. The color scheme of this ball was drawn from the unique and bright colors of the Qatari Flag. Within the design you\'ll also find the FIFA Logo in black, as well as \"FOOTBALL IS\" initiatives in different languages around the ball. One of the key pieces of technology within this World Cup Ball is the SPEEDSHELL. This feature works to increase the speed of flight and rotation aimed to achieve prime aerodynamics for a perfect shot each time. \r\n\r\n Ready to cheer on your favorite team at the World Cup? Gear up with a Premium National Team Soccer Jerseys right here at SoccerPro.com! ', 1),
-(283, 'adidas World Cup Rihla League Soccer Ball &#8211; 2022', 'BRN001', 'KTG001', 46, 39.99, 'asset/product/283.jpg', ' League Soccer Ball 2022 World Cup Check out the League Soccer Ball for the FIFA Winter World Cup 2022. This adidas Al Rihla has been named the official match ball for the Cup in Qatar. \r\n\r\n The color scheme was drawn from the unique and bright colors of the Qatari Flag, and within the design you\'ll also find the FIFA Logo in black, as well as \"FOOTBALL IS\" initiatives in different languages around the ball. This Pro Match Ball also features 20 panels that were inspired by the sand dunes. The SPEEDSHELL technology has fans excited, this feature works to increase the speed of flight and rotation aimed to achieve prime aerodynamics for a perfect shot each time. \r\n\r\n Ready to cheer on your favorite team at the World Cup? Shop all Premium National Team Soccer Jerseys right here at SoccerPro.com! ', 1),
+(283, 'adidas World Cup Rihla League Soccer Ball &#8211; 2022', 'BRN001', 'KTG001', 44, 39.99, 'asset/product/283.jpg', ' League Soccer Ball 2022 World Cup Check out the League Soccer Ball for the FIFA Winter World Cup 2022. This adidas Al Rihla has been named the official match ball for the Cup in Qatar. \r\n\r\n The color scheme was drawn from the unique and bright colors of the Qatari Flag, and within the design you\'ll also find the FIFA Logo in black, as well as \"FOOTBALL IS\" initiatives in different languages around the ball. This Pro Match Ball also features 20 panels that were inspired by the sand dunes. The SPEEDSHELL technology has fans excited, this feature works to increase the speed of flight and rotation aimed to achieve prime aerodynamics for a perfect shot each time. \r\n\r\n Ready to cheer on your favorite team at the World Cup? Shop all Premium National Team Soccer Jerseys right here at SoccerPro.com! ', 1),
 (284, 'adidas MLS Pro Official Match Soccer Ball &#8211; White &#038; S', 'BRN001', 'KTG001', 1, 164.99, 'asset/product/284.jpg', ' MLS Pro Match adidas Soccer Ball Introducing the 2022-2023 Pro Match Soccer Ball. This is an official game ball, and is identical to those being used by the professionals. The pattern featured combines both the United States national flower, the rose, and the national flower of Canada, the bunchberry. The flowers are various colors and represent the 79 counties where MLS players originate. The ball features a small FIFA Quality Pro stamp, and has a seamless surface. This ball was engineered with a thermally bonded surface, and has butyl bladder. Looking for another style of adidas soccer ball? Check out the MLS League Ball in White, SIlver &amp; Metallic Black Detailing!  ', 1),
 (285, 'adidas World Cup Rihla Pro Match Futsal Ball &#8211; 2022', 'BRN001', 'KTG001', 38, 59.99, 'asset/product/285.jpg', ' ', 1),
 (286, 'adidas World Cup Rihla Mini Ball &#8211; 2022', 'BRN001', 'KTG001', 7, 14.99, 'asset/product/286.jpg', ' ', 1),
@@ -537,7 +497,7 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (352, 'Puma Teamfinal 21.2 Match Soccer Ball &#8211; White &#038; Rose ', 'BRN003', 'KTG001', 1, 59.99, 'asset/product/352.jpg', ' PUMA teamFINAL 21.2 Match Soccer Ball Say hello to the PUMA teamFINAL 21.2 Match Ball. This ball has a white, rose red and ocean depth color combination. With gradient prints throughout. This ball features a FIFA certified logo, as well as a PUMA logo in black. Shop all PUMA soccer balls today and gear up for your best season yet! ', 1),
 (353, 'Puma Futsal 1 Pro Match Futsal Ball &#8211; White &#038; Digi Bl', 'BRN003', 'KTG001', 10, 49.99, 'asset/product/353.jpg', ' PUMA Futsal 1 Pro Match Ball GOOOOOAAAAAALLLLL! Score each and every time with this FIFA Quality Pro Futsal Ball. This ball has a durable machine stitched outer, with 32 TPU panels. The interior of this ball has a butyl bladder which locks in air and holds it shape. Score big during your next match with PUMA soccer balls!  ', 1),
 (354, '2022/23 adidas Eduardo Camavinga Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 11, 119.99, 'asset/product/354.jpg', ' ', 1),
-(355, '2022/23 adidas Ferland Mendy Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 17, 119.99, 'asset/product/355.jpg', ' ', 1),
+(355, '2022/23 adidas Ferland Mendy Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 13, 119.99, 'asset/product/355.jpg', ' ', 1),
 (356, '2022/23 adidas Rodrygo Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 41, 119.99, 'asset/product/356.jpg', ' ', 1),
 (357, '2022/23 adidas Vinicius Junior Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 31, 119.99, 'asset/product/357.jpg', ' ', 1),
 (358, '2022/23 adidas Marco Asensio Real Madrid 3rd Jersey', 'BRN001', 'KTG003', 38, 119.99, 'asset/product/358.jpg', ' ', 1),
@@ -1623,7 +1583,7 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (1430, '2018/19 Kids PUMA Arsenal Home Jersey', 'BRN003', 'KTG003', 6, 69.99, 'asset/product/1430.jpg', ' Youth PUMA Arsenal Home Jersey 2018-19 Well its the end of #WengerOut and the beginning of #EmeryIn! A new era is dawning in North London and Arsenal is ready to return to their natural place at the top of the English Premier League! This is a strong squad sure to be buoyed by new management and a fresh start is exactly what they need! What better way to honor a fresh start than with a fresh new kit like the 2018-19 Kids Arsenal Home Jersey! New threads for a new season and a new look squad! Come on you Gunners!\r\n\r\n Made with dryCELL moisture-wicking properties, PUMA has guaranteed this shirt will perform well in all conditions! This Arsenal kit has a new design, adding a heathered look to make this one of the most stylish Arsenal jerseys in a while. So let\'s see, it feels cool, it looks cool, so what doesn\'t it bring to the table! Support your favorite players, support your favorite club and get this great Arsenal Jersey as soon as possible! order today! ', 1),
 (1431, 'PUMA Kids Italy Tribute Away Jersey 2016-17', 'BRN003', 'KTG003', 19, 69.99, 'asset/product/1431.jpg', ' Puma Kids Italy Tribute Away Jersey \r\n Puma Italy Tribute Jersey It is time to celebrate. It has been 10 years since Italy was on top of the world after the 2006 World Cup. One of the more memorable World Cup Finals, this jersey will definitely bring back some memories. The Puma Kids Italy Tribute Away Jersey  is perfect for your youngster. This would be an excellent opportunity to teach them about the past while also getting them a jersey that they will love! \r\n  The 2006 away jersey for Italy is a classic. The main coloring is white with some (blackish) peacoat coloring along the shoulders and the sleeves. The Italian crest is located front and center on the front of the jersey, while the gold Puma logo is above the right side of the chest. This jersey is awesome! Relive some great memories and order yours today! \r\n  While you are here check out some more of our selection of Italy Jerseys and soccer gear at SoccerPro.com! ', 1),
 (1432, 'PUMA Arsenal Away Jersey 2014-2015', 'BRN003', 'KTG003', 5, 89.99, 'asset/product/1432.jpg', '  Puma Arsenal 2014-2015 Away Jersey Arsenal has been a Nike built kit since the mid 1990\'s so it will seem pretty weird that Puma is now creating this top but we must admit that the Puma Arsenal 2014-15 Away Jersey  is pretty slick looking. And if you don\'t like change you better \"change\" your mind because Puma is here to stay with the Gunners . Giroud, Walcott, and Wilshere will be wearing Puma built kits for the years to come so make sure you grab this first style of it!  &nbsp;  This Arsenal Soccer Jersey comes in the same away colors as last year which are bright yellow and navy. It\'s the same color design that is featured with the Arsenal home jersey. You will be able to show off your muscles in this top because of the extreme form fitting design that is employed in the top! As well, the Puma dryCELL technology keeps you cool and dry because heat and moisture are wicked away from you skin and out of the jersey. 100% polyester.  &nbsp;  Be the first of your friends to grab this newly designed kit. You can show it off to all of them but you have to order it today at SoccerPro.com! ', 1),
-(1433, 'adidas Predator Pro Fingersave Goalkeeper Gloves &#8211; Game Da', 'BRN001', 'KTG002', 18, 149.99, 'asset/product/1433.jpg', ' ', 1),
+(1433, 'adidas Predator Pro Fingersave Goalkeeper Gloves &#8211; Game Da', 'BRN001', 'KTG002', 16, 149.99, 'asset/product/1433.jpg', ' ', 1),
 (1434, 'adidas Predator Pro Hybrid Cut Goalkeeper Gloves &#8211; Game Da', 'BRN001', 'KTG002', 11, 139.99, 'asset/product/1434.jpg', ' adidas Predator Pro Hybrid Goalkeeper Gloves Stop each and every shot with the Predator Pro Hybrid Gloves. These gloves give goalkeepers the confidence to block, stop, and catch every strike that comes their way. Play at the top of your game, with the most elite pair of gloves on the market from the adidas Game Data Pack. \r\n\r\n adidas put their best tech in this glove to enable athletes to play at the top of their game. These gloves feature extra latex over the tips so player have a larger contact area, while the palm also has latex material for additional grip and cushioning. The backhand on this glove is flexible and players can feel secure in the glove because of the elastic strap. Check out additional adidas soccer gloves today! ', 1),
 (1435, 'adidas Predator Pro Goalkeeper Gloves &#8211; Game Data Pack', 'BRN001', 'KTG002', 35, 129.99, 'asset/product/1435.jpg', ' Predator Pro adidas Gloves Tap into your true potential with the Predator Pro Goalkeeper Gloves from adidas. These gloves were launched within the Game Data Pack complete with a Solar Red and Team Solar Green color combination to create an eye-catching glove. \r\n\r\n When it comes to goalkeeper gloves it\'s all about the tech included within. These Predator Pro gloves feature a 100% rubber foam palm, with anatomically correct flex zones. adidas added an extended grip for more coverage on the thumb. These gloves help goal keepers have the confidence to block every strike that comes their way. Prepare for your best season yet with adidas goalkeeper equipment from SoccerPro. ', 1),
 (1436, 'adidas Predator Competition Goalkeeper Gloves &#8211; Game Data ', 'BRN001', 'KTG002', 47, 94.99, 'asset/product/1436.jpg', ' Predator Competition Goalkeeper Gloves Each and every player makes mistakes, when goalkeepers make them, it\'s costly. That\'s why it\'s essential for goalies to keep their mind straight and have the equipment to support them and their confidence every single game day. Stay sharp this season with the adidas Predator Competition Goalkeeper Gloves from the Game Data Pack! \r\n\r\n These competition ready gloves feature silicone covered Zone Skin on the backhand to help you clear the ball, while the URG 2.0 palm offers extended grip and cushioning. Players stay locked in during the entire game with the elastic bandage strap, and catch eyes with the Solar Red &amp; Team Solar Green color combo. Get ready to block and rock - it\'s bound to be your best season yet. Gear up for game day and your time between the posts with adidas goalkeeper equipment! ', 1),
@@ -1674,7 +1634,7 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (1481, 'adidas Predator Competition Shin Guards &#8211; Game Data', 'BRN001', 'KTG004', 18, 29.99, 'asset/product/1481.jpg', ' ', 1),
 (1482, 'adidas Predator League Shin Guards &#8211; Game Data', 'BRN001', 'KTG004', 47, 21.99, 'asset/product/1482.jpg', ' ', 1),
 (1483, 'adidas Predator Match Shin Guards &#8211; Sapphire Edge', 'BRN001', 'KTG004', 9, 17.99, 'asset/product/1483.jpg', ' ', 1),
-(1484, 'adidas Predator Competition Shin Guards &#8211; Sapphire Edge', 'BRN001', 'KTG004', 41, 29.99, 'asset/product/1484.jpg', ' ', 1),
+(1484, 'adidas Predator Competition Shin Guards &#8211; Sapphire Edge', 'BRN001', 'KTG004', 39, 29.99, 'asset/product/1484.jpg', ' ', 1),
 (1485, 'adidas Tiro Club Shin Guards &#8211; White &#038; Black', 'BRN001', 'KTG004', 17, 9.99, 'asset/product/1485.jpg', ' ', 1),
 (1486, 'Nike Mercurial Hardshell Shin Guards &#8211; Coconut Milk &#038;', 'BRN002', 'KTG004', 23, 17.99, 'asset/product/1486.jpg', ' ', 1),
 (1487, 'Kids Nike Charge Shin Guards &#8211; Coconut Milk &#038; Bright ', 'BRN002', 'KTG004', 1, 13.99, 'asset/product/1487.jpg', ' ', 1),
@@ -1695,121 +1655,34 @@ INSERT INTO `produk` (`id_produk`, `name_produk`, `id_brand`, `id_kategori`, `st
 (1502, 'PUMA Ultra Flex Shin Guards &#8211; Bluemazing &#038; Sunblaze w', 'BRN003', 'KTG004', 16, 24.99, 'asset/product/1502.jpg', ' ', 1),
 (1503, 'PUMA evo360 Protect Sleeve &#8211; Black', 'BRN003', 'KTG004', 21, 27.99, 'asset/product/1503.jpg', ' \r\n Puma evo360 Protect Sleeve   Puma evo360 Protect Sleeve Don\'t second guess the need for awesome Soccer Shin Guards ever ever! Getting smacked in the shins is no fun, we\'ve seen this happen over and over again and it can be the difference between loving or hating the beautiful game! It hits close to home seeing people hurt from wearing bad soccer protection and these sleeves are a great part of helping you stay covered!\r\n \r\n The Puma evo360 Protect Sleeve combines a bunch of excellent materials that give it the ability to function excellently with your guard and together they give you top notch protection. Soccer is a contact sport so Puma has given us a sleeve that ensures there\'s no slippage in your guard. Grab yours from SoccerPro right now and enjoy your game with full confidence.  ', 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id_user` int(50) NOT NULL,
+CREATE TABLE IF NOT EXISTS `user` (
+  `id_user` int(50) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `full_name` varchar(64) NOT NULL,
   `email` varchar(64) NOT NULL,
   `alamat` text NOT NULL,
   `nomor_telepon` varchar(13) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  `status_user` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
+  `password` varchar(100) NOT NULL,
+  `status_user` int(1) NOT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 INSERT INTO `user` (`id_user`, `username`, `full_name`, `email`, `alamat`, `nomor_telepon`, `password`, `status_user`) VALUES
-(1, 'agus', 'agus', '1234@123', 'asd', '123', '123', 1),
-(2, 'budi', 'Budi', '321@321', 'Bumi', '123123123', '123', 1);
+(1, 'agus', 'Agus', 'agus@email', 'Sidoarjo', '123', '$2y$10$q8lzodGsB/zrObpMYn5BO.cB2YdWaeczYnEjhu4IenOmqnGT8vNMi', 1),
+(2, 'budi', 'Budi', 'budi@email', 'Surabaya', '123123', '$2y$10$IIxxBtZTZxkKeOW4wXjile/FX44aSpusUgKdj6/TzaDcRY6VW3vd2', 1);
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `brand`
---
-ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id_brand`);
-
---
--- Indexes for table `cart`
---
-ALTER TABLE `cart`
-  ADD KEY `id_produk` (`id_produk`);
-
---
--- Indexes for table `dtrans`
---
-ALTER TABLE `dtrans`
-  ADD KEY `nota_jual` (`nota_jual`),
-  ADD KEY `id_produk` (`id_produk`);
-
---
--- Indexes for table `htrans`
---
-ALTER TABLE `htrans`
-  ADD PRIMARY KEY (`nota_jual`);
-
---
--- Indexes for table `kategori`
---
-ALTER TABLE `kategori`
-  ADD PRIMARY KEY (`id_kategori`);
-
---
--- Indexes for table `produk`
---
-ALTER TABLE `produk`
-  ADD PRIMARY KEY (`id_produk`),
-  ADD KEY `id_brand` (`id_brand`),
-  ADD KEY `id_kategori` (`id_kategori`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id_user`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `produk`
---
-ALTER TABLE `produk`
-  MODIFY `id_produk` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1504;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id_user` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `cart`
---
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`);
 
---
--- Constraints for table `dtrans`
---
 ALTER TABLE `dtrans`
   ADD CONSTRAINT `dtrans_ibfk_1` FOREIGN KEY (`nota_jual`) REFERENCES `htrans` (`nota_jual`),
   ADD CONSTRAINT `dtrans_ibfk_2` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`);
 
---
--- Constraints for table `produk`
---
 ALTER TABLE `produk`
   ADD CONSTRAINT `produk_ibfk_1` FOREIGN KEY (`id_brand`) REFERENCES `brand` (`id_brand`),
   ADD CONSTRAINT `produk_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
