@@ -159,7 +159,7 @@ function insertHtrans($data)
     $id_user = $data["id_user"];
     $subtotal = $data["subtotal"];
 
-    $query = "INSERT INTO htrans (nota_jual,tanggal,id_user,subtotal) VALUES ('$nota_jual', '$tanggal', '$id_user', '$subtotal')";
+    $query = "INSERT INTO htrans (nota_jual,tanggal,id_user,subtotal,status_transaksi) VALUES ('$nota_jual', '$tanggal', '$id_user', '$subtotal','0')";
 
     mysqli_query($conn, $query);
 
@@ -264,6 +264,19 @@ function updateStokProduk($data)
     $status_produk = $data["status_produk"];
 
     $query = "UPDATE produk SET stok_produk = '$stok_produk', status_produk = '$status_produk' WHERE id_produk = '$id_produk'";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+}
+
+function updateStatusHtrans($data)
+{
+    global $conn;
+
+    // DATA
+
+    $query = "UPDATE htrans SET status_transaksi = '1' WHERE nota_jual = '$data'";
 
     mysqli_query($conn, $query);
 

@@ -620,6 +620,12 @@ if (isset($_POST["btnInvoice"])) {
     header("Location: invoice.php");
 }
 
+if (isset($_POST["btnComplete"])) {
+    $nota = $_POST["sentNota"];
+
+    updateStatusHtrans($nota);
+}
+
 // var_dump($_SESSION["keranjang"]);
 ?>
 
@@ -1275,7 +1281,7 @@ if (isset($_POST["btnInvoice"])) {
             <div class="container glass my-3 pt-3">
                 <?php
                 $idUser = $_SESSION["idUser"];
-                $htrans = query("SELECT * FROM htrans WHERE id_user = '$idUser' ORDER BY tanggal DESC");
+                $htrans = query("SELECT * FROM htrans WHERE id_user = '$idUser' ORDER BY status_transaksi ASC, tanggal DESC");
                 foreach ($htrans as $key => $value) {
                     $nota = $value["nota_jual"];
                     $tempTanggal = $value["tanggal"];
@@ -1283,13 +1289,24 @@ if (isset($_POST["btnInvoice"])) {
                     $tanggal = date('d-m-Y', $time);
                     $idUser = $value["id_user"];
                     $subtotal = number_format($value["subtotal"] + 5, 2, '.', ',');
+                    $statusTransaksi = $value["status_transaksi"];
 
                     $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$nota'");
 
                 ?>
                     <div class="card">
                         <div class="card-header">
-                            <span class="text-success fs-3 mt-3">Success</span>
+                            <?php
+                            if ($statusTransaksi == "0") {
+                            ?>
+                                <span class="text-warning fs-3 mt-3">Pending</span>
+                            <?php
+                            } else if ($statusTransaksi == "1") {
+                            ?>
+                                <span class="text-success fs-3 mt-3">Success</span>
+                            <?php
+                            }
+                            ?>
                             <div class="headerHistory d-flex align-item-center justify-content-between">
                                 <div class="headerKiri d-flex align-items-center">
                                     <h5 class="me-3"><?= $tanggal ?>,</h5>
@@ -1299,6 +1316,7 @@ if (isset($_POST["btnInvoice"])) {
                                     <h5 class="fw-bold">$ <?= $subtotal ?></h5>
                                 </div>
                             </div>
+                            <span class="text-dark fs-5 mt-3">Status: Products are in the process of shipping</span>
                         </div>
                         <div class="card-body">
                             <?php
@@ -1365,6 +1383,16 @@ if (isset($_POST["btnInvoice"])) {
                                     <div class="subTotal d-flex align-items-center justify-content-end">
                                         <span class="fs-4 fw-bold">Subtotal: $ <?= $subtotal ?></span>
                                     </div>
+                                    <?php
+                                    if ($statusTransaksi == "0") {
+                                    ?>
+                                        <form class="m-0 mt-4" action="" method="post">
+                                            <input type="hidden" name="sentNota" value="<?= $nota ?>">
+                                            <button class="btn btn-outline-success w-100" name="btnComplete" id="btnComplete">Complete</button>
+                                        </form>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>

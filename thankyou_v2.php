@@ -58,7 +58,6 @@ foreach ($carts as $key => $value) {
         $stok = $value["stok_produk"];
     }
 
-    alert($stok . " - " . $quantity_produk);
     $finalStok = $stok - $quantity_produk;
 
     if ($finalStok <= 0) {
