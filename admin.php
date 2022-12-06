@@ -1,6 +1,8 @@
 <?php
 require("functions.php");
 
+
+
 if (isset($_SESSION["authAdmin"])) {
     if ($_SESSION["authAdmin"] == false) {
         header("Location: loginAdmin.php");

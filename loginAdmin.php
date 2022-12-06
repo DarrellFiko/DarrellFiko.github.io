@@ -16,6 +16,8 @@ if (isset($_POST["login"])) {
         $showModal = "empty";
     } else if ($password == "admin123") {
         $_SESSION["authAdmin"] = true;
+        $_SESSION["data"] = "produk";
+        $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
         header("Location: admin.php");
     } else {
         $showModal = "wrong";
