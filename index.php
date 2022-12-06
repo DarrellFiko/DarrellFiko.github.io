@@ -43,7 +43,9 @@ if (isset($_POST["logout"])) {
     $_SESSION["tempId"] = -1;
     $_SESSION["keranjang"] = [];
 }
-
+if (!isset($_POST["authAdmin"])) {
+    $_SESSION["authAdmin"] = false;
+}
 if ($_SESSION["authAdmin"] == true) {
     $_SESSION["authAdmin"] = false;
 }
@@ -828,41 +830,47 @@ if (isset($_POST["btnComplete"])) {
                         <!-- carousel -->
                         <!-- <div class="d-flex justify-content-center">
                             <div class="col-1"></div>
-                            <div class="col-9 my-5 ">
+                            <div class="col-9">
                                 <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner shadow ">
+                                    <div class="carousel-inner">
                                         <div class="carousel-item active" data-bs-interval="2000">
-                                            <img src="asset/sepatu1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <div class=" mySlides">
+                                                <div class="numbertext m-3 rounded">1 / 6</div>
+                                                <form action="" method="post">
+                                                    <button type="submit" class="border border-0 bg-transparent" name="c1"><img src="asset/c1.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/sepatu2.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <div class="mySlides">
+                                                <div class="numbertext m-3 rounded">2 / 6</div>
+                                                <form action="" method="post">
+                                                    <button type="submit" class="border border-0 bg-transparent" name="c2"><img src="asset/c2.webp" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/sepatu3.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <div class="mySlides">
+                                                <div class="numbertext m-3 rounded">3 / 6</div>
+                                                <form action="" method="post">
+                                                    <button type="submit" class="border border-0 bg-transparent" name="c3"><img src="asset/c3.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/ball1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <form action="" method="post">
+                                                <button type="submit" class="border border-0 bg-transparent" name="c4"><img src="asset/c4.jpg" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
+                                            </form>
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/gloves1.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <form action="" method="post">
+                                                <button type="submit" class="border border-0 bg-transparent" name="c5"><img src="asset/c5.png" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
+                                            </form>
                                         </div>
                                         <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/gloves2.jpg" class="d-block w-100 rounded-4" alt="...">
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/gloves3.jpg" class="d-block w-100 rounded-4" alt="...">
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/jersey1.jpg" class="d-block w-100 rounded-4" alt="...">
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/brand1.jpg" class="d-block w-100 rounded-4" alt="...">
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/brand2.jpg" class="d-block w-100 rounded-4" alt="...">
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <img src="asset/brand3.jpg" class="d-block w-100 rounded-4" alt="...">
+                                            <form action="" method="post">
+                                                <button type="submit" class="border border-0 bg-transparent" name="c6"><img src="asset/c6.jpg" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -871,7 +879,6 @@ if (isset($_POST["btnComplete"])) {
                         </div> -->
                         <div class="containerr carousel slide">
 
-                            <!-- Full-width images with number text -->
                             <div class=" mySlides">
                                 <div class="numbertext m-3 rounded">1 / 6</div>
                                 <form action="" method="post">
@@ -914,7 +921,6 @@ if (isset($_POST["btnComplete"])) {
                                 </form>
                             </div>
 
-                            <!-- Next and previous buttons -->
                             <a class="prev text-info text-decoration-none glass rounded" style="margin-left: 3vw;background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(-1)">&#10094;</a>
                             <a class="next text-info text-decoration-none glass rounded" style="background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(1)">&#10095;</a>
                         </div>

@@ -8,10 +8,11 @@ $user = $stmt->fetch_assoc();
 $carts = $_SESSION["keranjang"];
 
 if (isset($_POST["btnBack"])) {
-    deleteCart($idUser);
-    $_SESSION["keranjang"] = [];
+    // deleteCart($idUser);
+    // $_SESSION["keranjang"] = [];
 
-    echo "<script>document.location.href = 'index.php'</script>";
+    echo "<script>document.location.href = 'Mailer/Mailer/emailku.php'</script>";
+    
 }
 
 // insert to database
