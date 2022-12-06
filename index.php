@@ -1316,7 +1316,17 @@ if (isset($_POST["btnComplete"])) {
                                     <h5 class="fw-bold">$ <?= $subtotal ?></h5>
                                 </div>
                             </div>
-                            <span class="text-dark fs-5 mt-3">Status: Products are in the process of shipping</span>
+                            <?php
+                            if ($statusTransaksi == "0") {
+                            ?>
+                                <span class="text-dark fs-5 mt-3">Status: Products are in the process of shipping.</span>
+                                <?php
+                            } else {
+                                ?>
+                                <span class="text-dark fs-5 mt-3">Status: Products have been received.</span>
+                                <?php
+                            }
+                            ?>
                         </div>
                         <div class="card-body">
                             <?php
