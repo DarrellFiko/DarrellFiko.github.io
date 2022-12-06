@@ -1,6 +1,8 @@
 <?php
 require("functions.php");
 
+$showModal = "";
+
 if (isset($_POST["register"])) {
     $safe = true;
 
@@ -14,13 +16,16 @@ if (isset($_POST["register"])) {
 
     if ($username == "" || $name == "" || $email == "" || $alamat == "" || $telp == "" || $password == "" || $confirmPassword == "") {
         $safe = false;
-        alert("All fields must be filled!");
+        $showModal = "empty";
+        // alert("All fields must be filled!");
     } else if ($username == 'admin') {
         $safe = false;
-        alert("Admin Can\'t be Used!");
+        $showModal = "admin";
+        // alert("Admin Can\'t be Used!");
     } else if ($password != $confirmPassword) {
         $safe = false;
-        alert("Password Not Match!");
+        $showModal = "notMatch";
+        // alert("Password Not Match!");
     }
 
     $users = query("SELECT * FROM user");
@@ -28,16 +33,18 @@ if (isset($_POST["register"])) {
     foreach ($users as $user) {
         if ($username == $user["username"]) {
             $safe = false;
-            alert("Username Already Registered!");
+            $showModal = "userAlreadyRegistered";
+            // alert("Username Already Registered!");
         }
         if ($email == $user["email"]) {
             $safe = false;
-            alert("Email Already Registered!");
+            $showModal = "emailAlreadyRegistered";
+            // alert("Email Already Registered!");
         }
     }
 
     if ($safe) {
-        alert("Register Successfull!");
+        $showModal = "sukses";
 
         $username = strtolower(stripslashes($username));
         $password = password_hash($password, PASSWORD_DEFAULT);
@@ -113,9 +120,13 @@ if (isset($_POST["back"])) {
                                     <div class="form-outline form-white mb-4">
                                         <input type="password" name="confirmPassword" class="form-control form-control-lg" placeholder="Confirm Password" />
                                     </div>
-                                    <div class="row">
-                                        <div class="col-12 col-xl-5 mb-3 d-flex justify-content-start"><button class="btn btn-outline-light btn-lg px-5" type="submit" name="register">Register</button></div>
-                                        <div class="col-12 col-xl-5 mb-3 d-flex justify-content-start"><button class="btn btn-outline-light btn-lg px-5" type="submit" name="back">Back</button></div>
+                                    <div class="row d-flex justify-content-between">
+                                        <div class="col-6">
+                                            <button class="btn btn-outline-light btn-lg w-100" type="submit" name="register">Register</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button class="btn btn-outline-light btn-lg w-100" type="submit" name="back">Back</button>
+                                        </div>
                                     </div>
                                 </form>
 
@@ -129,7 +140,161 @@ if (isset($_POST["back"])) {
             </div>
         </div>
     </form>
+
+    <!-- Modal Empty -->
+    <div class="modal fade" id="modalEmpty" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">All Fields Must Be Filled!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Admin -->
+    <div class="modal fade" id="modalAdmin" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Username Admin Can't be Used!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal NotMatch -->
+    <div class="modal fade" id="modalNotMatch" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Password Not Match!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal userAlreadyRegistered -->
+    <div class="modal fade" id="modalUser" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Username Already Registered!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal emailAlreadyRegistered -->
+    <div class="modal fade" id="modalEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Email Already Registered!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Sukses -->
+    <div class="modal fade" id="modalSukses" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Register Successfull!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="jquery-3.6.1.min.js"></script>
+<script>
+    // $('#btnTest').click(function() {
+    //     $('#testingModal').modal('show');
+    // });
+</script>
+<?php
+if ($showModal == "empty") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalEmpty").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "admin") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalAdmin").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "notMatch") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalNotMatch").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "userAlreadyRegistered") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalUser").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "emailAlreadyRegistered") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalEmail").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "sukses") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalSukses").modal("show");
+    	});
+    </script>';
+}
+?>
 
 </html>
