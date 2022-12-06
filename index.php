@@ -44,6 +44,10 @@ if (isset($_POST["logout"])) {
     $_SESSION["keranjang"] = [];
 }
 
+if ($_SESSION["authAdmin"] == true) {
+    $_SESSION["authAdmin"] = false;
+}
+
 $htrans = query("SELECT * FROM htrans");
 $ctr = 0;
 foreach ($htrans as $key) {
@@ -1320,11 +1324,11 @@ if (isset($_POST["btnComplete"])) {
                             if ($statusTransaksi == "0") {
                             ?>
                                 <span class="text-dark fs-5 mt-3">Status: Products are in the process of shipping.</span>
-                                <?php
+                            <?php
                             } else {
-                                ?>
+                            ?>
                                 <span class="text-dark fs-5 mt-3">Status: Products have been received.</span>
-                                <?php
+                            <?php
                             }
                             ?>
                         </div>
