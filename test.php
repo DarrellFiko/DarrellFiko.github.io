@@ -38,10 +38,10 @@ $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$notaJual'");
         <div class="isinya" style="width: 100%;margin-top: 1.5vw">
             <div class="" style="width: 100%; padding: 2vw;">
                 <div class="" style="display: flex;">
-                    <div class="kiri" style="width: 50%;justify-content: start; text-align: start; margin-left: 0.5vw;">
+                    <div class="kiri" style="width: 40%;justify-content: start; text-align: start; margin-left: 0.5vw;">
                         <img src=\'cid:logo_p2t\' style="width: 8vw;height: 8vw;" alt="" srcset="">
                     </div>
-                    <div class="kanan" style="width: 50%; text-align: end; justify-content: end; margin-right: 1vw;">
+                    <div class="kanan" style="width: 40%; text-align: end; justify-content: end; margin-right: 1vw;">
                         <span style="font-size: 2.5vw;">Soccer Champ</span><br>
                         <span style="font-size: 1.3vw;color:#495057;">soccerchamp.com</span><br>
                         <span style="font-size: 1.3vw;color:#495057;">(888) 8888888</span><br>
@@ -50,20 +50,20 @@ $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$notaJual'");
                 </div>
                 <hr>
                 <div class="" style="display: flex;">
-                    <div class="kiri" style="width: 50%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
+                    <div class="kiri" style="width: 40%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
                         <span style="font-size: 1.2vw;color:#495057;">INVOICE TO : </span><br>
                         <span style="font-size: 2vw;color:black;"><?= $user["full_name"] ?></span><br>
                         <span style="font-size: 1.2vw;color:#495057;"><?= $user["alamat"] ?></span><br>
                         <span style="font-size: 1.2vw;color:#495057;"><?= $user["email"] ?></span><br>
                     </div>
-                    <div class="kanan" style="width: 50%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
+                    <div class="kanan" style="width: 40%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                         <span style="font-size: 1.2vw;color:#495057; font-weight: bold;">INVOICE</span><br>
                         <span style="font-size: 1.2vw;color:#495057; font-weight: bold;"><?= $notaJual ?></span><br>
                         <span style="font-size: 1.2vw;color:#495057;">Date of Invoice : <?= $tanggal ?></span><br>
                     </div>
                 </div>
                 <div class="" style="display: flex; margin-top: 1.5vw;margin-bottom: 1.5vw; margin-left: 1vw;">
-                    <div class="" style="width: 100%">
+                    <div class="" style="width: 80%">
                         <table style="width: 100%">
                             <tr style="font-size: 1.5vw;">
                                 <th style="text-align: start;">No</th>
@@ -106,10 +106,10 @@ $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$notaJual'");
                     </div>
                 </div>
                 <div class="" style="display: flex;">
-                    <div class="kiri" style="width: 40%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
+                    <div class="kiri" style="width: 30%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
 
                     </div>
-                    <div class="kanan" style="width: 60%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
+                    <div class="kanan" style="width: 50%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                         <div class="" style="display: flex; ">
                             <div class="" style="width: 30%">
                                 <span style="font-size: 1.5vw;">Shipping Fee </span><br>
@@ -123,7 +123,7 @@ $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$notaJual'");
                 </div>
                 <br>
                 <div class="" style="display: flex;">
-                    <div class="kiri" style="width: 40%;justify-content: start; text-align: start; margin-left: 1vw;">
+                    <div class="kiri" style="width: 20%;justify-content: start; text-align: start; margin-left: 1vw;">
 
                     </div>
                     <div class="kanan" style="width: 60%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
@@ -142,7 +142,7 @@ $dtrans = query("SELECT * FROM dtrans WHERE nota_jual = '$notaJual'");
                     <span style="font-size: 2vw;">Appreciation To You!</span><br>
                 </div>
                 <div class="" style="display: flex; justify-content: start; margin-top: 1vw; margin-bottom: 6vw;">
-                    <div class="" style="width: 100%; justify-content: center; text-align:center;">
+                    <div class="" style="width: 80%; justify-content: center; text-align:center;">
                         <hr>
                         <span style="font-size: 1vw; color: #495057;">Invoice was created on a computer and is valid without the signature and seal.</span>
                     </div>
