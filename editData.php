@@ -12,9 +12,11 @@ if (isset($_POST["back"])) {
     header("Location: admin.php");
 }
 
+$showModal = "";
+
 if (isset($_POST["submitProduk"])) {
     $safe = true;
-
+    $error = [];
     $idProduk = $_SESSION["editData"]["id_produk"];
     $nameProduk = $_POST["addName"];
     $brandProduk = $_POST["addProdukBrand"];
@@ -25,7 +27,8 @@ if (isset($_POST["submitProduk"])) {
 
     if ($nameProduk == "" || $brandProduk == "" || $categoryProduk == "" || $stockProduk == "" || $priceProduk == "" || $descriptionProduk == "") {
         $safe = false;
-        alert("kosong");
+        $err = "All Fields Must Be Filled!";
+        array_push($error, $err);
     } else {
         $target_dir = "asset/product/";
         $target_file = $target_dir . basename($_FILES["addImage"]["name"]);
@@ -41,26 +44,34 @@ if (isset($_POST["submitProduk"])) {
                 $uploadOk = true;
             } else {
                 $uploadOk = false;
-                alert("File is not an image.");
+                $err = "File is not an image.";
+                array_push($error, $err);
+                // alert("File is not an image.");
             }
         }
 
         // Check if file already exists
         if (file_exists($target_file) && $uploadOk == true) {
             $uploadOk = false;
-            alert("Sorry, file already exists.");
+            $err = "File already exists.";
+            array_push($error, $err);
+            // alert("Sorry, file already exists.");
         }
 
         // Check file size
         if ($_FILES["addImage"]["size"] > 10000000 && $uploadOk == true) {
             $uploadOk = false;
-            alert("Sorry, your file is too large.");
+            $err = "File is too large.";
+            array_push($error, $err);
+            // alert("Sorry, your file is too large.");
         }
 
         // Allow certain file formats
         if ($imageFileType != "jpg" && $uploadOk == true) {
             $uploadOk = false;
-            alert("Sorry, only JPG files are allowed.");
+            $err = "Only JPG files are allowed.";
+            array_push($error, $err);
+            // alert("Sorry, only JPG files are allowed.");
         }
 
         // Check if $uploadOk is set to 0 by an error
@@ -74,7 +85,9 @@ if (isset($_POST["submitProduk"])) {
             if (move_uploaded_file($_FILES["addImage"]["tmp_name"], $target_file)) {
                 $safe = true;
             } else {
-                alert("Sorry, there was an error uploading your file.");
+                $err = "There was an error uploading your file.";
+                array_push($error, $err);
+                // alert("Sorry, there was an error uploading your file.");
                 $safe = false;
             }
         }
@@ -116,12 +129,14 @@ if (isset($_POST["submitProduk"])) {
 
         updateProduk($data);
 
-        alert("Update Product Success!");
+        $showModal = "success";
+        // alert("Update Product Success!");
     } else {
-        alert("Update Product Failed!");
+        $showModal = "fail";
+        // alert("Update Product Failed!");
     }
     $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-    echo "<script> document.location.href = 'admin.php'; </script>";
+    // echo "<script> document.location.href = 'admin.php'; </script>";
 }
 ?>
 
@@ -229,6 +244,74 @@ if (isset($_POST["submitProduk"])) {
             </div>
         </div>
     </form>
+
+    <!-- Modal Success -->
+    <div class="modal fade" id="modalSuccess" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Update Product Success!</h4>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal" id="btnSuccess">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Fail -->
+    <div class="modal fade" id="modalFail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="tengah p-4">
+                        <h4 class="text-center">Update Product Failed!</h4>
+                        <div class="errorDetail">
+                            <span>Error:</span><br>
+                            <?php
+                            for ($i = 0; $i < count($error); $i++) {
+                                $strError = $error[$i];
+                            ?>
+                                <span>- <?= $strError ?></span><br>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-none border-0 w-100 fw-bold fs-5" data-bs-dismiss="modal">OK</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="jquery-3.6.1.min.js"></script>
+<script>
+    $('#btnSuccess').click(function() {
+        document.location.href = "admin.php";
+    });
+</script>
+<?php
+if ($showModal == "success") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalSuccess").modal("show");
+    	});
+    </script>';
+}
+if ($showModal == "fail") {
+    echo
+    '<script type="text/javascript">
+        $(document).ready(function(){
+    		$("#modalFail").modal("show");
+    	});
+    </script>';
+}
+?>
 
 </html>
