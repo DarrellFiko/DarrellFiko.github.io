@@ -224,7 +224,7 @@ if (isset($_POST["deactivate"])) {
         $query = "UPDATE user SET status_user = '0' WHERE id_user = '$id'";
         mysqli_query($conn, $query);
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
-        alert("Activate User Success!");
+        alert("Deactivate User Success!");
     }
 
 
