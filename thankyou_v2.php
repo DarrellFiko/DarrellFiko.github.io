@@ -7,6 +7,13 @@ $user = $stmt->fetch_assoc();
 
 $carts = $_SESSION["keranjang"];
 
+if (isset($_POST["btnBack"])) {
+    deleteCart($idUser);
+    $_SESSION["keranjang"] = [];
+
+    echo "<script>document.location.href = 'index.php'</script>";
+}
+
 // insert to database
 $nota_jual = $_SESSION["nomorNota"];
 $tanggal = date('Y-m-d');
@@ -25,34 +32,20 @@ $data = [
     "subtotal" => $subtotal
 ];
 
-$tempHtrans = query("SELECT * FROM htrans WHERE nota_jual = '$nota_jual'");
-$countHtrans = count($tempHtrans);
+if (insertHtrans($data) > 0) {
+    foreach ($_SESSION["keranjang"] as $key => $value) {
+        $id_produk = $value["id_produk"];
+        $quantity_produk = $value["quantity_produk"];
 
-if ($countHtrans <= 0) {
-    if (insertHtrans($data) > 0) {
-        foreach ($_SESSION["keranjang"] as $key => $value) {
-            $id_produk = $value["id_produk"];
-            $quantity_produk = $value["quantity_produk"];
+        $data = [
+            "nota_jual" => $nota_jual,
+            "id_produk" => $id_produk,
+            "quantity" => $quantity_produk
+        ];
 
-            $data = [
-                "nota_jual" => $nota_jual,
-                "id_produk" => $id_produk,
-                "quantity" => $quantity_produk
-            ];
-
-            if (insertDtrans($data) > 0) {
-            }
+        if (insertDtrans($data) > 0) {
         }
     }
-} else {
-    alert("ada duplicate");
-}
-
-if (isset($_POST["btnBack"])) {
-    deleteCart($idUser);
-    $_SESSION["keranjang"] = [];
-
-    echo "<script>document.location.href = 'index.php'</script>";
 }
 
 // update stok
