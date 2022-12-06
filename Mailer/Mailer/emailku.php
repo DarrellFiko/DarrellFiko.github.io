@@ -165,7 +165,7 @@ $tes.= '<html>
                                         <span style="font-size: 1.7vw;">Subtotal</span><br>
                                     </div>
                                     <div class="" style="width: 65%">
-                                        <span style="font-size: 1.7vw;">$ '.$subtotal.'</span><br>
+                                        <span style="font-size: 1.7vw;">$ '.($subtotal+5).'</span><br>
                                     </div>
                                 </div>
                             </div>
