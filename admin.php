@@ -948,6 +948,7 @@ if (isset($_POST["go"])) {
                                     <th scope='col' class="text-start">Invoice Number</th>
                                     <th scope='col' class="text-start">Date</th>
                                     <th scope='col' class="text-start">ID User</th>
+                                    <th scope='col' class="text-start">Status</th>
                                     <th scope='col' class="text-start">Subtotal</th>
                                 </tr>
                                 <?php
@@ -957,6 +958,7 @@ if (isset($_POST["go"])) {
                                     $tanggal = $htrans["tanggal"];
                                     $id_user = $htrans["id_user"];
                                     $subtotal = $htrans["subtotal"];
+                                    $status = $htrans["status_transaksi"];
                                     $temp++;
                                     if (($temp / 30) > $_SESSION["pageAdminSekarang"] - 1 && ($temp / 30) <= $_SESSION["pageAdminSekarang"]) {
                                 ?>
@@ -964,6 +966,17 @@ if (isset($_POST["go"])) {
                                             <td class="text-start"><?= $nota ?></td>
                                             <td class="text-start"><?= $tanggal ?></td>
                                             <td class="text-start"><?= $id_user ?></td>
+                                            <?php
+                                            if ($status == 1) {
+                                            ?>
+                                                <td><i class="fa-sharp fa-solid fa-circle-check text-success"></i></td>
+                                            <?php
+                                            } else if ($status == 0) {
+                                            ?>
+                                                <td><i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i></td>
+                                            <?php
+                                            }
+                                            ?>
                                             <td class="text-start">$ <?= $subtotal ?></td>
                                             <!-- <td>$description</td> -->
                                         </tr>

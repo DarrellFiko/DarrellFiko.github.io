@@ -64,7 +64,7 @@ $tes.= '<html>
 
         <body>
             <div style="background-color: rgb(255, 255, 255);
-                    width: 100%;
+                    width: 80%;
                     /* margin-left: 2vw; */
                     height: auto;
                     border-radius: 1vw;
@@ -85,15 +85,19 @@ $tes.= '<html>
                                 <span style="font-size: 1.3vw;color:#495057;">soccerchampstore@gmail.com</span><br>
                             </div>
                         </div>
-                        <hr>
                         <div class="" style="display: flex;">
-                            <div class="kiri" style="width: 45%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
+                            <div class="" style="width: 90%; margin-left: 1vw;">
+                            <hr>
+                            </div>
+                        </div>
+                        <div class="" style="display: flex;">
+                            <div class="kiri" style="width: 50%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw; float: left;">
                                 <span style="font-size: 1.2vw;color:#495057;">INVOICE TO : </span><br>
                                 <span style="font-size: 2vw;color:black;">'.$user["full_name"].'</span><br>
                                 <span style="font-size: 1.2vw;color:#495057;">'.$user["alamat"].'</span><br>
                                 <span style="font-size: 1.2vw;color:#495057;">'.$user["email"] .'</span><br>
                             </div>
-                            <div class="kanan" style="width: 45%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
+                            <div class="kanan" style="width: 40%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw; float: right;">
                                 <span style="font-size: 1.2vw;color:#495057; font-weight: bold;">INVOICE</span><br>
                                 <span style="font-size: 1.2vw;color:#495057; font-weight: bold;">'.$notaJual.'</span><br>
                                 <span style="font-size: 1.2vw;color:#495057;">Date of Invoice : '.$tanggal.'</span><br>
@@ -139,15 +143,15 @@ $tes.= '<html>
                             </div>
                         </div>
                         <div class="" style="display: flex;">
-                            <div class="kiri" style="width: 40%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
+                            <div class="kiri" style="width: 45%;justify-content: start; text-align: start; margin-top: 2vw; margin-left: 1vw;">
 
                             </div>
-                            <div class="kanan" style="width: 50%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
+                            <div class="kanan" style="width: 45%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                                 <div class="" style="display: flex; ">
-                                    <div class="" style="width: 30%">
+                                    <div class="" style="width: 40%">
                                         <span style="font-size: 1.5vw;">Shipping Fee </span><br>
                                     </div>
-                                    <div class="" style="width: 70%">
+                                    <div class="" style="width: 50%">
                                         <span style="font-size: 1.5vw;">$5</span><br>
                                         <hr>
                                     </div>
@@ -161,10 +165,10 @@ $tes.= '<html>
                             </div>
                             <div class="kanan" style="width: 60%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                                 <div class="" style="display: flex; ">
-                                    <div class="" style="width: 35%">
+                                    <div class="" style="width: 40%">
                                         <span style="font-size: 1.7vw;">Subtotal</span><br>
                                     </div>
-                                    <div class="" style="width: 65%">
+                                    <div class="" style="width: 50%">
                                         <span style="font-size: 1.7vw;">$ '.($subtotal+5).'</span><br>
                                     </div>
                                 </div>
@@ -175,7 +179,7 @@ $tes.= '<html>
                             <span style="font-size: 2vw;">Appreciation To You!</span><br>
                         </div>
                         <div class="" style="display: flex; justify-content: start; margin-top: 1vw; margin-bottom: 6vw;">
-                            <div class="" style="width: 80%; justify-content: center; text-align:center;">
+                            <div class="" style="width: 100%; justify-content: center; text-align:center;">
                                 <hr>
                                 <span style="font-size: 1vw; color: #495057;">Invoice was created on a computer and is valid without the signature and seal.</span>
                             </div>
