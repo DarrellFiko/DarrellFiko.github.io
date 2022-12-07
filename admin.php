@@ -5,10 +5,12 @@ require("functions.php");
 
 if (isset($_SESSION["authAdmin"])) {
     if ($_SESSION["authAdmin"] == false) {
-        header("Location: loginAdmin.php");
+        // header("Location: loginAdmin.php");
+        echo "<script>document.location.href = 'loginAdmin.php'</script>";
     }
 } else {
-    header("Location: loginAdmin.php");
+    // header("Location: loginAdmin.php");
+    echo "<script>document.location.href = 'loginAdmin.php'</script>";
 }
 
 if (isset($_POST["logout"])) {
@@ -20,7 +22,8 @@ if (isset($_POST["logout"])) {
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
 
     $_SESSION["authAdmin"] = false;
-    header("Location: index.php");
+    // header("Location: index.php");
+    echo "<script>document.location.href = 'index.php'</script>";
 }
 
 if (!isset($_SESSION["data"])) {
@@ -61,18 +64,23 @@ if (isset($_POST["choose"])) {
         $_SESSION["dataAdmin"] = query("SELECT * FROM user");
     }
     resetPagingAdmin();
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["report"])) {
     $data = $_POST["pilihData"];
     if ($data == "produk") {
-        header("Location: laporanProduk.php");
+        // header("Location: laporanProduk.php");
+        echo "<script>document.location.href = 'laporanProduk.php'</script>";
     } else if ($data == "htrans") {
-        header("Location: laporanTransaksi.php");
+        // header("Location: laporanTransaksi.php");
+        echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
     } else if ($data == "dtrans") {
-        header("Location: laporanTransaksi.php");
+        // header("Location: laporanTransaksi.php");
+        echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
     } else {
-        header("Location: laporanUser.php");
+        // header("Location: laporanUser.php");
+        echo "<script>document.location.href = 'laporanUser.php'</script>";
     }
     resetPagingAdmin();
     // header("Location: #collections");
@@ -108,7 +116,8 @@ if (isset($_POST["btnSearchAdmin"])) {
         }
     }
     resetPagingAdmin();
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 
 $showModal = "";
@@ -180,7 +189,8 @@ if (isset($_POST["edit"])) {
     $id = $_POST["idData"];
     $stmt = $conn->query("SELECT * FROM produk WHERE id_produk='$id'");
     $_SESSION["editData"] = $stmt->fetch_assoc();
-    header("Location: editData.php");
+    // header("Location: editData.php");
+    echo "<script>document.location.href = 'editData.php'</script>";
 }
 
 if (isset($_POST["activate"])) {
@@ -377,7 +387,8 @@ if (isset($_POST["page0"])) {
         $_SESSION["pagingAdmin"][4]["page"] -= 2;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page1"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][1]["page"];
@@ -389,12 +400,14 @@ if (isset($_POST["page1"])) {
         $_SESSION["pagingAdmin"][4]["page"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page2"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][2]["page"];
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page3"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][3]["page"];
@@ -406,7 +419,8 @@ if (isset($_POST["page3"])) {
         $_SESSION["pagingAdmin"][4]["page"]++;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page4"])) {
     $_SESSION["pageAdminSekarang"] = $_SESSION["pagingAdmin"][4]["page"];
@@ -424,7 +438,8 @@ if (isset($_POST["page4"])) {
         $_SESSION["pagingAdmin"][4]["page"] += 1;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pageSekarangMin1"])) {
     if ($_SESSION["pagingAdmin"][0]["page"] > 1 && $_SESSION["pageAdminSekarang"] != 1) {
@@ -438,7 +453,8 @@ if (isset($_POST["pageSekarangMin1"])) {
         $_SESSION["pageAdminSekarang"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pageSekarangPlus1"])) {
     if ($maks <= 4) {
@@ -458,7 +474,8 @@ if (isset($_POST["pageSekarangPlus1"])) {
         }
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pagePertama"])) {
     $_SESSION["pageAdminSekarang"] = 1;
@@ -467,7 +484,8 @@ if (isset($_POST["pagePertama"])) {
     $_SESSION["pagingAdmin"][2]["page"] = 3;
     $_SESSION["pagingAdmin"][3]["page"] = 4;
     $_SESSION["pagingAdmin"][4]["page"] = 5;
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pageTerakhir"])) {
     $maks = (int)$maks;
@@ -477,12 +495,14 @@ if (isset($_POST["pageTerakhir"])) {
     $_SESSION["pagingAdmin"][2]["page"] = $maks - 2;
     $_SESSION["pagingAdmin"][3]["page"] = $maks - 1;
     $_SESSION["pagingAdmin"][4]["page"] = $maks;
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 
 if (isset($_POST["go"])) {
     $_SESSION["jumlahInput"] = $_POST["jumlahInput"];
-    header("Location: #addProduk");
+    // header("Location: #addProduk");
+    echo "<script>document.location.href = '#addProduk'</script>";
     // alert($_SESSION["jumlahInput"]);
 }
 ?>

@@ -9,7 +9,8 @@ if (!isset($_SESSION["dataAdmin"])) {
 }
 
 if (isset($_POST["back"])) {
-    header("Location: admin.php");
+    // header("Location: admin.php");
+    echo "<script>document.location.href = 'admin.php'</script>";
 }
 
 $showModal = "";

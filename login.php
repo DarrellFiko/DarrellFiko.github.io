@@ -29,7 +29,8 @@ if (isset($_POST["login"])) {
                 if (password_verify($password, $user["password"]) && $user["status_user"] == "1") {
                     $_SESSION["login"] = true;
                     $_SESSION["idUser"] = $user["id_user"];
-                    header("Location: index.php");
+                    // header("Location: index.php");
+                    echo "<script>document.location.href = 'index.php'</script>";
                 } else {
                     if (password_verify($password, $user["password"]) == false) {
                         $showModal = "wrong";
@@ -50,7 +51,8 @@ if (isset($_POST["login"])) {
 }
 
 if (isset($_POST["back"])) {
-    header("Location: index.php");
+    // header("Location: index.php");
+    echo "<script>document.location.href = 'index.php'</script>";
 }
 ?>
 

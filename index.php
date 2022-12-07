@@ -301,7 +301,8 @@ if (isset($_POST["search"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk,brand,kategori WHERE produk.id_brand = brand.id_brand AND produk.id_kategori = kategori.id_kategori AND produk.status_produk = '1' AND produk.name_produk LiKE '%" . $_SESSION["input"] . "%' ORDER BY produk.id_produk");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     resetPaging();
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
     $_SESSION["masukCart"] = false;
     $_SESSION["tempId"] = -1;
 }
@@ -319,7 +320,8 @@ if (isset($_POST["page0"])) {
         $_SESSION["paging"][4]["page"] -= 2;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page1"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][1]["page"];
@@ -331,12 +333,14 @@ if (isset($_POST["page1"])) {
         $_SESSION["paging"][4]["page"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page2"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][2]["page"];
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page3"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][3]["page"];
@@ -348,7 +352,8 @@ if (isset($_POST["page3"])) {
         $_SESSION["paging"][4]["page"]++;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["page4"])) {
     $_SESSION["pageSekarang"] = $_SESSION["paging"][4]["page"];
@@ -366,7 +371,8 @@ if (isset($_POST["page4"])) {
         $_SESSION["paging"][4]["page"] += 1;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pageSekarangMin1"])) {
     if ($_SESSION["paging"][0]["page"] > 1 && $_SESSION["pageSekarang"] != 1) {
@@ -380,7 +386,8 @@ if (isset($_POST["pageSekarangMin1"])) {
         $_SESSION["pageSekarang"]--;
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pageSekarangPlus1"])) {
     if ($maks <= 4) {
@@ -400,7 +407,8 @@ if (isset($_POST["pageSekarangPlus1"])) {
         }
     }
     // alert($_SESSION["pageSekarang"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["pagePertama"])) {
     $_SESSION["pageSekarang"] = 1;
@@ -423,7 +431,8 @@ if (isset($_POST["pageTerakhir"])) {
 if (isset($_POST["back"])) {
     $_SESSION["masukDetail"] = false;
     $_SESSION["masukCart"] = false;
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
     $_SESSION["tempId"] = -1;
 }
 if (isset($_POST["resetAwal"])) {
@@ -433,7 +442,8 @@ if (isset($_POST["resetAwal"])) {
     $_SESSION["listProduk"] = [];
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
     $_SESSION["tempId"] = -1;
 }
 if (isset($_POST["c1"])) {
@@ -470,7 +480,8 @@ if (isset($_POST["c6"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE name_produk LiKE '%" . $alRihla . "%'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     resetPaging();
-    header("Location: #collections");
+    // header("Location: #collections");
+    echo "<script>document.location.href = '#collections'</script>";
 }
 if (isset($_POST["detail"])) {
     //GANTIII
@@ -557,12 +568,14 @@ if (isset($_POST["btnFilter"])) {
         $_SESSION["listProduk"] = query($query);
         $_SESSION["productCount"] = count($_SESSION["listProduk"]);
         resetPaging();
-        header("Location: #collections");
+        // header("Location: #collections");
+        echo "<script>document.location.href = '#collections'</script>";
     } else {
         $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
         $_SESSION["productCount"] = count($_SESSION["listProduk"]);
         resetPaging();
-        header("Location: #collections");
+        // header("Location: #collections");
+        echo "<script>document.location.href = '#collections'</script>";
     }
     $_SESSION["masukCart"] = false;
     $_SESSION["history"] = false;
@@ -623,7 +636,8 @@ if (isset($_POST["btnInvoice"])) {
     $nota = $_POST["sentNota"];
     $_SESSION["invoiceNota"] = $nota;
 
-    header("Location: invoice.php");
+    // header("Location: invoice.php");
+    echo "<script>document.location.href = 'invoice.php'</script>";
 }
 
 if (isset($_POST["btnComplete"])) {

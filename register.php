@@ -65,7 +65,8 @@ if (isset($_POST["register"])) {
     }
 }
 if (isset($_POST["back"])) {
-    header("Location: index.php");
+    // header("Location: index.php");
+    echo "<script>document.location.href = 'index.php'</script>";
 }
 ?>
 <!DOCTYPE html>

@@ -18,7 +18,8 @@ if (isset($_POST["login"])) {
         $_SESSION["authAdmin"] = true;
         $_SESSION["data"] = "produk";
         $_SESSION["dataAdmin"] = query("SELECT * FROM produk");
-        header("Location: admin.php");
+        // header("Location: admin.php");
+        echo "<script>document.location.href = 'admin.php'</script>";
     } else {
         $showModal = "wrong";
         // alert("Wrong password!");
@@ -26,7 +27,8 @@ if (isset($_POST["login"])) {
 }
 
 if (isset($_POST["back"])) {
-    header("Location: index.php");
+    // header("Location: index.php");
+    echo "<script>document.location.href = 'index.php'</script>";
 }
 ?>
 <!DOCTYPE html>
