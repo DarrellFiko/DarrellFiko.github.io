@@ -148,10 +148,10 @@ $tes.= '<html>
                             </div>
                             <div class="kanan" style="width: 45%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                                 <div class="" style="display: flex; ">
-                                    <div class="" style="width: 40%">
+                                    <div class="" style="width: 45%">
                                         <span style="font-size: 1.5vw;">Shipping Fee </span><br>
                                     </div>
-                                    <div class="" style="width: 50%">
+                                    <div class="" style="width: 45%">
                                         <span style="font-size: 1.5vw;">$5</span><br>
                                         <hr>
                                     </div>
@@ -165,10 +165,10 @@ $tes.= '<html>
                             </div>
                             <div class="kanan" style="width: 60%; text-align: end; justify-content: end; margin-right: 1vw; margin-top: 2vw;">
                                 <div class="" style="display: flex; ">
-                                    <div class="" style="width: 40%">
+                                    <div class="" style="width: 45%">
                                         <span style="font-size: 1.7vw;">Subtotal</span><br>
                                     </div>
-                                    <div class="" style="width: 50%">
+                                    <div class="" style="width: 45%">
                                         <span style="font-size: 1.7vw;">$ '.($subtotal+5).'</span><br>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@ $tes.= '<html>
                             <span style="font-size: 2vw;">Appreciation To You!</span><br>
                         </div>
                         <div class="" style="display: flex; justify-content: start; margin-top: 1vw; margin-bottom: 6vw;">
-                            <div class="" style="width: 100%; justify-content: center; text-align:center;">
+                            <div class="" style="width: 90%; justify-content: center; text-align:center;">
                                 <hr>
                                 <span style="font-size: 1vw; color: #495057;">Invoice was created on a computer and is valid without the signature and seal.</span>
                             </div>
