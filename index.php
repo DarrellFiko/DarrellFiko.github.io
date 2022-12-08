@@ -443,7 +443,7 @@ if (isset($_POST["resetAwal"])) {
     $_SESSION["listProduk"] = query("SELECT * FROM produk WHERE status_produk = '1'");
     $_SESSION["productCount"] = count($_SESSION["listProduk"]);
     // header("Location: #collections");
-    echo "<script>document.location.href = '#collections'</script>";
+    echo "<script>document.location.href = 'index.php'</script>";
     $_SESSION["tempId"] = -1;
 }
 if (isset($_POST["c1"])) {
@@ -716,8 +716,8 @@ if (isset($_POST["btnComplete"])) {
                             <img src="asset/logo_toko.png" alt="Logo" width="50" height="50" class="d-inline-block">
                         </button>
                     </form>
-                    <div class="navbar-brand d-xl-inline d-none fs-5">
-                        Soccer Champ
+                    <div class="navbar-brand d-xl-inline d-none fs-4 ms-2">
+                        <span id="titleRGB">Soccer Champ</span>
                     </div>
                 </div>
                 <div class="col-7 col-lg-8 d-flex align-items-center justify-content-center">
@@ -840,58 +840,9 @@ if (isset($_POST["btnComplete"])) {
             if ($_SESSION["masukDetail"] == false) {
     ?>
                 <div class="container-fluid bgGradient">
-                    <div class="d-flex justify-content-center" style="padding-top: 4vh;">
-                        <!-- carousel -->
-                        <!-- <div class="d-flex justify-content-center">
-                            <div class="col-1"></div>
-                            <div class="col-9">
-                                <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active" data-bs-interval="2000">
-                                            <div class=" mySlides">
-                                                <div class="numbertext m-3 rounded">1 / 6</div>
-                                                <form action="" method="post">
-                                                    <button type="submit" class="border border-0 bg-transparent" name="c1"><img src="asset/c1.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <div class="mySlides">
-                                                <div class="numbertext m-3 rounded">2 / 6</div>
-                                                <form action="" method="post">
-                                                    <button type="submit" class="border border-0 bg-transparent" name="c2"><img src="asset/c2.webp" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <div class="mySlides">
-                                                <div class="numbertext m-3 rounded">3 / 6</div>
-                                                <form action="" method="post">
-                                                    <button type="submit" class="border border-0 bg-transparent" name="c3"><img src="asset/c3.jpg" class="" style="width:72vw; height: 85vh; border-radius: 1vw;"></button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <form action="" method="post">
-                                                <button type="submit" class="border border-0 bg-transparent" name="c4"><img src="asset/c4.jpg" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
-                                            </form>
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <form action="" method="post">
-                                                <button type="submit" class="border border-0 bg-transparent" name="c5"><img src="asset/c5.png" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
-                                            </form>
-                                        </div>
-                                        <div class="carousel-item" data-bs-interval="2000">
-                                            <form action="" method="post">
-                                                <button type="submit" class="border border-0 bg-transparent" name="c6"><img src="asset/c6.jpg" class="d-block w-100 rounded-4" style="width:72vw; height: 85vh;" alt="..."></button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-1"></div>
-                        </div> -->
-                        <div class="containerr carousel slide">
+                    <div class="d-flex justify-content-center ps-5" style="padding-top: 4vh;">
+                        <!-- Carousel -->
+                        <!-- <div class="containerr carousel slide">
 
                             <div class=" mySlides">
                                 <div class="numbertext m-3 rounded">1 / 6</div>
@@ -937,9 +888,47 @@ if (isset($_POST["btnComplete"])) {
 
                             <a class="prev text-info text-decoration-none glass rounded" style="margin-left: 3vw;background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(-1)">&#10094;</a>
                             <a class="next text-info text-decoration-none glass rounded" style="background-color: rgba(0, 0, 0, 0.8);" onclick="plusSlides(1)">&#10095;</a>
+                        </div> -->
+
+                        <div class="carrosel">
+                            <form action="" method="post" class="caixa__card cc__1">
+                                <button id="btn1" class="btnCarousel" name="c1">
+                                    <img src="asset/c1.jpg" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
+                            <form action="" method="post" class="caixa__card cc__2">
+                                <button id="btn2" class="btnCarousel" name="c2">
+                                    <img src="asset/c2.webp" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
+                            <form action="" method="post" class="caixa__card cc__3">
+                                <button id="btn3" class="btnCarousel" name="c3">
+                                    <img src="asset/c3.jpg" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
+                            <form action="" method="post" class="caixa__card cc__4">
+                                <button id="btn4" class="btnCarousel" name="c4">
+                                    <img src="asset/c4.jpg" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
+                            <form action="" method="post" class="caixa__card cc__5">
+                                <button id="btn5" class="btnCarousel" name="c5">
+                                    <img src="asset/c5.png" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
+                            <form action="" method="post" class="caixa__card cc__6">
+                                <button id="btn6" class="btnCarousel" name="c6">
+                                    <img src="asset/c6.jpg" alt="" class="imgCarousel" />
+                                </button>
+                            </form>
                         </div>
+
+
+                        <!-- tutup carousel -->
                     </div>
-                    <!-- tutup carousel -->
+
+
+
 
                     <!-- untuk paging -->
                     <div id="collections" class="pt-5"></div>
@@ -1215,7 +1204,7 @@ if (isset($_POST["btnComplete"])) {
             <div class="bgGradient min-vh-100" style="margin-left: 30px;">
                 <div class="row pt-5 d-flex justify-content-evenly mx-3">
                     <div class="col-12 col-xl-7 text-center mt-4 pb-5 d-flex me-3">
-                        <div class="row d-flex justify-content-center glass pt-4">
+                        <div class="row d-flex justify-content-center glass ms-5 pt-4 w-100">
                             <div class="col-12 my-3">
                                 <h1 class="text-success">Cart</h1>
                             </div>
@@ -1449,7 +1438,9 @@ if (isset($_POST["btnComplete"])) {
                     <a class="nav-link text-white" href="#" style="display: flex;">
                         <img src="asset/logo_toko.png" class="gambar" style="width: 3vw; height:3vw; margin-right: 10px" alt="" srcset="">
                         <h2 style="margin: 0.3vw;">
-                            Soccer Champ
+                            <span id="titleRGB">
+                                Soccer Champ
+                            </span>
                         </h2>
                     </a>
                     <div class="des ms-5">
@@ -1475,7 +1466,7 @@ if (isset($_POST["btnComplete"])) {
                     </div>
                 </div>
                 <div class="col-6 col-lg-3" style="margin: 0.5vw;font-size: 1.3vw; color:dark;">
-                    <p>Subscribe our Soccer Champ</p>
+                    <p>Subscribe our <span id="titleRGB">Soccer Champ</span></p>
                     <div class="des">
                         <div class="row">
                             <div class="col-1 text-start me-2">
