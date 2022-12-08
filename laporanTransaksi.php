@@ -84,4 +84,4 @@ $output .= "
 
 echo $output;
 
-echo "<script>document.location.href = 'admin.php'</script>";
+// echo "<script>document.location.href = 'admin.php'</script>";

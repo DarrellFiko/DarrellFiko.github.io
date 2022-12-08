@@ -71,16 +71,20 @@ if (isset($_POST["report"])) {
     $data = $_POST["pilihData"];
     if ($data == "produk") {
         // header("Location: laporanProduk.php");
-        echo "<script>document.location.href = 'laporanProduk.php'</script>";
+        // echo "<script>document.location.href = 'laporanProduk.php'</script>";
+        echo "<script>window.open('laporanProduk.php', '_blank').focus();</script>";
     } else if ($data == "htrans") {
         // header("Location: laporanTransaksi.php");
-        echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
+        // echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
+        echo "<script>window.open('laporanTransaksi.php', '_blank').focus();</script>";
     } else if ($data == "dtrans") {
         // header("Location: laporanTransaksi.php");
-        echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
+        // echo "<script>document.location.href = 'laporanTransaksi.php'</script>";
+        echo "<script>window.open('laporanTransaksi.php', '_blank').focus();</script>";
     } else {
         // header("Location: laporanUser.php");
         echo "<script>document.location.href = 'laporanUser.php'</script>";
+        echo "<script>window.open('laporanUser.php', '_blank').focus();</script>";
     }
     resetPagingAdmin();
     // header("Location: #collections");
