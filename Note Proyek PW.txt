@@ -1,8 +1,12 @@
-Akun Hosting
-geovannchandra@gmail.com
+Hosting
+username = geovannchandra@gmail.com
+https://www.000webhost.com/members/website/soccerchampstore/build
+
+Web
+http://soccerchampstore.000webhostapp.com/
 
 Database
-
-id19974106_toko_soccer
-id19974106_root
-JTVfKlV}zN(wowz9
+https://databases.000webhost.com/db_structure.php?server=1&db=id19974106_toko_soccer
+database_name = id19974106_toko_soccer
+database_username = id19974106_root
+database_password = JTVfKlV}zN(wowz9
